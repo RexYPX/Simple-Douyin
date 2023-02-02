@@ -18,10 +18,14 @@ version: '3'
 services:
   mysql:
     image: 'mysql:latest'
+    container_name: mysql
+    restart: always
     volumes:
       - ./pkg/configs/sql:/docker-entrypoint-initdb.d
     ports:
-      - 9910:3306
+      - 3306:3306
+    networks:
+      - default
     environment:
       - MYSQL_DATABASE=gorm
       - MYSQL_USER=gorm
@@ -29,14 +33,22 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD="yes"
   Etcd:
     image: "quay.io/coreos/etcd:v3.5.5"
+    container_name: etcd
+    restart: always
+    ports:
+      - 2379:2379
+    networks:
+      - default
     environment:
       - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
       - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
       - ETCDCTL_API=3
-    ports:
-      - 2379:2379
   jaeger:
     image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    restart: always
     ports:
       - "6831:6831/udp"
       - "16686:16686"
+    networks:
+      - default
