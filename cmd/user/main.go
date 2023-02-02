@@ -1,5 +1,7 @@
 package main
 
+//
+
 import (
 	user "Simple-Douyin/cmd/user/kitex_gen/user/userservice"
 	"log"
