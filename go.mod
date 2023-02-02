@@ -2,6 +2,8 @@ module Simple-Douyin
 
 go 1.19
 
+//
+
 require (
 	github.com/apache/thrift v0.17.0
 	github.com/cloudwego/hertz v0.5.1

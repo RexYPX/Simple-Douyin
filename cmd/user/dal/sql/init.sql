@@ -1,3 +1,5 @@
+-- 
+
 CREATE TABLE `user`
 (
     `id`         bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'PK',
