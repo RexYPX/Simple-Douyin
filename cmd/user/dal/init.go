@@ -13,9 +13,11 @@
 // limitations under the License.
 //
 
-package constants
+package dal
 
-const (
-	UserTableName   = "user"
-	MySQLDefaultDSN = "kirsury:123456@tcp(localhost:3306)/gorm_dy?charset=utf8&parseTime=True&loc=Local"
-)
+import "Simple-Douyin/cmd/user/dal/db"
+
+// Init init dal
+func Init() {
+	db.Init() // mysql init
+}
