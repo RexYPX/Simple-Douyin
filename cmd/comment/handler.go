@@ -1,7 +1,10 @@
 package main
 
 import (
-	comment "Simple-Douyin/cmd/comment/kitex_gen/comment"
+	"Simple-Douyin/cmd/comment/pack"
+	"Simple-Douyin/cmd/comment/service"
+	comment "Simple-Douyin/kitex_gen/comment"
+	"Simple-Douyin/pkg/errno"
 	"context"
 )
 
@@ -11,11 +14,46 @@ type CommentServiceImpl struct{}
 // CommentAction implements the CommentServiceImpl interface.
 func (s *CommentServiceImpl) CommentAction(ctx context.Context, req *comment.CommentActionRequest) (resp *comment.CommentActionResponse, err error) {
 	// TODO: Your code here...
-	return
+	resp = new(comment.CommentActionResponse)
+
+	if len(req.Token) == 0 || req.VideoId <= 0 || (req.ActionType <= 0 || req.ActionType >= 3) || (req.ActionType == 1 && len(req.CommentText) == 0) || (req.ActionType == 2 && req.CommentId <= 0) {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	comment, err := service.NewCommentActionService(ctx).CommentAction(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.Comment = comment
+
+	return resp, nil
 }
 
 // CommentList implements the CommentServiceImpl interface.
 func (s *CommentServiceImpl) CommentList(ctx context.Context, req *comment.CommentListRequest) (resp *comment.CommentListResponse, err error) {
 	// TODO: Your code here...
-	return
+	resp = new(comment.CommentListResponse)
+
+	if len(req.Token) == 0 || req.VideoId <= 0 {
+		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+		return resp, nil
+	}
+
+	// if err = req.IsValid(); err != nil {
+	// 	resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
+	// 	return resp, nil
+	// }
+
+	commentList, err := service.NewCommentListService(ctx).CommentList(req)
+	if err != nil {
+		resp.BaseResp = pack.BuildBaseResp(err)
+		return resp, nil
+	}
+	resp.BaseResp = pack.BuildBaseResp(errno.Success)
+	resp.CommentList = commentList
+
+	return resp, nil
 }
