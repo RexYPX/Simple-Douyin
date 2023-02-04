@@ -13,21 +13,9 @@
 // limitations under the License.
 //
 
-package constants
+package rpc
 
-const (
-	UserTableName      = "user"
-	CommentTableName   = "comment"
-	SecretKey          = "secret key"
-	IdentityKey        = "id"
-	Comments           = "comments"
-	ApiServiceName     = "api"
-	CommentServiceName = "comment"
-	CommentServiceAddr = ":8888"
-	UserServiceName    = "user"
-	TCP                = "tcp"
-	MySQLDefaultDSN    = "gorm:gorm@tcp(localhost:3306)/gorm?charset=utf8&parseTime=True&loc=Local"
-	EtcdAddress        = "127.0.0.1:2379"
-	ExportEndpoint     = ":4317"
-	DefaultLimit       = 10
-)
+// InitRPC init rpc client
+func InitRPC() {
+	initUser()
+}

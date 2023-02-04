@@ -8,6 +8,11 @@ struct User {
     5: bool is_follow
 }
 
+struct BaseResp {
+    1: i64 status_code
+    2: string status_msg
+}
+
 // 评论操作
 struct Comment {
   	1: i64 id // 视频评论id
@@ -25,9 +30,8 @@ struct CommentActionRequest {
 }
 
 struct CommentActionResponse {
-    1: i32 status_code
-    2: string status_msg
-	3: Comment comment
+	1: BaseResp base_resp
+	2: Comment comment
 }
 
 // 评论列表
@@ -37,9 +41,8 @@ struct CommentListRequest {
 }
 
 struct CommentListResponse {
-    1: i32 status_code
-    2: string status_msg
-	3: list<Comment> comment_list
+	1: BaseResp base_resp
+	2: list<Comment> comment_list
 }
 
 service CommentService {
