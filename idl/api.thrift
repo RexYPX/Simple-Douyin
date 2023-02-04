@@ -39,18 +39,18 @@ struct UserLoginResponse {
 
 // 用户信息
 struct UserInfoRequest {
-    1: string user_id (api.query="user_id")
+    1: i64 user_id (api.query="user_id")
     2: string token (api.query="token")
 }
 
 struct UserInfoResponse {
     1: i32 status_code
     2: string status_msg
-    3:i64 id
-	4:string name
-	5:i64 follow_count
-	6:i64 follower_count
-	7:bool is_follow
+    3: i64 id
+	4: string name
+	5: i64 follow_count
+	6: i64 follower_count
+	7: bool is_follow
 }
 
 service UserService {

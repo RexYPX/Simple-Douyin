@@ -1251,7 +1251,7 @@ func (p *UserLoginResponse) String() string {
 
 // 用户信息
 type UserInfoRequest struct {
-	UserID string `thrift:"user_id,1" json:"user_id" query:"user_id"`
+	UserID int64  `thrift:"user_id,1" json:"user_id" query:"user_id"`
 	Token  string `thrift:"token,2" json:"token" query:"token"`
 }
 
@@ -1259,7 +1259,7 @@ func NewUserInfoRequest() *UserInfoRequest {
 	return &UserInfoRequest{}
 }
 
-func (p *UserInfoRequest) GetUserID() (v string) {
+func (p *UserInfoRequest) GetUserID() (v int64) {
 	return p.UserID
 }
 
@@ -1292,7 +1292,7 @@ func (p *UserInfoRequest) Read(iprot thrift.TProtocol) (err error) {
 
 		switch fieldId {
 		case 1:
-			if fieldTypeId == thrift.STRING {
+			if fieldTypeId == thrift.I64 {
 				if err = p.ReadField1(iprot); err != nil {
 					goto ReadFieldError
 				}
@@ -1342,7 +1342,7 @@ ReadStructEndError:
 }
 
 func (p *UserInfoRequest) ReadField1(iprot thrift.TProtocol) error {
-	if v, err := iprot.ReadString(); err != nil {
+	if v, err := iprot.ReadI64(); err != nil {
 		return err
 	} else {
 		p.UserID = v
@@ -1393,10 +1393,10 @@ WriteStructEndError:
 }
 
 func (p *UserInfoRequest) writeField1(oprot thrift.TProtocol) (err error) {
-	if err = oprot.WriteFieldBegin("user_id", thrift.STRING, 1); err != nil {
+	if err = oprot.WriteFieldBegin("user_id", thrift.I64, 1); err != nil {
 		goto WriteFieldBeginError
 	}
-	if err := oprot.WriteString(p.UserID); err != nil {
+	if err := oprot.WriteI64(p.UserID); err != nil {
 		return err
 	}
 	if err = oprot.WriteFieldEnd(); err != nil {
