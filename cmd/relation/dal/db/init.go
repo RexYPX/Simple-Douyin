@@ -11,24 +11,39 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 //
 
-package constants
+package db
 
-const (
-	UserTableName      = "user"
-	CommentTableName   = "comment"
-	RelationTableName  = "relation"
-	SecretKey          = "secret key"
-	IdentityKey        = "id"
-	Comments           = "comments"
-	ApiServiceName     = "api"
-	CommentServiceName = "comment"
-	CommentServiceAddr = ":8888"
-	UserServiceName    = "user"
-	TCP                = "tcp"
-	MySQLDefaultDSN    = "gorm:gorm@tcp(localhost:3306)/gorm?charset=utf8&parseTime=True&loc=Local"
-	EtcdAddress        = "127.0.0.1:2379"
-	ExportEndpoint     = ":4317"
-	DefaultLimit       = 10
+import (
+	"Simple-Douyin/pkg/constants"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	gormopentracing "gorm.io/plugin/opentracing"
 )
+
+var DB *gorm.DB
+
+// Init init DB
+func Init() {
+	var err error
+	DB, err = gorm.Open(mysql.Open(constants.MySQLDefaultDSN),
+		&gorm.Config{
+			PrepareStmt:            true,
+			SkipDefaultTransaction: true,
+		},
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	DB.AutoMigrate(&Relation{})
+
+	if err = DB.Use(gormopentracing.New()); err != nil {
+		panic(err)
+	}
+
+	
+}
