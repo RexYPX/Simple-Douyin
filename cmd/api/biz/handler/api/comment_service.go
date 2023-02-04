@@ -6,8 +6,13 @@ import (
 	"context"
 
 	api "Simple-Douyin/cmd/api/biz/model/api"
+	"Simple-Douyin/cmd/api/rpc"
+	"Simple-Douyin/kitex_gen/comment"
+	"Simple-Douyin/pkg/constants"
+	"Simple-Douyin/pkg/errno"
+
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/cloudwego/hertz/pkg/common/utils"
 )
 
 // CommentAction .
@@ -17,13 +22,24 @@ func CommentAction(ctx context.Context, c *app.RequestContext) {
 	var req api.CommentActionRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, errno.ConvertErr(err), nil)
+		// c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
-	resp := new(api.CommentActionResponse)
-
-	c.JSON(consts.StatusOK, resp)
+	// v, _ := c.Get(constants.IdentityKey)
+	err = rpc.CommentAction(context.Background(), &comment.CommentActionRequest{
+		Token:       req.Token,
+		VideoId:     req.VideoID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
+		ActionType:  req.ActionType,
+		CommentText: req.CommentText,
+		CommentId:   req.CommentID,
+	})
+	if err != nil {
+		SendResponse(c, errno.ConvertErr(err), nil)
+		return
+	}
+	SendResponse(c, errno.Success, nil)
 }
 
 // CommentList .
@@ -33,11 +49,19 @@ func CommentList(ctx context.Context, c *app.RequestContext) {
 	var req api.CommentListRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
+		SendResponse(c, errno.ConvertErr(err), nil)
 		return
 	}
-
-	resp := new(api.CommentListResponse)
-
-	c.JSON(consts.StatusOK, resp)
+	// v, _ := c.Get(consts.IdentityKey)
+	commentList, err := rpc.CommentList(context.Background(), &comment.CommentListRequest{
+		Token:   req.Token,
+		VideoId: req.VideoID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
+	})
+	if err != nil {
+		SendResponse(c, errno.ConvertErr(err), nil)
+		return
+	}
+	SendResponse(c, errno.Success, utils.H{
+		constants.Comments: commentList,
+	})
 }
