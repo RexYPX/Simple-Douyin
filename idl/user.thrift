@@ -36,7 +36,7 @@ struct UserLoginResponse {
 
 // 用户信息
 struct UserInfoRequest {
-    1: string user_id
+    1: i64 user_id
     2: string token
 }
 
