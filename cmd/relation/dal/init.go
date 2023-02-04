@@ -11,24 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 //
 
-package constants
+package dal
 
-const (
-	UserTableName      = "user"
-	CommentTableName   = "comment"
-	RelationTableName  = "relation"
-	SecretKey          = "secret key"
-	IdentityKey        = "id"
-	Comments           = "comments"
-	ApiServiceName     = "api"
-	CommentServiceName = "comment"
-	CommentServiceAddr = ":8888"
-	UserServiceName    = "user"
-	TCP                = "tcp"
-	MySQLDefaultDSN    = "gorm:gorm@tcp(localhost:3306)/gorm?charset=utf8&parseTime=True&loc=Local"
-	EtcdAddress        = "127.0.0.1:2379"
-	ExportEndpoint     = ":4317"
-	DefaultLimit       = 10
-)
+import "Simple-Douyin/cmd/relation/dal/db"
+
+// Init init dal
+func Init() {
+	db.Init() // mysql init
+}
