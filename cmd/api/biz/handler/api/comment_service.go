@@ -5,14 +5,13 @@ package api
 import (
 	"context"
 
+	"Simple-Douyin/cmd/api/biz/handler/pack"
 	api "Simple-Douyin/cmd/api/biz/model/api"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/comment"
-	"Simple-Douyin/pkg/constants"
-	"Simple-Douyin/pkg/errno"
 
 	"github.com/cloudwego/hertz/pkg/app"
-	"github.com/cloudwego/hertz/pkg/common/utils"
+	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
 
 // CommentAction .
@@ -22,13 +21,12 @@ func CommentAction(ctx context.Context, c *app.RequestContext) {
 	var req api.CommentActionRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		SendResponse(c, errno.ConvertErr(err), nil)
-		// c.String(consts.StatusBadRequest, err.Error())
+		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
 	// v, _ := c.Get(constants.IdentityKey)
-	err = rpc.CommentAction(context.Background(), &comment.CommentActionRequest{
+	comment, err := rpc.CommentAction(context.Background(), &comment.CommentActionRequest{
 		Token:       req.Token,
 		VideoId:     req.VideoID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
 		ActionType:  req.ActionType,
@@ -36,10 +34,13 @@ func CommentAction(ctx context.Context, c *app.RequestContext) {
 		CommentId:   req.CommentID,
 	})
 	if err != nil {
-		SendResponse(c, errno.ConvertErr(err), nil)
+		c.String(consts.StatusInternalServerError, err.Error())
 		return
 	}
-	SendResponse(c, errno.Success, nil)
+	resp := new(api.CommentActionResponse)
+	resp.Comment = pack.Comment(comment)
+
+	c.JSON(consts.StatusOK, resp)
 }
 
 // CommentList .
@@ -49,19 +50,22 @@ func CommentList(ctx context.Context, c *app.RequestContext) {
 	var req api.CommentListRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
-		SendResponse(c, errno.ConvertErr(err), nil)
+		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
+
 	// v, _ := c.Get(consts.IdentityKey)
 	commentList, err := rpc.CommentList(context.Background(), &comment.CommentListRequest{
 		Token:   req.Token,
 		VideoId: req.VideoID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
 	})
 	if err != nil {
-		SendResponse(c, errno.ConvertErr(err), nil)
+		c.String(consts.StatusInternalServerError, err.Error())
 		return
 	}
-	SendResponse(c, errno.Success, utils.H{
-		constants.Comments: commentList,
-	})
+
+	resp := new(api.CommentListResponse)
+	resp.CommentList = pack.Comments(commentList)
+
+	c.JSON(consts.StatusOK, resp)
 }

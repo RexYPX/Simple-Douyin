@@ -1,3 +1,11 @@
+# 20230205
+GQY:
+1. 添加 cmd/api/biz/handler/pack/comment.go
+2. 修改 cmd/api/biz/handler/comment_service.go 和 cmd/api/rpc/comment.go，删除 handler.go ，并完成API验证
+
+需要配合完成的功能：在 cmd/comment/test 中的接口
+
+
 # 20230204
 YPX：
 relation模块后端处理逻辑及简单RPC测试完成：
