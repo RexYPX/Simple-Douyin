@@ -1,7 +1,7 @@
 package rpc
 
 import (
-	"Simple-Douyin/cmd/relation/kitex_gen/relation"
+	"Simple-Douyin/kitex_gen/relation"
 	"strconv"
 )
 
