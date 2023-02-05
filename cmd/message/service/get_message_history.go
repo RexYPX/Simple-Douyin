@@ -1,0 +1,32 @@
+package service
+
+import (
+	"Simple-Douyin/cmd/message/dal/db"
+	"Simple-Douyin/cmd/message/pack"
+	"Simple-Douyin/kitex_gen/message"
+	"context"
+)
+
+type GetMessageHistoryService struct {
+	ctx context.Context
+}
+
+func NewGetMessageHistoryService(ctx context.Context) *GetMessageHistoryService {
+	return &GetMessageHistoryService{ctx: ctx}
+}
+
+func (s *GetMessageHistoryService) GetMessageHistory(req *message.MessageChatRequest) ([]*message.Message, error) {
+	// TODO token -> userid
+	uid := int64(1)
+	tuid := req.ToUserId
+
+	dbmsgs, err := db.QueryMessageHistory(s.ctx, uid, tuid)
+	if err != nil {
+		panic(err)
+	}
+
+	// db.Message -> message.Message
+	msgs := pack.Messages(dbmsgs)
+
+	return msgs, nil
+}
