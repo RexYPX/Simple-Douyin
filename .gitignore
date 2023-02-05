@@ -1,2 +1,3 @@
 output/
 cmd/api/api
+*.DS_Store
