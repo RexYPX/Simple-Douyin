@@ -4,8 +4,12 @@ package api
 
 import (
 	"context"
+	"log"
 
 	api "Simple-Douyin/cmd/api/biz/model/api"
+	"Simple-Douyin/cmd/api/rpc"
+	"Simple-Douyin/kitex_gen/relation"
+
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
@@ -17,12 +21,29 @@ func RelationAction(ctx context.Context, c *app.RequestContext) {
 	var req api.RelationActionRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
+		log.Println("[debug] request BindAndValidate error")
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
+	// TODO: check token、check ToUserId
 	resp := new(api.RelationActionResponse)
 
+	log.Println("[ypx debug] req checked finished, prepare to rpc")
+
+	// v, _ := c.Get(consts.IdentityKey)
+	err = rpc.RelationAction(context.Background(), &relation.RelationActionRequest{
+		Token:      req.Token,
+		ToUserId:   req.ToUserID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
+		ActionType: req.ActionType,
+	}, resp)
+	if err != nil {
+		log.Println("[debug] rpc RelationAction error")
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	log.Println("[debug] RelationAction success")
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -33,12 +54,26 @@ func RelationFollowList(ctx context.Context, c *app.RequestContext) {
 	var req api.RelationFollowListRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
+		log.Println("[debug] request BindAndValidate error")
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
+	// TODO: check token、check ToUserId
 	resp := new(api.RelationFollowListResponse)
 
+	// v, _ := c.Get(consts.IdentityKey)
+	err = rpc.RelationFollowList(context.Background(), &relation.RelationFollowListRequest{
+		UserId: req.UserID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
+		Token:  req.Token,
+	}, resp)
+	if err != nil {
+		log.Println("[debug] rpc RelationFollowList error")
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	log.Println("[debug] RelationFollowList success")
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -49,12 +84,27 @@ func RelationFollowerList(ctx context.Context, c *app.RequestContext) {
 	var req api.RelationFollowerListRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
+		log.Println("[debug] request BindAndValidate error")
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
+	// TODO: check token、check ToUserId
 	resp := new(api.RelationFollowerListResponse)
 
+	// v, _ := c.Get(consts.IdentityKey)
+	err = rpc.RelationFollowerList(context.Background(), &relation.RelationFollowerListRequest{
+		UserId: req.UserID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
+		Token:  req.Token,
+	}, resp)
+
+	if err != nil {
+		log.Println("[debug] rpc RelationFollowerList error")
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	log.Println("[debug] RelationFollowerList success")
 	c.JSON(consts.StatusOK, resp)
 }
 
@@ -65,11 +115,26 @@ func RelationFriendList(ctx context.Context, c *app.RequestContext) {
 	var req api.RelationFriendListRequest
 	err = c.BindAndValidate(&req)
 	if err != nil {
+		log.Println("[debug] request BindAndValidate error")
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
 
+	// TODO: check token、check ToUserId
 	resp := new(api.RelationFriendListResponse)
 
+	// v, _ := c.Get(consts.IdentityKey)
+	err = rpc.RelationFriendList(context.Background(), &relation.RelationFriendListRequest{
+		UserId: req.UserID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
+		Token:  req.Token,
+	}, resp)
+
+	if err != nil {
+		log.Println("[debug] rpc RelationFriendList error")
+		c.String(consts.StatusBadRequest, err.Error())
+		return
+	}
+
+	log.Println("[debug] RelationFriendList success")
 	c.JSON(consts.StatusOK, resp)
 }

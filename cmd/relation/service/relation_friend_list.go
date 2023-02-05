@@ -49,7 +49,7 @@ func (s *RelationFriendListService) RelationFriendList(req *relation.RelationFri
 		return resp, err
 	}
 
-	for _, id := range *friendIDs {
+	for _, id := range friendIDs {
 		// TODO: 使用id获取用户数据
 		user, err := rpc.Id2User(id)
 		if err != nil {

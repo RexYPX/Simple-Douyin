@@ -1,9 +1,17 @@
 package rpc
 
-import "Simple-Douyin/cmd/relation/kitex_gen/relation"
+import (
+	"Simple-Douyin/cmd/relation/kitex_gen/relation"
+	"strconv"
+)
 
 func Token2Id(token string) (int64, error) {
-	return 1, nil
+	userId, err := strconv.Atoi(token)
+	if err != nil {
+		return 0, err
+	}
+
+	return int64(userId), nil
 }
 
 func Id2User(id int64) (*relation.User, error) {

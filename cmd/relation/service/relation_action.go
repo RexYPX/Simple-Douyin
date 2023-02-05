@@ -19,6 +19,7 @@ package service
 import (
 	"Simple-Douyin/cmd/relation/dal/db"
 	"Simple-Douyin/cmd/relation/kitex_gen/relation"
+	"Simple-Douyin/cmd/relation/rpc"
 	"context"
 )
 
@@ -34,10 +35,15 @@ func NewRelationActionService(ctx context.Context) *RelationActionService {
 // RelationAction create relation between two people
 func (s *RelationActionService) RelationAction(req *relation.RelationActionRequest) error {
 	// TODO: user提供token到user_id的接口
-	// TEST
-	userID := int64(1)
-	// TEST END
-	// userID := rpc.Token2Id(req.Token)
+	// u, err := test.GetUser(s.ctx, &user.UserInfoRequest{UserId: test.TokenToUserId(req.Token), Token: req.Token})
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	userID, err := rpc.Token2Id(req.Token)
+	if err != nil {
+		return err
+	}
 
 	toUserId := req.ToUserId
 
