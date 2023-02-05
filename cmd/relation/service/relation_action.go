@@ -18,8 +18,8 @@ package service
 
 import (
 	"Simple-Douyin/cmd/relation/dal/db"
-	"Simple-Douyin/cmd/relation/kitex_gen/relation"
 	"Simple-Douyin/cmd/relation/rpc"
+	"Simple-Douyin/kitex_gen/relation"
 	"context"
 )
 

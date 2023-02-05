@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"Simple-Douyin/cmd/relation/kitex_gen/relation"
-	"Simple-Douyin/cmd/relation/kitex_gen/relation/relationservice"
+	"Simple-Douyin/kitex_gen/relation"
+	"Simple-Douyin/kitex_gen/relation/relationservice"
 
 	"github.com/cloudwego/kitex/client"
 )

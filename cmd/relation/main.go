@@ -1,7 +1,7 @@
 package main
 
 import (
-	relation "Simple-Douyin/cmd/relation/kitex_gen/relation/relationservice"
+	relation "Simple-Douyin/kitex_gen/relation/relationservice"
 	"Simple-Douyin/pkg/constants"
 	"log"
 	"net"

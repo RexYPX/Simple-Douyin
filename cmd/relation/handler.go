@@ -1,8 +1,8 @@
 package main
 
 import (
-	relation "Simple-Douyin/cmd/relation/kitex_gen/relation"
 	"Simple-Douyin/cmd/relation/service"
+	relation "Simple-Douyin/kitex_gen/relation"
 	"context"
 )
 
