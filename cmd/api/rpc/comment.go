@@ -43,15 +43,15 @@ func initComment() {
 }
 
 // CommentAction create/delete comment info
-func CommentAction(ctx context.Context, req *comment.CommentActionRequest) error {
+func CommentAction(ctx context.Context, req *comment.CommentActionRequest) (*comment.Comment, error) {
 	resp, err := commentClient.CommentAction(ctx, req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if resp.BaseResp.StatusCode != 0 {
-		return errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
+		return nil, errno.NewErrNo(resp.BaseResp.StatusCode, resp.BaseResp.StatusMsg)
 	}
-	return nil
+	return resp.Comment, nil
 }
 
 // CommentList query list of comment info
