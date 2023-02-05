@@ -4,6 +4,7 @@ package main
 
 import (
 	handler "Simple-Douyin/cmd/api/biz/handler"
+
 	"github.com/cloudwego/hertz/pkg/app/server"
 )
 

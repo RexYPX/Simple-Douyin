@@ -1,4 +1,11 @@
 # 20230205
+YPX:
+1. 添加 cmd/api/pack/relation.go 和 cmd/api/rpc/relation.go 
+2. 修改 cmd/api/biz/handler/relation_service.go cmd/api/rpc/init.go 和 cmd/api/main.go, 完成 relation 模块 API 验证
+3. 修改 cmd/relation/dal/db/relation.go, fix relation 模块错误代码
+
+需要配合完成的功能：cmd/relation/rpc 中的接口
+
 GQY:
 1. 添加 cmd/api/biz/handler/pack/comment.go
 2. 修改 cmd/api/biz/handler/comment_service.go 和 cmd/api/rpc/comment.go，删除 handler.go ，并完成API验证

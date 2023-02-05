@@ -19,6 +19,7 @@ package main
 
 import (
 	"Simple-Douyin/cmd/api/rpc"
+	"math"
 
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
@@ -42,6 +43,8 @@ func main() {
 		server.WithHostPorts(":8080"),
 		server.WithHandleMethodNotAllowed(true), // coordinate with NoMethod
 		tracer,
+
+		server.WithMaxRequestBodySize(math.MaxInt), // set to avoid video publish failed
 	)
 	// use pprof mw
 	pprof.Register(h)

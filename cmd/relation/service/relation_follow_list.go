@@ -49,7 +49,7 @@ func (s *RelationFollowListService) RelationFollowList(req *relation.RelationFol
 		return resp, err
 	}
 
-	for _, id := range *followIDs {
+	for _, id := range followIDs {
 		// TODO: 使用id获取用户数据
 		user, err := rpc.Id2User(id)
 		if err != nil {
