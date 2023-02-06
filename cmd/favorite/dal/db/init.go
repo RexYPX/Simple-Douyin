@@ -28,7 +28,7 @@ import (
 
 var DB *gorm.DB
 
-// Init init DB
+// Init init DBz
 func Init() {
 	var err error
 	gormlogrus := logger.New(
@@ -48,6 +48,8 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
+
+	DB.AutoMigrate(&User{})
 
 	if err := DB.Use(tracing.NewPlugin()); err != nil {
 		panic(err)

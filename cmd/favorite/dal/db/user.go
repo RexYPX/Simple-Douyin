@@ -56,20 +56,25 @@ func Delete(ctx context.Context, usrid int64, tousrid int64, video_id int64) err
 
 // add favorite
 func Add(ctx context.Context, usrid int64, tousrid int64, video_id int64) error {
-	res := new(User)
+	// var res []*User
 
-	//如果存在，不再增加
-	if err := DB.WithContext(ctx).Where("user_id = ? and to_user_id = ? and video_id = ?", usrid, tousrid, video_id).Find(&res).Error; err != nil {
-		fmt.Println("res:", res)
-		fmt.Println("db.Add 如果存在，不再增加", video_id)
-		return nil
-	}
+	// //如果存在，不再增加
+	// if err := DB.WithContext(ctx).Where("user_id = ? and to_user_id = ? and video_id = ?", usrid, tousrid, video_id).Find(&res).Error; err != nil {
+	// 	fmt.Println("错误")
+	// 	return nil
+	// }
+
+	// if len(res) != 0 {
+	// 	fmt.Println("db.Add 如果存在，不再增加", video_id)
+	// 	return nil
+	// }
 
 	//如果不存在，增加
-	res.UserId = usrid
-	res.ToUserId = tousrid
-	res.VideoId = video_id
-	if err := DB.WithContext(ctx).Create(res).Error; err != nil {
+	u := new(User)
+	u.UserId = usrid
+	u.ToUserId = tousrid
+	u.VideoId = video_id
+	if err := DB.WithContext(ctx).Create(u).Error; err != nil {
 		fmt.Println("db.Add 增加失败", video_id)
 		return err
 	}
