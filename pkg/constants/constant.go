@@ -33,6 +33,7 @@ const (
 	MessageServiceName  = "message"
 	RelationServiceName = "relation"
 
+	UserServiceAddr     = ":8866"
 	CommentServiceAddr  = ":8888"
 	MessageServicePort  = ":8801"
 	RelationServiceAddr = ":9999"
