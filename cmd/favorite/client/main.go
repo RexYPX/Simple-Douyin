@@ -26,6 +26,15 @@ func main() {
 	log.Println(thumbup10res)
 	time.Sleep(time.Second)
 
+	//点赞视频20
+	thumbup20req := &favorite.FavoriteActionRequest{Token: "token", VideoId: 20, ActionType: 1}
+	thumbup20res, err := c.FavoriteAction(context.Background(), thumbup20req, callopt.WithRPCTimeout(3*time.Second))
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(thumbup20res)
+	time.Sleep(time.Second)
+
 	//拉取点赞视频
 	listreq1 := &favorite.FavoriteListRequest{UserId: 1, Token: "token"}
 	listres1, err := c.FavoriteList(context.Background(), listreq1, callopt.WithRPCTimeout(3*time.Second))
