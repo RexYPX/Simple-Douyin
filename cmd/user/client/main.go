@@ -3,7 +3,10 @@ package main
 //
 
 import (
+	"Simple-Douyin/pkg/constants"
 	"context"
+	"github.com/cloudwego/kitex/pkg/retry"
+	etcd "github.com/kitex-contrib/registry-etcd"
 	"log"
 	"time"
 
@@ -13,10 +16,22 @@ import (
 )
 
 func main() {
-	client, err := userservice.NewClient("user", client.WithHostPorts("0.0.0.0:8888"))
+	r, err := etcd.NewEtcdResolver([]string{constants.EtcdAddress})
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
+	client, err := userservice.NewClient(
+		constants.UserTableName,
+		client.WithRPCTimeout(3*time.Second),
+		client.WithFailureRetry(retry.NewFailurePolicy()),
+		client.WithResolver(r),
+	)
+
+	//client, err := userservice.NewClient("user", client.WithHostPorts("0.0.0.0:8888"))
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+
 	for {
 		//userregister 测试（有mysql）
 		//req := &user.UserRegisterRequest{Username: "kirsury", Password: "123456"}

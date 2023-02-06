@@ -16,7 +16,7 @@
 package rpc
 
 func Init() {
-	// initUser()
+	initUser()
 	initComment()
 	initRelation()
 	initMessage()
