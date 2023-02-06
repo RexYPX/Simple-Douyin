@@ -22,8 +22,7 @@ func main() {
 
 	/* --------------------------------- 添加测试 --------------------------------- */
 	// Add Comment1
-	token := test.GetToken()
-	addReq1 := &comment.CommentActionRequest{Token: token, VideoId: test.GetVideoId(), ActionType: 1, CommentText: "test1"}
+	addReq1 := &comment.CommentActionRequest{Token: test.GetToken(), VideoId: test.GetVideoId(), ActionType: 1, CommentText: "test1"}
 	addResp1, err := c.CommentAction(context.Background(), addReq1, callopt.WithRPCTimeout(3*time.Second))
 	if err != nil {
 		log.Fatal(err)
@@ -50,31 +49,49 @@ func main() {
 	time.Sleep(time.Second)
 
 	// Get Commentlist
-	req := &comment.CommentListRequest{Token: test.GetToken(), VideoId: test.GetVideoId()}
-	resp, err := c.CommentList(context.Background(), req, callopt.WithRPCTimeout(3*time.Second))
+	// 其他用户获取列表
+	getReq1 := &comment.CommentListRequest{Token: "token", VideoId: test.GetVideoId()}
+	getResp1, err := c.CommentList(context.Background(), getReq1, callopt.WithRPCTimeout(3*time.Second))
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(resp)
+	log.Println(getResp1)
 
 	/* --------------------------------- 删除测试 --------------------------------- */
 	// Del Comment1
 	// commentId := addResp1.Comment.Id
-	token = "1"
-	commentId := int64(1)
-	delReq := &comment.CommentActionRequest{Token: token, VideoId: test.GetVideoId(), ActionType: 2, CommentId: commentId}
-	delResp, err := c.CommentAction(context.Background(), delReq, callopt.WithRPCTimeout(3*time.Second))
+	// 其他用户尝试删除
+	delReq1 := &comment.CommentActionRequest{Token: "2", VideoId: test.GetVideoId(), ActionType: 2, CommentId: 1}
+	delResp1, err := c.CommentAction(context.Background(), delReq1, callopt.WithRPCTimeout(3*time.Second))
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(delResp)
+	log.Println(delResp1)
+	time.Sleep(time.Second)
+
+	// 删除本人评论
+	delReq2 := &comment.CommentActionRequest{Token: "1", VideoId: test.GetVideoId(), ActionType: 2, CommentId: 1}
+	delResp2, err := c.CommentAction(context.Background(), delReq2, callopt.WithRPCTimeout(3*time.Second))
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(delResp2)
 	time.Sleep(time.Second)
 
 	// Get Commentlist
-	req = &comment.CommentListRequest{Token: test.GetToken(), VideoId: test.GetVideoId()}
-	resp, err = c.CommentList(context.Background(), req, callopt.WithRPCTimeout(3*time.Second))
+	getReq2 := &comment.CommentListRequest{Token: "token", VideoId: test.GetVideoId()}
+	getResp2, err := c.CommentList(context.Background(), getReq2, callopt.WithRPCTimeout(3*time.Second))
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(resp)
+	log.Println(getResp2)
+	time.Sleep(time.Second)
+
+	// token 不合法
+	getReq3 := &comment.CommentListRequest{VideoId: test.GetVideoId()}
+	getResp3, err := c.CommentList(context.Background(), getReq3, callopt.WithRPCTimeout(3*time.Second))
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(getResp3)
 }

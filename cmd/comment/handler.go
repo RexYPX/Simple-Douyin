@@ -37,15 +37,10 @@ func (s *CommentServiceImpl) CommentList(ctx context.Context, req *comment.Comme
 	// TODO: Your code here...
 	resp = new(comment.CommentListResponse)
 
-	if len(req.Token) == 0 || req.VideoId <= 0 {
+	if len(req.Token) == 0 || req.VideoId <= 0 { // warning: Guest users can still get token and access the comments list
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 		return resp, nil
 	}
-
-	// if err = req.IsValid(); err != nil {
-	// 	resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
-	// 	return resp, nil
-	// }
 
 	commentList, err := service.NewCommentListService(ctx).CommentList(req)
 	if err != nil {

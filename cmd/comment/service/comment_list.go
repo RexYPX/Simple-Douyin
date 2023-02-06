@@ -21,7 +21,7 @@ func NewCommentListService(ctx context.Context) *CommentListService {
 
 // QueryNoteService query list of note info
 func (s *CommentListService) CommentList(req *comment.CommentListRequest) ([]*comment.Comment, error) {
-	commentModels, err := db.MGetComments(s.ctx, req.VideoId)
+	commentModels, err := db.QueryComment(s.ctx, req.VideoId)
 	if err != nil {
 		return nil, err
 	}
@@ -31,10 +31,10 @@ func (s *CommentListService) CommentList(req *comment.CommentListRequest) ([]*co
 		uId := commentModels[i].UserId
 		// u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: uId, Token: test.UserIdToToken(uId)})
 		u, err := test.GetUser(s.ctx, &user.UserInfoRequest{UserId: uId, Token: test.UserIdToToken(uId)})
-
 		if err != nil {
 			return nil, err
 		}
+
 		comments[i].User = &comment.User{
 			Id:            u.Id,
 			Name:          u.Name,

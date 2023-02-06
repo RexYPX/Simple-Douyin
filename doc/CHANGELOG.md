@@ -1,3 +1,8 @@
+# 20230206
+GQY:
+1. 对删除评论的操作进行安全性验证
+
+
 # 20230205
 YPX:
 1. 添加 cmd/api/pack/relation.go 和 cmd/api/rpc/relation.go 
