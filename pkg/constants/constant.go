@@ -40,8 +40,7 @@ const (
 
 	TCP = "tcp"
 
-	MySQLDefaultDSN = "kirsury:123456@tcp(localhost:3306)/gorm_dy?charset=utf8&parseTime=True&loc=Local"
-	//MySQLDefaultDSN     = "gorm:gorm@tcp(localhost:3306)/gorm?charset=utf8&parseTime=True&loc=Local"
+	MySQLDefaultDSN = "gorm:gorm@tcp(localhost:3306)/gorm?charset=utf8&parseTime=True&loc=Local"
 
 	EtcdAddress    = "127.0.0.1:2379"
 	ExportEndpoint = ":4317"
