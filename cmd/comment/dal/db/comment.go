@@ -42,14 +42,15 @@ func CreateComment(ctx context.Context, comments []*Comment) error {
 	return nil
 }
 
-// MGetComments multiple get list of comment info
-func MGetComments(ctx context.Context, videoID int64) ([]*Comment, error) {
+// QueryComment query get list of comment info
+func QueryComment(ctx context.Context, videoID int64) ([]*Comment, error) {
 	var res []*Comment
 	if videoID <= 0 {
 		return res, nil
 	}
 
-	if err := DB.WithContext(ctx).Where("video_id = ?", videoID).Find(&res).Error; err != nil {
+	// fix: descending order
+	if err := DB.WithContext(ctx).Where("video_id = ?", videoID).Order("id desc").Find(&res).Error; err != nil {
 		return res, err
 	}
 	return res, nil
@@ -58,4 +59,17 @@ func MGetComments(ctx context.Context, videoID int64) ([]*Comment, error) {
 // DeleteComment delete comment info
 func DeleteComment(ctx context.Context, commentID int64) error {
 	return DB.WithContext(ctx).Where("id = ?", commentID).Delete(&Comment{}).Error
+}
+
+// GetComment simple get comment info
+func GetComment(ctx context.Context, commentID int64) (*Comment, error) {
+	var res *Comment
+	if commentID <= 0 {
+		return res, nil
+	}
+
+	if err := DB.WithContext(ctx).Where("id = ?", commentID).Find(&res).Error; err != nil {
+		return res, err
+	}
+	return res, nil
 }

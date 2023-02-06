@@ -2,6 +2,7 @@ package service
 
 import (
 	"Simple-Douyin/cmd/comment/dal/db"
+	"Simple-Douyin/pkg/errno"
 
 	// "Simple-Douyin/cmd/comment/rpc"
 	"Simple-Douyin/cmd/comment/test"
@@ -57,5 +58,16 @@ func (s *CommentActionService) CommentAction(req *comment.CommentActionRequest) 
 	}
 
 	// 删除评论
+	// fix: The server needs to check whether there is a delete permission
+	commentModel, err := db.GetComment(s.ctx, req.CommentId)
+	if err != nil {
+		return nil, err
+	}
+
+	// 如果删除的发起用户不是该评论的生产用户，不允许发起删除操作
+	if commentModel.UserId != test.TokenToUserId(req.Token) {
+		return nil, errno.AuthorizationFailedErr
+	}
+
 	return nil, db.DeleteComment(s.ctx, req.CommentId)
 }
