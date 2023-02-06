@@ -18,24 +18,23 @@ package constants
 const (
 	UserTableName     = "user"
 	CommentTableName  = "comment"
-	MessageTableName  = "message"
 	RelationTableName = "relation"
+	MessageTableName  = "message"
 
 	SecretKey   = "secret key"
 	IdentityKey = "id"
 
 	Comments = "comments"
-	UserList = "user_list"
 
-	ApiServiceName      = "api"
-	CommentServiceName  = "comment"
-	UserServiceName     = "user"
-	MessageServiceName  = "message"
-	RelationServiceName = "relation"
+	ApiServiceName     = "api"
+	FavoriteServiceName = "favorite"
+	CommentServiceName = "comment"
+	UserServiceName    = "user"
+	MessageServiceName = "message"
 
-	CommentServiceAddr  = ":8888"
-	MessageServicePort  = ":8801"
-	RelationServiceAddr = ":9999"
+	CommentServiceAddr = ":8888"
+	FavoriteServiceAddr = "8888"
+	MessageServicePort = ":8801"
 
 	TCP = "tcp"
 
