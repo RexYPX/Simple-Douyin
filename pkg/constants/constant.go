@@ -33,13 +33,15 @@ const (
 	MessageServiceName  = "message"
 	RelationServiceName = "relation"
 
+	UserServiceAddr     = ":8866"
 	CommentServiceAddr  = ":8888"
 	MessageServicePort  = ":8801"
 	RelationServiceAddr = ":9999"
 
 	TCP = "tcp"
 
-	MySQLDefaultDSN = "gorm:gorm@tcp(localhost:3306)/gorm?charset=utf8&parseTime=True&loc=Local"
+	MySQLDefaultDSN = "kirsury:123456@tcp(localhost:3306)/gorm_dy?charset=utf8&parseTime=True&loc=Local"
+	//MySQLDefaultDSN     = "gorm:gorm@tcp(localhost:3306)/gorm?charset=utf8&parseTime=True&loc=Local"
 
 	EtcdAddress    = "127.0.0.1:2379"
 	ExportEndpoint = ":4317"

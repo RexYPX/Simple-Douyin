@@ -40,6 +40,8 @@ func Init() {
 		panic(err)
 	}
 
+	DB.AutoMigrate(&User{})
+
 	if err = DB.Use(gormopentracing.New()); err != nil {
 		panic(err)
 	}

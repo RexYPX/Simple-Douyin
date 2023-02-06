@@ -20,6 +20,8 @@ import (
 	"context"
 	"crypto/md5"
 	"fmt"
+	"strconv"
+
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/pkg/errno"
 	"io"
 	//"Simple-Douyin/cmd/user/kitex_gen/user"
@@ -41,22 +43,36 @@ func NewCreateUserService(ctx context.Context) *CreateUserService {
 }
 
 // CreateUser create user info.
-func (s *CreateUserService) CreateUser(req *user.UserRegisterRequest) error {
+func (s *CreateUserService) CreateUser(req *user.UserRegisterRequest) (*user.UserRegisterResponse, error) {
 	users, err := db.QueryUser(s.ctx, req.Username)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if len(users) != 0 {
-		return errno.UserAlreadyExistErr
+		return nil, errno.UserAlreadyExistErr
 	}
 
 	h := md5.New()
 	if _, err = io.WriteString(h, req.Password); err != nil {
-		return err
+		return nil, err
 	}
 	passWord := fmt.Sprintf("%x", h.Sum(nil))
-	return db.CreateUser(s.ctx, []*db.User{{
-		UserName: req.Username,
+
+	users, err = db.CreateUser(s.ctx, []*db.User{{
+		Username: req.Username,
 		Password: passWord,
 	}})
+	if err != nil {
+		return nil, err
+	}
+	if len(users) == 0 {
+		return nil, err
+	}
+	resp := &user.UserRegisterResponse{
+		StatusCode: 0,
+		StatusMsg:  "注册成功",
+		UserId:     users[0].Id,
+		Token:      strconv.FormatInt(users[0].Id, 10),
+	}
+	return resp, err
 }
