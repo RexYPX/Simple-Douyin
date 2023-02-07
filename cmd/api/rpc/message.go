@@ -13,7 +13,7 @@ import (
 
 var messageClient meassgeservice.Client
 
-func initMessage() {
+func initFavoriteinitMessage() {
 	r, err := etcd.NewEtcdResolver([]string{constants.EtcdAddress})
 	if err != nil {
 		panic(err)
