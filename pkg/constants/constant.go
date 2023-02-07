@@ -32,11 +32,14 @@ const (
 	UserServiceName     = "user"
 	MessageServiceName  = "message"
 	RelationServiceName = "relation"
+	FeedServiceName     = "feed"
+	PublishServiceName  = "publish"
 
 	UserServiceAddr     = ":8866"
 	CommentServiceAddr  = ":8888"
 	MessageServicePort  = ":8801"
 	RelationServiceAddr = ":9999"
+	FeedServiceAddr     = ":9901"
 
 	TCP = "tcp"
 

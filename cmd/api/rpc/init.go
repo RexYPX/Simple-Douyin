@@ -20,4 +20,5 @@ func Init() {
 	initComment()
 	initRelation()
 	initMessage()
+	initFeed()
 }
