@@ -6,6 +6,7 @@ import (
 	"Simple-Douyin/pkg/constants"
 	"Simple-Douyin/pkg/errno"
 	"context"
+	"fmt"
 
 	"github.com/cloudwego/kitex/client"
 	etcd "github.com/kitex-contrib/registry-etcd"
@@ -38,6 +39,7 @@ func FavoriteAction(ctx context.Context, req *favorite.FavoriteActionRequest) er
 	if resp.StatusCode != 0 {
 		return errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
 	}
+	fmt.Println("resp.StatusMsg:", resp.StatusMsg)
 	return nil
 }
 
