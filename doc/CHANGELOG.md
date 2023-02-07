@@ -1,3 +1,9 @@
+# 20230207
+YPX:
+feed 模块后端处理逻辑及简单RPC测试完成：
+1. 添加 cmd/api/biz/handler/api/pack/feed.go、cmd/api/rpc/feed.go、cmd/feed/pack/feed.go、cmd/feed/rpc/publish.go、cmd/feed/rpc/user.go、cmd/feed/service/feed.go
+2. 修改 cmd/api/biz/handler/api/feed_service.go、cmd/api/rpc/init.go、cmd/feed/handler.go、cmd/feed/main.go、pkg/constants/constant.go
+
 # 20230206
 GQY:
 1. 对删除评论的操作进行安全性验证

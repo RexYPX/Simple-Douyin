@@ -3,9 +3,11 @@
 package api
 
 import (
+	"Simple-Douyin/cmd/api/rpc"
+	"Simple-Douyin/cmd/user/kitex_gen/user"
 	"context"
+	//"github.com/hertz-contrib/jwt"
 
-	api "Simple-Douyin/cmd/api/biz/model/api"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
@@ -14,14 +16,23 @@ import (
 // @router /douyin/user/register/ [POST]
 func UserRegister(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req api.UserRegisterRequest
-	err = c.BindAndValidate(&req)
+	var req = new(user.UserRegisterRequest)
+	var UserReg struct {
+		Username string `json:"username" form:"username" query:"username"`
+		Password string `json:"password" form:"password" query:"password"`
+	}
+	err = c.BindAndValidate(&UserReg)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
 		return
 	}
+	req.Username = UserReg.Username
+	req.Password = UserReg.Password
 
-	resp := new(api.UserRegisterResponse)
+	resp, err := rpc.RegisterUser(context.Background(), req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -30,14 +41,23 @@ func UserRegister(ctx context.Context, c *app.RequestContext) {
 // @router /douyin/user/login/ [POST]
 func UserLogin(ctx context.Context, c *app.RequestContext) {
 	var err error
-	var req api.UserLoginRequest
-	err = c.BindAndValidate(&req)
-	if err != nil {
-		c.String(consts.StatusBadRequest, err.Error())
-		return
+	type UserParam struct {
+		Username string `json:"username" form:"username" query:"username"`
+		Password string `json:"password" form:"password" query:"password"`
 	}
 
-	resp := new(api.UserLoginResponse)
+	var loginVar UserParam
+	c.Bind(&loginVar)
+
+	req := &user.UserLoginRequest{
+		Username: loginVar.Username,
+		Password: loginVar.Password,
+	}
+
+	resp, err := rpc.LoginUser(context.Background(), req)
+	if err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
 
 	c.JSON(consts.StatusOK, resp)
 }
@@ -45,15 +65,20 @@ func UserLogin(ctx context.Context, c *app.RequestContext) {
 // UserInfo .
 // @router /douyin/user/ [GET]
 func UserInfo(ctx context.Context, c *app.RequestContext) {
-	var err error
-	var req api.UserInfoRequest
-	err = c.BindAndValidate(&req)
+
+	var userVar struct {
+		UserId int64  `json:"user_id" form:"user_id" query:"user_id"`
+		Token  string `json:"token" form:"token" query:"token"`
+	}
+	if err := c.Bind(&userVar); err != nil {
+		c.String(consts.StatusBadRequest, err.Error())
+	}
+	req := &user.UserInfoRequest{UserId: userVar.UserId, Token: "222"}
+
+	resp, err := rpc.UserInfo(context.Background(), req)
 	if err != nil {
 		c.String(consts.StatusBadRequest, err.Error())
-		return
 	}
-
-	resp := new(api.UserInfoResponse)
 
 	c.JSON(consts.StatusOK, resp)
 }

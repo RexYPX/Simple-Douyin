@@ -6,6 +6,7 @@ import (
 	user "Simple-Douyin/cmd/user/kitex_gen/user"
 	"Simple-Douyin/cmd/user/service"
 	"context"
+	"strconv"
 )
 
 // UserServiceImpl implements the last service interface defined in the IDL.
@@ -22,14 +23,13 @@ func (s *UserServiceImpl) UserRegister(ctx context.Context, req *user.UserRegist
 		return resp, nil
 	}
 
-	err = service.NewCreateUserService(ctx).CreateUser(req)
+	resp, err = service.NewCreateUserService(ctx).CreateUser(req)
 	if err != nil {
 		resp.StatusCode = 2
-		resp.StatusMsg = "用户已存在"
+		resp.StatusMsg = "创建失败"
 		return resp, nil
 	}
-	resp.StatusCode = 0
-	resp.StatusMsg = "注册成功"
+
 	return resp, nil
 }
 
@@ -44,27 +44,27 @@ func (s *UserServiceImpl) UserLogin(ctx context.Context, req *user.UserLoginRequ
 		return resp, nil
 	}
 
-	_, err = service.NewCheckUserService(ctx).CheckUser(req)
+	id, err := service.NewCheckUserService(ctx).CheckUser(req)
 	if err != nil {
 		resp.StatusCode = 2
 		resp.StatusMsg = "用户不存在，请注册"
 		return resp, nil
 	}
-	resp.StatusCode = 0
-	resp.StatusMsg = "登录成功"
+	resp = &user.UserLoginResponse{
+		StatusCode: 0,
+		StatusMsg:  "登录成功",
+		UserId:     id,
+		Token:      strconv.FormatInt(id, 10),
+	}
 	return resp, nil
 }
 
 // UserInfo implements the UserServiceImpl interface.
 func (s *UserServiceImpl) UserInfo(ctx context.Context, req *user.UserInfoRequest) (resp *user.UserInfoResponse, err error) {
 	// TODO: Your code here...
-	resp = new(user.UserInfoResponse)
-	resp.StatusCode = 1
-	resp.StatusMsg = "success"
-	resp.Id = 1
-	resp.Name = "root"
-	resp.FollowCount = 6
-	resp.FollowerCount = 6
-	resp.IsFollow = true
-	return resp, nil
+	resp, err = service.NewQueryUserService(ctx).QueryUser(req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, err
 }
