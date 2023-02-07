@@ -31,19 +31,19 @@ func initFavorite() {
 	favoriteClient = c
 }
 
-func FavoriteAction(ctx context.Context, req *favorite.FavoriteActionRequest) error {
+func FavoriteAction(ctx context.Context, req *favorite.FavoriteActionRequest) (*favorite.FavoriteActionResponse, error) {
 	resp, err := favoriteClient.FavoriteAction(ctx, req)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if resp.StatusCode != 0 {
-		return errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
+		return nil, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
 	}
 	fmt.Println("resp.StatusMsg:", resp.StatusMsg)
-	return nil
+	return resp, nil
 }
 
-func FavoriteList(ctx context.Context, req *favorite.FavoriteListRequest) ([]*favorite.Video, error) {
+func FavoriteList(ctx context.Context, req *favorite.FavoriteListRequest) (*favorite.FavoriteListResponse, error) {
 	resp, err := favoriteClient.FavoriteList(ctx, req)
 	if err != nil {
 		return nil, err
@@ -51,5 +51,6 @@ func FavoriteList(ctx context.Context, req *favorite.FavoriteListRequest) ([]*fa
 	if resp.StatusCode != 0 {
 		return nil, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
 	}
-	return resp.VideoList, nil
+	fmt.Println("resp.StatusMsg:", resp.StatusMsg)
+	return resp, nil
 }

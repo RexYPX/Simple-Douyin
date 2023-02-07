@@ -26,15 +26,17 @@ const (
 
 	Comments = "comments"
 
-	ApiServiceName     = "api"
+	ApiServiceName      = "api"
 	FavoriteServiceName = "favorite"
-	CommentServiceName = "comment"
-	UserServiceName    = "user"
-	MessageServiceName = "message"
+	CommentServiceName  = "comment"
+	UserServiceName     = "user"
+	MessageServiceName  = "message"
+	RelationServiceName = "relation"
 
-	CommentServiceAddr = ":8888"
+	CommentServiceAddr  = ":8888"
 	FavoriteServiceAddr = "8888"
-	MessageServicePort = ":8801"
+	MessageServicePort  = ":8801"
+	RelationServiceAddr = ":9999"
 
 	TCP = "tcp"
 
