@@ -17,7 +17,8 @@ package rpc
 
 func Init() {
 	// initUser()
-	initComment()
-	initRelation()
-	initMessage()
+	// initComment()
+	// initRelation()
+	// initMessage()
+	initFavorite()
 }
