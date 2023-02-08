@@ -20,6 +20,7 @@ const (
 	CommentTableName  = "comment"
 	RelationTableName = "relation"
 	MessageTableName  = "message"
+	FavoriteTableName = "favorite"
 
 	SecretKey   = "secret key"
 	IdentityKey = "id"
