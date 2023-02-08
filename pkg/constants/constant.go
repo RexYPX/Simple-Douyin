@@ -38,7 +38,7 @@ const (
 
 	UserServiceAddr     = ":8866"
 	CommentServiceAddr  = ":8888"
-	FavoriteServiceAddr = "8888"
+	FavoriteServiceAddr = ":8989"
 	MessageServicePort  = ":8801"
 	RelationServiceAddr = ":9999"
 	FeedServiceAddr     = ":9901"

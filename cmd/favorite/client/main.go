@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	c, err := favoriteservice.NewClient("favorite", client.WithHostPorts("0.0.0.0:8801"))
+	c, err := favoriteservice.NewClient("favorite", client.WithHostPorts("0.0.0.0:8989"))
 	if err != nil {
 		log.Fatal(err)
 	}
