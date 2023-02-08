@@ -24,6 +24,7 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
 	hertzlogrus "github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
+    "github.com/hertz-contrib/logger/accesslog"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/hertz-contrib/pprof"
 )
@@ -50,6 +51,8 @@ func main() {
 	pprof.Register(h)
 	// use otel mw
 	h.Use(tracing.ServerMiddleware(cfg))
+    // use logger
+    h.Use(accesslog.New(accesslog.WithFormat("[${time}] ${status} - ${method} ${path}  [req: ${queryParams}] [resp: ${resBody}] - ${latency} ")))
 	register(h)
 	h.Spin()
 }
