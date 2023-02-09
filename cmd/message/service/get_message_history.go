@@ -16,8 +16,7 @@ func NewGetMessageHistoryService(ctx context.Context) *GetMessageHistoryService 
 }
 
 func (s *GetMessageHistoryService) GetMessageHistory(req *message.MessageChatRequest) ([]*message.Message, error) {
-	// TODO token -> userid
-	uid := int64(1)
+	uid := req.UserId
 	tuid := req.ToUserId
 
 	dbmsgs, err := db.QueryMessageHistory(s.ctx, uid, tuid)

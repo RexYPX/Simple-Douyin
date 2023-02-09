@@ -3,7 +3,6 @@ package db
 import (
 	"Simple-Douyin/pkg/constants"
 
-	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormopentracing "gorm.io/plugin/opentracing"
@@ -22,8 +21,6 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-
-	klog.Debug("Init()::DB: ", DB)
 
 	DB.AutoMigrate(&Message{})
 

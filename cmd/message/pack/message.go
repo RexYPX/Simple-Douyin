@@ -13,7 +13,7 @@ func Message(msg *db.Message) *message.Message {
 	}
 
 	return &message.Message{
-		Id:         int64(msg.MessageId),
+		Id:         int64(msg.ID),
 		Content:    msg.Content,
 		CreateTime: time.Unix(msg.CreateTime, 0).Format("2006-01-02 15:04:05"),
 	}
