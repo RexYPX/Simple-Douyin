@@ -20,12 +20,15 @@ package main
 import (
 	"Simple-Douyin/cmd/api/biz/mw"
 	"Simple-Douyin/cmd/api/rpc"
+	"context"
 	"math"
 
+	"github.com/cloudwego/hertz/pkg/app"
+	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
+	"github.com/hertz-contrib/logger/accesslog"
 	hertzlogrus "github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
-    "github.com/hertz-contrib/logger/accesslog"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
 	"github.com/hertz-contrib/pprof"
 )
@@ -36,6 +39,12 @@ func Init() {
 	// hlog init
 	hlog.SetLogger(hertzlogrus.NewLogger())
 	hlog.SetLevel(hlog.LevelInfo)
+}
+
+func RecoveryHandler(c context.Context, ctx *app.RequestContext, err interface{}, stack []byte) {
+	hlog.SystemLogger().CtxErrorf(c, "[Recovery] err=%v\nstack=%s", err, stack)
+	hlog.SystemLogger().Infof("Client: %s", ctx.Request.Header.UserAgent())
+	ctx.AbortWithStatus(500)
 }
 
 func main() {
@@ -52,8 +61,11 @@ func main() {
 	pprof.Register(h)
 	// use otel mw
 	h.Use(tracing.ServerMiddleware(cfg))
-    // use logger
-    h.Use(accesslog.New(accesslog.WithFormat("[${time}] ${status} - ${method} ${path}  [req: ${queryParams}] [resp: ${resBody}] - ${latency} ")))
+	// use logger
+	h.Use(accesslog.New(accesslog.WithFormat("[${time}] ${status} - ${method} ${path}  [req: ${queryParams}] [resp: ${resBody}] - ${latency} ")))
+	// use recovery
+	h.Use(recovery.Recovery(recovery.WithRecoveryHandler(RecoveryHandler)))
+
 	register(h)
 	h.Spin()
 }
