@@ -5,13 +5,15 @@ package main
 import (
 	"Simple-Douyin/pkg/constants"
 	"context"
-	"github.com/cloudwego/kitex/pkg/retry"
-	etcd "github.com/kitex-contrib/registry-etcd"
 	"log"
 	"time"
 
-	"Simple-Douyin/cmd/user/kitex_gen/user"
-	"Simple-Douyin/cmd/user/kitex_gen/user/userservice"
+	"github.com/cloudwego/kitex/pkg/retry"
+	etcd "github.com/kitex-contrib/registry-etcd"
+
+	"Simple-Douyin/kitex_gen/user"
+	"Simple-Douyin/kitex_gen/user/userservice"
+
 	"github.com/cloudwego/kitex/client"
 )
 

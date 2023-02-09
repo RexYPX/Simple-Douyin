@@ -6,6 +6,7 @@ import (
 	comment "Simple-Douyin/kitex_gen/comment"
 	"Simple-Douyin/pkg/errno"
 	"context"
+	"fmt"
 )
 
 // CommentServiceImpl implements the last service interface defined in the IDL.
@@ -16,7 +17,8 @@ func (s *CommentServiceImpl) CommentAction(ctx context.Context, req *comment.Com
 	// TODO: Your code here...
 	resp = new(comment.CommentActionResponse)
 
-	if len(req.Token) == 0 || req.VideoId <= 0 || (req.ActionType <= 0 || req.ActionType >= 3) || (req.ActionType == 1 && len(req.CommentText) == 0) || (req.ActionType == 2 && req.CommentId <= 0) {
+	if req.UserId < 0 || req.VideoId <= 0 || (req.ActionType <= 0 || req.ActionType >= 3) || (req.ActionType == 1 && len(req.CommentText) == 0) || (req.ActionType == 2 && req.CommentId <= 0) {
+		fmt.Println("GQY DEBUG", req.UserId, req.VideoId, req.ActionType, req.CommentText, req.CommentId)
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 		return resp, nil
 	}
@@ -37,7 +39,7 @@ func (s *CommentServiceImpl) CommentList(ctx context.Context, req *comment.Comme
 	// TODO: Your code here...
 	resp = new(comment.CommentListResponse)
 
-	if len(req.Token) == 0 || req.VideoId <= 0 { // warning: Guest users can still get token and access the comments list
+	if req.UserId < 0 || req.VideoId <= 0 { // warning: Guest users can still get token and access the comments list
 		resp.BaseResp = pack.BuildBaseResp(errno.ParamErr)
 		return resp, nil
 	}

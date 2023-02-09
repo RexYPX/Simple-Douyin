@@ -10,7 +10,7 @@ struct User {
 
 // 关注操作
 struct RelationActionRequest {
-    1: string token
+    1: i64 user_id
 	2: i64 to_user_id
 	3: i32 action_type
 }
@@ -23,7 +23,6 @@ struct RelationActionResponse {
 // 关注列表
 struct RelationFollowListRequest {
 	1: i64 user_id
-    2: string token
 }
 
 struct RelationFollowListResponse {
@@ -35,7 +34,6 @@ struct RelationFollowListResponse {
 // 粉丝列表
 struct RelationFollowerListRequest {
 	1: i64 user_id
-    2: string token
 }
 
 struct RelationFollowerListResponse {
@@ -47,7 +45,6 @@ struct RelationFollowerListResponse {
 // 好友列表
 struct RelationFriendListRequest {
 	1: i64 user_id
-    2: string token
 }
 
 struct RelationFriendListResponse {

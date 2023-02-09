@@ -20,16 +20,11 @@ import (
 	"context"
 	"crypto/md5"
 	"fmt"
-	"strconv"
-
-	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/pkg/errno"
 	"io"
-	//"Simple-Douyin/cmd/user/kitex_gen/user"
-	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/kitex_gen/userdemo"
-	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
 
 	"Simple-Douyin/cmd/user/dal/db"
-	user "Simple-Douyin/cmd/user/kitex_gen/user"
+
+	user "Simple-Douyin/kitex_gen/user"
 	"Simple-Douyin/pkg/errno"
 )
 
@@ -72,7 +67,6 @@ func (s *CreateUserService) CreateUser(req *user.UserRegisterRequest) (*user.Use
 		StatusCode: 0,
 		StatusMsg:  "注册成功",
 		UserId:     users[0].Id,
-		Token:      strconv.FormatInt(users[0].Id, 10),
 	}
 	return resp, err
 }

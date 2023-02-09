@@ -23,7 +23,7 @@ struct Video {
 // 视频流接口
 struct FeedRequest {
     1: i64 latest_time
-    2: string token
+    2: i64 user_id
 }
 
 struct FeedResponse {

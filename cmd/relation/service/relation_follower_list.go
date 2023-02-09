@@ -20,6 +20,7 @@ import (
 	"Simple-Douyin/cmd/relation/dal/db"
 	"Simple-Douyin/cmd/relation/rpc"
 	"Simple-Douyin/kitex_gen/relation"
+	"Simple-Douyin/kitex_gen/user"
 	"context"
 )
 
@@ -37,13 +38,6 @@ func (s *RelationFollowerListService) RelationFollowerList(req *relation.Relatio
 	var resp []*relation.User
 
 	userID := req.UserId
-	// TODO: 使用token验证用户合法性
-	token := req.Token
-	_, err := rpc.Token2Id(token)
-	// if err = rpc.Token2Id(token); err != nil {
-	if err != nil {
-		return resp, err
-	}
 
 	followerIDs, err := db.QueryFollowerList(s.ctx, userID)
 	if err != nil {
@@ -51,13 +45,17 @@ func (s *RelationFollowerListService) RelationFollowerList(req *relation.Relatio
 	}
 
 	for _, id := range followerIDs {
-		// TODO: 使用id获取用户数据
-		user, err := rpc.Id2User(id)
+		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: id})
 		if err != nil {
 			return resp, err
 		}
-		// user = rpc.Id2User(id)
-		resp = append(resp, user)
+		resp = append(resp, &relation.User{
+			Id:            u.Id,
+			Name:          u.Name,
+			FollowCount:   u.FollowCount,
+			FollowerCount: u.FollowerCount,
+			IsFollow:      u.IsFollow,
+		})
 	}
 
 	return resp, nil

@@ -7,14 +7,21 @@ import (
 	"net"
 
 	"Simple-Douyin/cmd/relation/dal"
+	"Simple-Douyin/cmd/relation/rpc"
 
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
+	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
 	etcd "github.com/kitex-contrib/registry-etcd"
 )
 
 func Init() {
+	rpc.Init()
 	dal.Init()
+	// klog init
+	klog.SetLogger(kitexlogrus.NewLogger())
+	klog.SetLevel(klog.LevelInfo)
 }
 
 func main() {

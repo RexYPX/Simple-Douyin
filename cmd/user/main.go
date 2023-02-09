@@ -3,16 +3,21 @@ package main
 //
 
 import (
-	user "Simple-Douyin/cmd/user/kitex_gen/user/userservice"
+	user "Simple-Douyin/kitex_gen/user/userservice"
 	"Simple-Douyin/pkg/constants"
-	"github.com/cloudwego/kitex/pkg/rpcinfo"
-	"github.com/cloudwego/kitex/server"
-	etcd "github.com/kitex-contrib/registry-etcd"
 	"log"
 	"net"
 
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
+	"github.com/cloudwego/kitex/server"
+	etcd "github.com/kitex-contrib/registry-etcd"
+
 	"Simple-Douyin/cmd/user/dal"
 )
+
+func Init() {
+	dal.Init()
+}
 
 func main() {
 	r, err := etcd.NewEtcdRegistry([]string{constants.EtcdAddress})
@@ -24,8 +29,7 @@ func main() {
 		panic(err)
 	}
 
-	dal.Init()
-
+	Init()
 	svr := user.NewServer(new(UserServiceImpl),
 		server.WithServiceAddr(addr),
 		server.WithRegistry(r),

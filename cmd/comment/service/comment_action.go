@@ -2,10 +2,11 @@ package service
 
 import (
 	"Simple-Douyin/cmd/comment/dal/db"
+	"Simple-Douyin/cmd/comment/rpc"
 	"Simple-Douyin/pkg/errno"
 
 	// "Simple-Douyin/cmd/comment/rpc"
-	"Simple-Douyin/cmd/comment/test"
+
 	"Simple-Douyin/kitex_gen/comment"
 	"Simple-Douyin/kitex_gen/user"
 	"context"
@@ -26,14 +27,13 @@ func (s *CommentActionService) CommentAction(req *comment.CommentActionRequest) 
 	if req.ActionType == 1 {
 		res := new(comment.Comment)
 		// 使用 Token 获取用户信息
-		// u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: test.TokenToUserId(req.Token), Token: req.Token})
-		u, err := test.GetUser(s.ctx, &user.UserInfoRequest{UserId: test.TokenToUserId(req.Token), Token: req.Token})
+		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: req.UserId})
 		if err != nil {
 			return nil, err
 		}
 
 		commentModel := &db.Comment{
-			UserId:  u.Id,
+			UserId:  req.UserId,
 			VideoId: req.VideoId,
 			Content: req.CommentText,
 		}
@@ -65,7 +65,7 @@ func (s *CommentActionService) CommentAction(req *comment.CommentActionRequest) 
 	}
 
 	// 如果删除的发起用户不是该评论的生产用户，不允许发起删除操作
-	if commentModel.UserId != test.TokenToUserId(req.Token) {
+	if commentModel.UserId != req.UserId {
 		return nil, errno.AuthorizationFailedErr
 	}
 
