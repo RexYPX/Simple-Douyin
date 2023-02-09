@@ -46,9 +46,6 @@ func main() {
 
 	err = svr.Run()
 
-	// svr := relation.NewServer(new(RelationServiceImpl))
-	// err := svr.Run()
-
 	if err != nil {
 		log.Println(err.Error())
 	}

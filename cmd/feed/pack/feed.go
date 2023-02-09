@@ -1,12 +1,12 @@
 package pack
 
 import (
+	"Simple-Douyin/cmd/feed/dal/db"
 	"Simple-Douyin/kitex_gen/feed"
-	"Simple-Douyin/kitex_gen/publish"
 )
 
-// publish.Video -> feed.Video
-func Video(publishVideo *publish.Video) *feed.Video {
+// db.Video -> feed.Video
+func Video(publishVideo *db.Video) *feed.Video {
 	if publishVideo == nil {
 		return nil
 	}
@@ -31,8 +31,8 @@ func Video(publishVideo *publish.Video) *feed.Video {
 	}
 }
 
-// []publish.Video -> []feed.Video
-func Videos(publishVideos []*publish.Video) []*feed.Video {
+// []db.Video -> []feed.Video
+func Videos(publishVideos []*db.Video) []*feed.Video {
 	videos := make([]*feed.Video, 0)
 
 	for _, pv := range publishVideos {

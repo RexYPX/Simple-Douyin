@@ -2,7 +2,6 @@ package rpc
 
 import (
 	"context"
-	"strconv"
 	"time"
 
 	"Simple-Douyin/kitex_gen/user"
@@ -58,13 +57,4 @@ func GetUser(ctx context.Context, req *user.UserInfoRequest) (*user.User, error)
 		FollowerCount: resp.FollowerCount,
 		IsFollow:      resp.IsFollow,
 	}, nil
-}
-
-func Token2Id(token string) (int64, error) {
-	userId, err := strconv.Atoi(token)
-	if err != nil {
-		return 0, err
-	}
-
-	return int64(userId), nil
 }
