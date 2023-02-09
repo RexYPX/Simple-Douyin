@@ -10,6 +10,7 @@ import (
 	api "Simple-Douyin/cmd/api/biz/model/api"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/feed"
+	"Simple-Douyin/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -28,9 +29,13 @@ func Feed(ctx context.Context, c *app.RequestContext) {
 	}
 
 	log.Println("[ypx debug] api BindAndValidate success and prepare to rpc.Feed")
+	uid := int64(0)
+	if v, exist := c.Get(constants.IdentityKey); exist {
+		uid = v.(*api.User).ID
+	}
 	next_time, videos, err := rpc.Feed(context.Background(), &feed.FeedRequest{
 		LatestTime: req.LatestTime,
-		Token:      req.Token,
+		UserId:     uid,
 	})
 	if err != nil {
 		log.Println("[ypx debug] api rpc.Feed fail")

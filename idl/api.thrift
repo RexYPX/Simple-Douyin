@@ -46,11 +46,7 @@ struct UserInfoRequest {
 struct UserInfoResponse {
     1: i32 status_code
     2: string status_msg
-    3: i64 id
-	4: string name
-	5: i64 follow_count
-	6: i64 follower_count
-	7: bool is_follow
+    3: User user
 }
 
 service UserService {

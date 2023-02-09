@@ -35,7 +35,7 @@ func main() {
 	// TODO token
 	for i := 0; i < 10; i++ {
 		sendMsgReq := &message.MessageActionRequest{
-			Token:      util.GetRandomString(16),
+			// Token:      util.GetRandomString(16),
 			ToUserId:   int64(util.GetRandomUserID()),
 			ActionType: 1,
 			Content:    util.GetRandomString(32),
@@ -50,7 +50,7 @@ func main() {
 
 	// get history
 	getMsgHistoryReq := &message.MessageChatRequest{
-		Token:    util.GetRandomString(16),
+		// Token:    util.GetRandomString(16),
 		ToUserId: int64(util.GetRandomUserID()),
 	}
 	getMsgHistoryResp, err := c.MessageChat(context.Background(), getMsgHistoryReq)

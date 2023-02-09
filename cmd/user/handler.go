@@ -3,10 +3,9 @@ package main
 //
 
 import (
-	user "Simple-Douyin/cmd/user/kitex_gen/user"
 	"Simple-Douyin/cmd/user/service"
+	"Simple-Douyin/kitex_gen/user"
 	"context"
-	"strconv"
 )
 
 // UserServiceImpl implements the last service interface defined in the IDL.
@@ -54,7 +53,8 @@ func (s *UserServiceImpl) UserLogin(ctx context.Context, req *user.UserLoginRequ
 		StatusCode: 0,
 		StatusMsg:  "登录成功",
 		UserId:     id,
-		Token:      strconv.FormatInt(id, 10),
+		// 仅在前端获取Token
+		// Token: mw.TOKEN,
 	}
 	return resp, nil
 }
