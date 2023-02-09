@@ -18,7 +18,6 @@ struct UserRegisterResponse {
     1: i32 status_code
     2: string status_msg
     3: i64 user_id
-    4: string token
 }
 
 // 用户登录
@@ -31,13 +30,11 @@ struct UserLoginResponse {
     1: i32 status_code
     2: string status_msg
     3: i64 user_id
-    4: string token
 }
 
 // 用户信息
 struct UserInfoRequest {
     1: i64 user_id
-    2: string token
 }
 
 struct UserInfoResponse {

@@ -22,12 +22,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/cloudwego/kitex-examples/bizdemo/easy_note/pkg/errno"
-	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/kitex_gen/userdemo"
-	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
+	"Simple-Douyin/pkg/errno"
 
 	"Simple-Douyin/cmd/user/dal/db"
-	user "Simple-Douyin/cmd/user/kitex_gen/user"
+	user "Simple-Douyin/kitex_gen/user"
 )
 
 type CheckUserService struct {

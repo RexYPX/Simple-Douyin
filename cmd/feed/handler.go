@@ -1,7 +1,6 @@
 package main
 
 import (
-	"Simple-Douyin/cmd/feed/rpc"
 	"Simple-Douyin/cmd/feed/service"
 	feed "Simple-Douyin/kitex_gen/feed"
 	"context"
@@ -24,18 +23,6 @@ func (s *FeedServiceImpl) Feed(ctx context.Context, req *feed.FeedRequest) (resp
 	if req.LatestTime < 0 {
 		log.Println("[ypx debug] kitex handler req.LatestTime < 0 ")
 		feedServiceReq.LatestTime = time.Now().Unix()
-	}
-
-	if len(req.Token) > 0 {
-		if _, err := rpc.Token2Id(req.Token); err != nil {
-			log.Println("[ypx debug] kitex handler rpc.Token2Id(req.Token) err")
-			feedServiceReq.Token = "0"
-		}
-	}
-
-	if len(req.Token) <= 0 {
-		log.Println("[ypx debug] kitex handler len(req.Token) <= 0")
-		feedServiceReq.Token = "0"
 	}
 
 	log.Println("[ypx debug] kitex handler prepare to service.NewFeedService(ctx).Feed(feedServiceReq)")

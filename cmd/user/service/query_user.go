@@ -2,12 +2,11 @@ package service
 
 import (
 	"context"
-	"github.com/cloudwego/kitex-examples/bizdemo/easy_note/pkg/errno"
-	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/kitex_gen/userdemo"
-	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
+
+	"Simple-Douyin/pkg/errno"
 
 	"Simple-Douyin/cmd/user/dal/db"
-	user "Simple-Douyin/cmd/user/kitex_gen/user"
+	user "Simple-Douyin/kitex_gen/user"
 )
 
 type QueryUserService struct {
@@ -33,13 +32,13 @@ func (s *QueryUserService) QueryUser(req *user.UserInfoRequest) (*user.UserInfoR
 	u := users[0]
 
 	resp := &user.UserInfoResponse{
-		StatusCode:    0,
-		Name:          u.Username,
-		StatusMsg:     "success",
-		Id:            u.Id,
-		FollowCount:   u.FollowCount,
-		FollowerCount: u.FollowerCount,
-		IsFollow:      true,
+		StatusCode: 0,
+		Name:       u.Username,
+		StatusMsg:  "success",
+		Id:         u.Id,
+		// FollowCount:   u.FollowCount,
+		// FollowerCount: u.FollowerCount,
+		// IsFollow:      true,
 	}
 
 	return resp, nil

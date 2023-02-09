@@ -2,7 +2,7 @@ namespace go message
 
 // 发送消息
 struct MessageActionRequest {
-	1: string token
+	1: i64 user_id
 	2: i64 to_user_id
 	3: i32 action_type
 	4: string content
@@ -21,7 +21,7 @@ struct Message {
 }
 
 struct MessageChatRequest {
-	1: string token
+	1: i64 user_id
 	2: i64 to_user_id
 }
 

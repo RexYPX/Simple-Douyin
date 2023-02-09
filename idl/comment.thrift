@@ -22,7 +22,7 @@ struct Comment {
 }
 
 struct CommentActionRequest {
-    1: string token
+    1: i64 user_id
 	2: i64 video_id
 	3: i32 action_type
 	4: string comment_text
@@ -36,7 +36,7 @@ struct CommentActionResponse {
 
 // 评论列表
 struct CommentListRequest {
-    1: string token
+    1: i64 user_id
 	2: i64 video_id
 }
 

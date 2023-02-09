@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Simple-Douyin/cmd/feed/rpc"
 	feed "Simple-Douyin/kitex_gen/feed/feedservice"
 	"Simple-Douyin/pkg/constants"
 	"log"
@@ -14,6 +15,7 @@ import (
 )
 
 func Init() {
+	rpc.Init()
 	// klog init
 	klog.SetLogger(kitexlogrus.NewLogger())
 	klog.SetLevel(klog.LevelInfo)

@@ -21,7 +21,7 @@ struct Video {
 
 // 赞操作
 struct FavoriteActionRequest {
-    1: string token
+    1: i64 user_id
 	2: i64 video_id
 	3: i32 action_type
 }
@@ -34,7 +34,6 @@ struct FavoriteActionResponse {
 // 喜欢列表
 struct FavoriteListRequest {
 	1: i64 user_id
-    2: string token
 }
 
 struct FavoriteListResponse {
