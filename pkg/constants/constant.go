@@ -21,6 +21,7 @@ const (
 	RelationTableName = "relation"
 	MessageTableName  = "message"
 	FavoriteTableName = "favorite"
+	VideoTableName    = "video"
 
 	SecretKey   = "secret key"
 	IdentityKey = "id"
@@ -52,4 +53,6 @@ const (
 	ExportEndpoint = ":4317"
 
 	DefaultLimit = 10
+
+	MaxFeed = 30
 )

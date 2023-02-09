@@ -4,10 +4,9 @@ import (
 	"context"
 	"time"
 
-	"Simple-Douyin/kitex_gen/user"
-	"Simple-Douyin/kitex_gen/user/userservice"
+	"Simple-Douyin/kitex_gen/favorite"
+	"Simple-Douyin/kitex_gen/favorite/favoriteservice"
 	"Simple-Douyin/pkg/constants"
-	"Simple-Douyin/pkg/errno"
 	"Simple-Douyin/pkg/mw"
 
 	"github.com/cloudwego/kitex/client"
@@ -16,16 +15,16 @@ import (
 	trace "github.com/kitex-contrib/tracer-opentracing"
 )
 
-var userClient userservice.Client
+var favoriteClient favoriteservice.Client
 
-func initUser() {
+func initFavorite() {
 	r, err := etcd.NewEtcdResolver([]string{constants.EtcdAddress})
 	if err != nil {
 		panic(err)
 	}
 
-	c, err := userservice.NewClient(
-		constants.UserServiceName,
+	c, err := favoriteservice.NewClient(
+		constants.FavoriteServiceName,
 		client.WithMiddleware(mw.CommonMiddleware),
 		client.WithInstanceMW(mw.ClientMiddleware),
 		client.WithMuxConnection(1),                       // mux
@@ -38,24 +37,18 @@ func initUser() {
 	if err != nil {
 		panic(err)
 	}
-	userClient = c
+	favoriteClient = c
 }
 
-// GetUser 此接口用于从 user_id 获取一个 user 的信息
-func GetUser(ctx context.Context, req *user.UserInfoRequest) (*user.User, error) {
-	resp, err := userClient.UserInfo(ctx, req)
+// FavoriteList 此接口用于从 favorite 获取 FavoriteList 的信息
+func FavoriteList(ctx context.Context, req *favorite.FavoriteListRequest) (*favorite.FavoriteListResponse, error) {
+	resp, err := favoriteClient.FavoriteList(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 	if resp.StatusCode != 0 {
-		return nil, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
+		return resp, err
 	}
 
-	return &user.User{
-		Id:            resp.Id,
-		Name:          resp.Name,
-		FollowCount:   resp.FollowCount,
-		FollowerCount: resp.FollowerCount,
-		IsFollow:      resp.IsFollow,
-	}, nil
+	return resp, nil
 }
