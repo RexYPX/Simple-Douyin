@@ -4,17 +4,16 @@ import (
 	"context"
 	"time"
 
-	"github.com/cloudwego/kitex-examples/bizdemo/easy_note/pkg/middleware"
-
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/retry"
 	etcd "github.com/kitex-contrib/registry-etcd"
 	trace "github.com/kitex-contrib/tracer-opentracing"
 
-	"Simple-Douyin/cmd/user/kitex_gen/user"
-	"Simple-Douyin/cmd/user/kitex_gen/user/userservice"
+	"Simple-Douyin/kitex_gen/user"
+	"Simple-Douyin/kitex_gen/user/userservice"
 	"Simple-Douyin/pkg/constants"
 	"Simple-Douyin/pkg/errno"
+	"Simple-Douyin/pkg/mw"
 )
 
 var userClient userservice.Client
@@ -27,8 +26,8 @@ func initUser() {
 
 	c, err := userservice.NewClient(
 		constants.UserServiceName,
-		client.WithMiddleware(middleware.CommonMiddleware),
-		client.WithInstanceMW(middleware.ClientMiddleware),
+		client.WithMiddleware(mw.CommonMiddleware),
+		client.WithInstanceMW(mw.ClientMiddleware),
 		client.WithMuxConnection(1),                       // mux
 		client.WithRPCTimeout(3*time.Second),              // rpc timeout
 		client.WithConnectTimeout(50*time.Millisecond),    // conn timeout

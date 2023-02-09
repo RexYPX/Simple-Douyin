@@ -6,7 +6,7 @@ import (
 	"log"
 	"net"
 
-	// "Simple-Douyin/cmd/comment/rpc"
+	"Simple-Douyin/cmd/comment/rpc"
 	comment "Simple-Douyin/kitex_gen/comment/commentservice"
 
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -17,7 +17,7 @@ import (
 )
 
 func Init() {
-	// rpc.Init() // [GQY DEBUG]
+	rpc.Init()
 	dal.Init()
 	// klog init
 	klog.SetLogger(kitexlogrus.NewLogger())

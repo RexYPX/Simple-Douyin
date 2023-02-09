@@ -3,6 +3,8 @@
 package Api
 
 import (
+	"Simple-Douyin/cmd/api/biz/mw"
+
 	"github.com/cloudwego/hertz/pkg/app"
 )
 
@@ -23,7 +25,10 @@ func _feedMw() []app.HandlerFunc {
 
 func _commentMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _actionMw() []app.HandlerFunc {
@@ -48,7 +53,10 @@ func _commentlistMw() []app.HandlerFunc {
 
 func _favoriteMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _action0Mw() []app.HandlerFunc {
@@ -73,7 +81,10 @@ func _favoritelistMw() []app.HandlerFunc {
 
 func _messageMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _action1Mw() []app.HandlerFunc {
@@ -98,7 +109,10 @@ func _messagechatMw() []app.HandlerFunc {
 
 func _publishMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _action2Mw() []app.HandlerFunc {
@@ -123,7 +137,10 @@ func _publishlistMw() []app.HandlerFunc {
 
 func _relationMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _action3Mw() []app.HandlerFunc {
@@ -188,7 +205,10 @@ func _userMw() []app.HandlerFunc {
 
 func _userinfoMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
 }
 
 func _loginMw() []app.HandlerFunc {

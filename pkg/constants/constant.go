@@ -24,6 +24,7 @@ const (
 
 	SecretKey   = "secret key"
 	IdentityKey = "id"
+	Token       = "JWT_TOKEN"
 
 	Comments = "comments"
 

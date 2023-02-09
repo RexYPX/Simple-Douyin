@@ -3,7 +3,7 @@ package service
 import (
 	"Simple-Douyin/cmd/comment/dal/db"
 	"Simple-Douyin/cmd/comment/pack"
-	"Simple-Douyin/cmd/comment/test"
+	"Simple-Douyin/cmd/comment/rpc"
 	"Simple-Douyin/kitex_gen/comment"
 	"Simple-Douyin/kitex_gen/user"
 	"context"
@@ -27,10 +27,9 @@ func (s *CommentListService) CommentList(req *comment.CommentListRequest) ([]*co
 	}
 
 	comments := pack.Comments(commentModels)
-	for i := 0; i < len(commentModels); i++ {
+	for i := 0; i < len(comments); i++ {
 		uId := commentModels[i].UserId
-		// u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: uId, Token: test.UserIdToToken(uId)})
-		u, err := test.GetUser(s.ctx, &user.UserInfoRequest{UserId: uId, Token: test.UserIdToToken(uId)})
+		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: uId})
 		if err != nil {
 			return nil, err
 		}

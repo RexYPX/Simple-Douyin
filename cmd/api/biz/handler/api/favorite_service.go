@@ -8,6 +8,7 @@ import (
 	api "Simple-Douyin/cmd/api/biz/model/api"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/favorite"
+	"Simple-Douyin/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -25,9 +26,9 @@ func FavoriteAction(ctx context.Context, c *app.RequestContext) {
 	}
 
 	// resp := new(api.FavoriteActionResponse)
-
+	v, _ := c.Get(constants.IdentityKey)
 	resp, err := rpc.FavoriteAction(context.Background(), &favorite.FavoriteActionRequest{
-		Token:      req.Token,
+		UserId:     v.(*api.User).ID,
 		VideoId:    req.VideoID,
 		ActionType: req.ActionType,
 	})
@@ -52,7 +53,6 @@ func FavoriteList(ctx context.Context, c *app.RequestContext) {
 
 	resp, err := rpc.FavoriteList(context.Background(), &favorite.FavoriteListRequest{
 		UserId: req.UserID,
-		Token:  req.Token,
 	})
 	if err != nil {
 		c.String(consts.StatusInternalServerError, err.Error())

@@ -9,6 +9,7 @@ import (
 	api "Simple-Douyin/cmd/api/biz/model/api"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/message"
+	"Simple-Douyin/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
@@ -28,8 +29,9 @@ func MessageAction(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
+	v, _ := c.Get(constants.IdentityKey)
 	err = rpc.SendMessage(context.Background(), &message.MessageActionRequest{
-		Token:      req.Token,
+		UserId:     v.(*api.User).ID,
 		ToUserId:   req.ToUserID,
 		ActionType: req.ActionType,
 		Content:    req.Content,
@@ -57,8 +59,9 @@ func MessageChat(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
+	v, _ := c.Get(constants.IdentityKey)
 	msgs, err := rpc.GetMessageHistory(context.Background(), &message.MessageChatRequest{
-		Token:    req.Token,
+		UserId:   v.(*api.User).ID,
 		ToUserId: req.ToUserID,
 	})
 	if err != nil {

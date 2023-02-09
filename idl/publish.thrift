@@ -21,7 +21,7 @@ struct Video {
 
 // 发布视频
 struct PublishActionRequest {
-    1: string token
+    1: i64 user_id
     2: binary data
     3: string title
 }
@@ -34,7 +34,6 @@ struct PublishActionResponse {
 // 发布列表
 struct PublishListRequest {
     1: i64 user_id
-    2: string token
 }
 
 struct PublishListResponse {

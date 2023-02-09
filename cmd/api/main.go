@@ -18,6 +18,7 @@
 package main
 
 import (
+	"Simple-Douyin/cmd/api/biz/mw"
 	"Simple-Douyin/cmd/api/rpc"
 	"math"
 
@@ -31,7 +32,7 @@ import (
 
 func Init() {
 	rpc.Init()
-	// mw.InitJWT()
+	mw.InitJWT()
 	// hlog init
 	hlog.SetLogger(hertzlogrus.NewLogger())
 	hlog.SetLevel(hlog.LevelInfo)

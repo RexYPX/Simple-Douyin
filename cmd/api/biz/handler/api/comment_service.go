@@ -9,6 +9,7 @@ import (
 	api "Simple-Douyin/cmd/api/biz/model/api"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/comment"
+	"Simple-Douyin/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -25,10 +26,10 @@ func CommentAction(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	// v, _ := c.Get(constants.IdentityKey)
+	v, _ := c.Get(constants.IdentityKey)
 	comment, err := rpc.CommentAction(context.Background(), &comment.CommentActionRequest{
-		Token:       req.Token,
-		VideoId:     req.VideoID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
+		UserId:      v.(*api.User).ID,
+		VideoId:     req.VideoID,
 		ActionType:  req.ActionType,
 		CommentText: req.CommentText,
 		CommentId:   req.CommentID,
@@ -54,10 +55,11 @@ func CommentList(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	// v, _ := c.Get(consts.IdentityKey)
+	// 可以在未登录的状态下返回评论列表的方式：1.干掉 JWT 验证；2. UserId = 0 表示未登录状态
+	// v, _ := c.Get(constants.IdentityKey)
 	commentList, err := rpc.CommentList(context.Background(), &comment.CommentListRequest{
-		Token:   req.Token,
-		VideoId: req.VideoID, // 此处是否需要使用 Get 进行存在性校验，由于使用 Token 作为全局唯一标识代替 UserID 而引入的问题
+		// UserId:  v.(*api.User).ID,
+		VideoId: req.VideoID,
 	})
 	if err != nil {
 		c.String(consts.StatusInternalServerError, err.Error())
