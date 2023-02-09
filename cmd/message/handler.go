@@ -15,8 +15,6 @@ type MeassgeServiceImpl struct{}
 func (s *MeassgeServiceImpl) MessageAction(ctx context.Context, req *message.MessageActionRequest) (resp *message.MessageActionResponse, err error) {
 	resp = new(message.MessageActionResponse)
 
-	klog.Info("MessageAction: ", req)
-
 	err = service.NewSendMessageService(ctx).SendMessage(req)
 	if err != nil {
 		resp.StatusCode = -1
