@@ -23,7 +23,7 @@ import (
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
 
 	"Simple-Douyin/cmd/favorite/dal/db"
-	favorite "Simple-Douyin/cmd/favorite/kitex_gen/favorite"
+	favorite "Simple-Douyin/kitex_gen/favorite"
 )
 
 type ActionFavoriteService struct {
@@ -39,22 +39,12 @@ func NewActionFavoriteService(ctx context.Context) *ActionFavoriteService {
 
 // like or dislike
 func (s *ActionFavoriteService) ActionFavorite(req *favorite.FavoriteActionRequest) error {
-	//for test
-	var usrid int64
-	var tousrid int64
-
-	usrid = 1
-	tousrid = 2
-
-	video_id := req.VideoId
-	action_type := req.ActionType
-
 	//1点赞
-	if action_type == 1 {
-		return db.Add(s.ctx, usrid, tousrid, video_id)
+	if req.ActionType == 1 {
+		return db.Add(s.ctx, req)
 	} else {
 		//2取消点赞
-		return db.Delete(s.ctx, usrid, tousrid, video_id)
+		return db.Delete(s.ctx, req)
 	}
 
 }
