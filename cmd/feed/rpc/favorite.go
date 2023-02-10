@@ -52,3 +52,21 @@ func FavoriteList(ctx context.Context, req *favorite.FavoriteListRequest) (*favo
 
 	return resp, nil
 }
+
+// FavoriteCount 此接口用于从 favorite 获取 FavoriteCount 的信息
+func FavoriteCount(ctx context.Context, req *favorite.FavoriteCountRequest) (*favorite.FavoriteCountResponse, error) {
+	resp, err := favoriteClient.FavoriteCount(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+// IsFavorite 此接口用于从 favorite 获取 IsFavorite
+func IsFavorite(ctx context.Context, req *favorite.IsFavoriteRequest) (*favorite.IsFavoriteResponse, error) {
+	resp, err := favoriteClient.IsFavorite(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
