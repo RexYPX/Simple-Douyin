@@ -1,8 +1,8 @@
 package main
 
 import (
-	favorite "Simple-Douyin/cmd/favorite/kitex_gen/favorite"
 	"Simple-Douyin/cmd/favorite/service"
+	favorite "Simple-Douyin/kitex_gen/favorite"
 	"context"
 )
 
@@ -14,9 +14,9 @@ func (s *FavoriteServiceImpl) FavoriteAction(ctx context.Context, req *favorite.
 	// TODO: Your code here...
 	resp = new(favorite.FavoriteActionResponse)
 
-	if len(req.Token) == 0 || req.ActionType <= 0 || req.ActionType >= 3 {
+	if req.ActionType <= 0 || req.ActionType >= 3 {
 		resp.StatusCode = 1
-		resp.StatusMsg = "点赞不合法,token、_id不能空,action_type只能是1或者2"
+		resp.StatusMsg = "点赞不合法,action_type只能是1或者2"
 		return resp, nil
 	}
 
@@ -42,8 +42,7 @@ func (s *FavoriteServiceImpl) FavoriteList(ctx context.Context, req *favorite.Fa
 		return resp, nil
 	}
 
-	video_list := make([]*favorite.Video, 0)
-	video_list, err = service.NewFavoriteListService(ctx).FavoriteList(req)
+	video_list, err := service.NewFavoriteListService(ctx).FavoriteList(req)
 
 	if err != nil {
 		resp.StatusCode = 1
@@ -55,4 +54,27 @@ func (s *FavoriteServiceImpl) FavoriteList(ctx context.Context, req *favorite.Fa
 	resp.StatusMsg = "拉取点赞视频成功"
 	resp.VideoList = video_list
 	return resp, nil
+}
+
+// FavoriteCount implements the FavoriteServiceImpl interface.
+// videoid  how many people like
+func (s *FavoriteServiceImpl) FavoriteCount(ctx context.Context, req *favorite.FavoriteCountRequest) (resp *favorite.FavoriteCountResponse, err error) {
+	// TODO: Your code here...
+	var favorite_count int64
+	favorite_count = 0
+	favorite_count, err = service.NewFavoriteCountService(ctx).FavoriteCount(req)
+
+	resp = new(favorite.FavoriteCountResponse)
+	resp.FavoriteCount = favorite_count
+	return resp, err
+}
+
+// IsFavorite implements the FavoriteServiceImpl interface.
+//
+//	ueser_id like video_id
+func (s *FavoriteServiceImpl) IsFavorite(ctx context.Context, req *favorite.IsFavoriteRequest) (resp *favorite.IsFavoriteResponse, err error) {
+	// TODO: Your code here...
+	resp = new(favorite.IsFavoriteResponse)
+	resp.IsFavorite, err = service.NewIsFavoriteService(ctx).IsFavorite(req)
+	return resp, err
 }

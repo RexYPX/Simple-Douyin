@@ -26,31 +26,18 @@ import (
 	favorite "Simple-Douyin/kitex_gen/favorite"
 )
 
-type FavoriteListService struct {
+type FavoriteCountService struct {
 	ctx context.Context
 }
 
-// NewFavoriteListService new FavoriteListService
-func NewFavoriteListService(ctx context.Context) *FavoriteListService {
-	return &FavoriteListService{
+// NewFavoriteCountService new FavoriteCountService
+func NewFavoriteCountService(ctx context.Context) *FavoriteCountService {
+	return &FavoriteCountService{
 		ctx: ctx,
 	}
 }
 
-// getlist
-func (s *FavoriteListService) FavoriteList(req *favorite.FavoriteListRequest) ([]*favorite.Video, error) {
+func (s *FavoriteCountService) FavoriteCount(req *favorite.FavoriteCountRequest) (int64, error) {
 	//拉取
-	videoids, err := db.QueryUsr(s.ctx, req.UserId)
-	if err != nil {
-		return nil, err
-	}
-
-	//for test
-	//rpc : videoids to video_list
-	video_list := make([]*favorite.Video, 0)
-	if len(videoids) == 1 {
-
-	}
-
-	return video_list, err
+	return db.QueryFavoriteCount(s.ctx, req.VideoId)
 }
