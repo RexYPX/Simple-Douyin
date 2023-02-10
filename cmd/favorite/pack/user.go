@@ -16,6 +16,9 @@
 package pack
 
 import (
+	"Simple-Douyin/kitex_gen/favorite"
+	"Simple-Douyin/kitex_gen/publish"
+
 	"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
 	"github.com/cloudwego/kitex-examples/bizdemo/easy_note/kitex_gen/userdemo"
 )
@@ -38,4 +41,26 @@ func Users(us []*db.User) []*userdemo.User {
 		}
 	}
 	return users
+}
+
+// publish.Video  to  favorite.Video
+func PublishVideo2FavoriteVideo(p_video []*publish.Video) []*favorite.Video {
+	f_video := make([]*favorite.Video, 0)
+
+	for _, item := range p_video {
+
+		temp := &favorite.Video{
+			Id:            item.Id,
+			Author:        (*favorite.User)(item.Author),
+			PlayUrl:       item.PlayUrl,
+			CoverUrl:      item.CoverUrl,
+			FavoriteCount: item.FavoriteCount,
+			CommentCount:  item.CommentCount,
+			IsFavorite:    item.IsFavorite,
+			Title:         item.Title,
+		}
+		f_video = append(f_video, temp)
+	}
+
+	return f_video
 }
