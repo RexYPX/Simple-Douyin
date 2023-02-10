@@ -22,4 +22,5 @@ func Init() {
 	initMessage()
 	initFeed()
 	initFavorite()
+	initPublish()
 }

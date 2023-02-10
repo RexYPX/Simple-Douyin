@@ -44,6 +44,9 @@ const (
 	MessageServicePort  = ":8801"
 	RelationServiceAddr = ":9999"
 	FeedServiceAddr     = ":9901"
+	PublishServiceAddr  = ":5557"
+	HertzServiceAddr    = ":8080"
+	HertzServiceIP      = "124.223.111.3"
 
 	TCP = "tcp"
 
