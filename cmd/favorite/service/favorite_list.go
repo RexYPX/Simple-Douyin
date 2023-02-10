@@ -22,8 +22,10 @@ import (
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/kitex_gen/userdemo"
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
 
-	"Simple-Douyin/cmd/favorite/dal/db"
+	"Simple-Douyin/cmd/api/rpc"
+	"Simple-Douyin/cmd/favorite/pack"
 	favorite "Simple-Douyin/kitex_gen/favorite"
+	"Simple-Douyin/kitex_gen/publish"
 )
 
 type FavoriteListService struct {
@@ -39,18 +41,9 @@ func NewFavoriteListService(ctx context.Context) *FavoriteListService {
 
 // getlist
 func (s *FavoriteListService) FavoriteList(req *favorite.FavoriteListRequest) ([]*favorite.Video, error) {
-	//拉取
-	videoids, err := db.QueryUsr(s.ctx, req.UserId)
-	if err != nil {
-		return nil, err
-	}
+	resp, err := rpc.PublishList(s.ctx, &publish.PublishListRequest{req.UserId})
 
-	//for test
-	//rpc : videoids to video_list
-	video_list := make([]*favorite.Video, 0)
-	if len(videoids) == 1 {
+	f_video := pack.PublishVideo2FavoriteVideo(resp.VideoList)
 
-	}
-
-	return video_list, err
+	return f_video, err
 }

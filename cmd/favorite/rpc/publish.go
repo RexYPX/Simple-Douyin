@@ -1,6 +1,7 @@
 package rpc
 
 import (
+	"context"
 	"time"
 
 	"Simple-Douyin/kitex_gen/publish"
@@ -39,26 +40,15 @@ func initPublish() {
 	publishClient = c
 }
 
-// videoid2videolist
-func GetVideo(videoids []int64) ([]*publish.Video, error) {
-	author := publish.User{
-		Id:            1,
-		Name:          "YPX",
-		FollowCount:   0,
-		FollowerCount: 0,
-		IsFollow:      false,
+// userid to videolist
+func PublishList(ctx context.Context, req *publish.PublishListRequest) (*publish.PublishListResponse, error) {
+	resp, err := publishClient.PublishList(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	if resp.StatusCode != 0 {
+		return resp, err
 	}
 
-	return []*publish.Video{
-		{
-			Id:            1,
-			Author:        &author,
-			PlayUrl:       "https://www.w3schools.com/html/movie.mp4",
-			CoverUrl:      "https://cdn.pixabay.com/photo/2016/03/27/18/10/bear-1283347_1280.jpg",
-			FavoriteCount: 0,
-			CommentCount:  0,
-			IsFavorite:    false,
-			Title:         "DemoVideo",
-		},
-	}, nil
+	return resp, nil
 }

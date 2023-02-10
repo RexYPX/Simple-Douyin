@@ -47,21 +47,29 @@ func (s *PublishListService) PublishList(req *publish.PublishListRequest) (vs []
 			IsFollow:      author.IsFollow,
 		}
 
-		favoriteList, err := rpc.FavoriteList(s.ctx, &favorite.FavoriteListRequest{
-			UserId: author.Id,
+		// favoriteList, err := rpc.FavoriteList(s.ctx, &favorite.FavoriteListRequest{
+		// 	UserId: author.Id,
+		// })
+		// if err != nil {
+		// 	log.Println("[ypx debug] Gorm rpc.FavoriteList err", err)
+		// 	return nil, err
+		// }
+		favorite_count, _ := rpc.FavoriteCount(s.ctx, &favorite.FavoriteCountRequest{
+			VideoId: int64(v.ID),
 		})
-		if err != nil {
-			log.Println("[ypx debug] Gorm rpc.FavoriteList err", err)
-			return nil, err
-		}
 
-		isFavorite := false
-		for _, vid := range favoriteList.VideoList {
-			if vid.Id == int64(v.ID) {
-				isFavorite = true
-				break
-			}
-		}
+		// isFavorite := false
+		// for _, vid := range favoriteList.VideoList {
+		// 	if vid.Id == int64(v.ID) {
+		// 		isFavorite = true
+		// 		break
+		// 	}
+		// }
+
+		is_favorite, _ := rpc.IsFavorite(s.ctx, &favorite.IsFavoriteRequest{
+			UserId:  int64(req.UserId),
+			VideoId: int64(v.ID),
+		})
 
 		commentCount, err := rpc.CommentCount(s.ctx, &comment.CommentListRequest{
 			UserId: author.Id,
@@ -72,14 +80,16 @@ func (s *PublishListService) PublishList(req *publish.PublishListRequest) (vs []
 		}
 
 		pv := publish.Video{
-			Id:            int64(v.ID),
-			Author:        pAuthor,
-			PlayUrl:       v.PlayUrl,
-			CoverUrl:      v.CoverUrl,
-			FavoriteCount: int64(len(favoriteList.VideoList)),
+			Id:       int64(v.ID),
+			Author:   pAuthor,
+			PlayUrl:  v.PlayUrl,
+			CoverUrl: v.CoverUrl,
+			// FavoriteCount: int64(len(favoriteList.VideoList)),
+			FavoriteCount: favorite_count.FavoriteCount,
 			CommentCount:  commentCount,
-			IsFavorite:    isFavorite,
-			Title:         v.Title,
+			// IsFavorite:    isFavorite,
+			IsFavorite: is_favorite.IsFavorite,
+			Title:      v.Title,
 		}
 		respVideos = append(respVideos, &pv)
 
