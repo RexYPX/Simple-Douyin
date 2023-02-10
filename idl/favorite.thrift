@@ -42,7 +42,26 @@ struct FavoriteListResponse {
 	3: list<Video> video_list
 }
 
+//favorite_count  videoid  how many people like
+struct FavoriteCountRequest {
+    1: i64 video_id
+}
+struct FavoriteCountResponse {
+    1: i64 favorite_count
+}
+
+//is_favorite   ueser_id like video_id
+struct IsFavoriteRequest {
+    1: i64 user_id
+    2:i64 video_id
+}
+struct IsFavoriteResponse {
+    1: bool  is_favorite
+}
+
 service FavoriteService {
 	FavoriteActionResponse FavoriteAction(1: FavoriteActionRequest req)
 	FavoriteListResponse FavoriteList(1: FavoriteListRequest req)
+    FavoriteCountResponse FavoriteCount(1:FavoriteCountRequest req)
+    IsFavoriteResponse IsFavorite(1:IsFavoriteRequest req)
 }

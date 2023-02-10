@@ -26,31 +26,18 @@ import (
 	favorite "Simple-Douyin/kitex_gen/favorite"
 )
 
-type FavoriteListService struct {
+type IsFavoriteService struct {
 	ctx context.Context
 }
 
-// NewFavoriteListService new FavoriteListService
-func NewFavoriteListService(ctx context.Context) *FavoriteListService {
-	return &FavoriteListService{
+// NewIsFavoriteService new IsFavoriteService
+func NewIsFavoriteService(ctx context.Context) *IsFavoriteService {
+	return &IsFavoriteService{
 		ctx: ctx,
 	}
 }
 
-// getlist
-func (s *FavoriteListService) FavoriteList(req *favorite.FavoriteListRequest) ([]*favorite.Video, error) {
-	//拉取
-	videoids, err := db.QueryUsr(s.ctx, req.UserId)
-	if err != nil {
-		return nil, err
-	}
-
-	//for test
-	//rpc : videoids to video_list
-	video_list := make([]*favorite.Video, 0)
-	if len(videoids) == 1 {
-
-	}
-
-	return video_list, err
+// ueser_id like video_id
+func (s *IsFavoriteService) IsFavorite(req *favorite.IsFavoriteRequest) (bool, error) {
+	return db.QueryIsFavorite(s.ctx, req)
 }
