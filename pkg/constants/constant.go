@@ -57,5 +57,6 @@ const (
 
 	DefaultLimit = 10
 
-	MaxFeed = 30
+	MaxFeed        = 30
+	MaxPublishSize = 1000000000
 )
