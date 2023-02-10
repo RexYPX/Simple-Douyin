@@ -18,6 +18,7 @@ package db
 import (
 	"context"
 
+	"Simple-Douyin/kitex_gen/favorite"
 	"Simple-Douyin/pkg/constants"
 
 	"gorm.io/gorm"
@@ -28,57 +29,42 @@ import (
 type User struct {
 	gorm.Model
 	// Id int64 `gorm:"primaryKey;autoIncrement" json:id`
-	UserId   int64 `json:"user_id"`
-	ToUserId int64 `json:"to_user_id"`
-	VideoId  int64 `json:"video_id"`
+	UserId  int64 `json:"user_id"`
+	VideoId int64 `json:"video_id"`
 }
 
 func (u *User) TableName() string {
-	return constants.UserTableName
+	return constants.FavoriteTableName
 }
 
-// // MGetUsers multiple get list of user info
-// func MGetUsers(ctx context.Context, userIDs []int64) ([]*User, error) {
-// 	res := make([]*User, 0)
-// 	if len(userIDs) == 0 {
-// 		return res, nil
-// 	}
-
-// 	if err := DB.WithContext(ctx).Where("id in ?", userIDs).Find(&res).Error; err != nil {
-// 		return nil, err
-// 	}
-// 	return res, nil
-// }
-
-func Delete(ctx context.Context, usrid int64, tousrid int64, video_id int64) error {
-	return DB.WithContext(ctx).Where("user_id = ? and to_user_id = ? and video_id = ?", usrid, tousrid, video_id).Delete(&User{}).Error
+func Delete(ctx context.Context, req *favorite.FavoriteActionRequest) error {
+	return DB.WithContext(ctx).Where("user_id = ? and video_id = ?", req.UserId, req.VideoId).Delete(&User{}).Error
 }
 
 // add favorite
-func Add(ctx context.Context, usrid int64, tousrid int64, video_id int64) error {
+func Add(ctx context.Context, req *favorite.FavoriteActionRequest) error {
 	var res []*User
 
 	//如果存在，不再增加
-	if err := DB.WithContext(ctx).Where("user_id = ? and to_user_id = ? and video_id = ?", usrid, tousrid, video_id).Find(&res).Error; err != nil {
-		fmt.Println("错误")
+	if err := DB.WithContext(ctx).Where("user_id = ? and video_id = ?", req.UserId, req.VideoId).Find(&res).Error; err != nil {
+		fmt.Println("如果存在，不再增加")
 		return nil
 	}
 
 	if len(res) != 0 {
-		fmt.Println("db.Add 如果存在，不再增加", video_id)
+		fmt.Println("db.Add 如果存在，不再增加", req.VideoId)
 		return nil
 	}
 
 	//如果不存在，增加
 	u := new(User)
-	u.UserId = usrid
-	u.ToUserId = tousrid
-	u.VideoId = video_id
+	u.UserId = req.UserId
+	u.VideoId = req.VideoId
 	if err := DB.WithContext(ctx).Create(u).Error; err != nil {
-		fmt.Println("db.Add 增加失败", video_id)
+		fmt.Println("db.Add 增加失败 UserId   VideoId", req.UserId, req.VideoId)
 		return err
 	}
-	fmt.Println("db.Add 增加成功")
+	fmt.Println("db.Add 增加成功 UserId   VideoId", req.UserId, req.VideoId)
 	return nil
 }
 
@@ -92,8 +78,40 @@ func QueryUsr(ctx context.Context, usrid int64) ([]int64, error) {
 	var video_id []int64
 	for _, users := range res {
 		video_id = append(video_id, users.VideoId)
-		fmt.Println("video_id:", video_id)
+	}
+	fmt.Print("user_id:", usrid)
+	for _, vid := range video_id {
+		fmt.Print("  video_id:", vid)
+	}
+	fmt.Println()
+	return video_id, nil
+}
+
+// favorite_count  videoid  how many people like
+func QueryFavoriteCount(ctx context.Context, video_id int64) (int64, error) {
+	var favorite_count int64
+	favorite_count = 0
+	res := make([]*User, 0)
+	if err := DB.WithContext(ctx).Where("video_id = ?", video_id).Find(&res).Error; err != nil {
+		fmt.Println("favorite_count:", favorite_count)
+		return favorite_count, err
 	}
 
-	return video_id, nil
+	favorite_count = int64(len(res))
+	fmt.Println("favorite_count:", favorite_count)
+	return favorite_count, nil
+}
+
+// is_favorite   ueser_id like video_id
+func QueryIsFavorite(ctx context.Context, req *favorite.IsFavoriteRequest) (bool, error) {
+	res := make([]*User, 0)
+	DB.WithContext(ctx).Where("user_id = ? and video_id = ?", req.UserId, req.VideoId).Find(&res)
+
+	if len(res) == 0 {
+		fmt.Println("user like this video  UserId   VideoId", req.UserId, req.VideoId)
+		return false, nil
+	}
+
+	fmt.Println("user do not like this video")
+	return true, nil
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"Simple-Douyin/cmd/favorite/dal"
-	favorite "Simple-Douyin/cmd/favorite/kitex_gen/favorite/favoriteservice"
+	favorite "Simple-Douyin/kitex_gen/favorite/favoriteservice"
 	"Simple-Douyin/pkg/constants"
 	"net"
 

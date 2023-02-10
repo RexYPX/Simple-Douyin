@@ -23,7 +23,7 @@ import (
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
 
 	"Simple-Douyin/cmd/favorite/dal/db"
-	favorite "Simple-Douyin/cmd/favorite/kitex_gen/favorite"
+	favorite "Simple-Douyin/kitex_gen/favorite"
 )
 
 type FavoriteListService struct {
@@ -40,12 +40,7 @@ func NewFavoriteListService(ctx context.Context) *FavoriteListService {
 // getlist
 func (s *FavoriteListService) FavoriteList(req *favorite.FavoriteListRequest) ([]*favorite.Video, error) {
 	//拉取
-	var userid int64
-	//for test
-	//req to userid
-	userid = 1
-
-	videoids, err := db.QueryUsr(s.ctx, userid)
+	videoids, err := db.QueryUsr(s.ctx, req.UserId)
 	if err != nil {
 		return nil, err
 	}
