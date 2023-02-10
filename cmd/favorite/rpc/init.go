@@ -1,6 +1,6 @@
 package rpc
 
 // Init init rpc client
-func Init() {
+func InitRPCFavorite() {
 	initPublish()
 }
