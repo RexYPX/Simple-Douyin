@@ -3,7 +3,7 @@
 package publishservice
 
 import (
-	publish "Simple-Douyin/cmd/publish/kitex_gen/publish"
+	publish "Simple-Douyin/kitex_gen/publish"
 	server "github.com/cloudwego/kitex/server"
 )
 
