@@ -5,7 +5,7 @@ import (
 	"Simple-Douyin/cmd/publish/rpc"
 	"Simple-Douyin/kitex_gen/comment"
 	"Simple-Douyin/kitex_gen/favorite"
-	"Simple-Douyin/kitex_gen/publish"
+	publish "Simple-Douyin/kitex_gen/publish"
 	"Simple-Douyin/kitex_gen/user"
 	"context"
 	"log"

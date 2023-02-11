@@ -42,7 +42,17 @@ struct PublishListResponse {
     3: list<Video> video_list
 }
 
+//video_id[]  to video_list
+struct Ids2ListRequest{
+    1:list<i64> video_id
+    2:i64 user_id
+}
+struct Ids2ListResponse{
+    1:list<Video> video_list
+}
+
 service PublishService {
     PublishActionResponse PublishAction(1: PublishActionRequest req)
     PublishListResponse PublishList(1: PublishListRequest req)
+    Ids2ListResponse PublishIds2List(1:Ids2ListRequest req)
 }
