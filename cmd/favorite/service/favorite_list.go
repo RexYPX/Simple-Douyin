@@ -41,7 +41,7 @@ func NewFavoriteListService(ctx context.Context) *FavoriteListService {
 
 // getlist
 func (s *FavoriteListService) FavoriteList(req *favorite.FavoriteListRequest) ([]*favorite.Video, error) {
-	resp, err := rpc.PublishList(s.ctx, &publish.PublishListRequest{req.UserId})
+	resp, err := rpc.PublishList(s.ctx, &publish.PublishListRequest{UserId: req.UserId})
 
 	f_video := pack.PublishVideo2FavoriteVideo(resp.VideoList)
 
