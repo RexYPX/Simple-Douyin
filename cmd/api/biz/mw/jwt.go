@@ -73,20 +73,34 @@ func InitJWT() {
 				Username: req.Username,
 				Password: req.Password,
 			})
+			c.Set(constants.IdentityId, u.UserId)
 
 			return u.UserId, err
 		},
 		LoginResponse: func(ctx context.Context, c *app.RequestContext, code int, token string, expire time.Time) {
+			uid, exist := c.Get(constants.IdentityId)
+			if !exist {
+				c.JSON(http.StatusOK, utils.H{
+					"status_code": errno.Success.ErrCode,
+					"status_msg":  "There is no token in the context",
+					"user_id":     0,
+					"token":       "InvalidToken",
+				})
+			}
 			c.JSON(http.StatusOK, utils.H{
-				"code":   errno.Success.ErrCode,
-				"token":  token,
-				"expire": expire.Format(time.RFC3339),
+				"status_code": errno.Success.ErrCode,
+				"status_msg":  "Login success!",
+				"user_id":     uid,
+				"token":       token,
+				// "expire":      expire.Format(time.RFC3339),
 			})
 		},
 		Unauthorized: func(ctx context.Context, c *app.RequestContext, code int, message string) {
 			c.JSON(http.StatusOK, utils.H{
-				"code":    errno.AuthorizationFailedErr.ErrCode,
-				"message": message,
+				"status_code": errno.AuthorizationFailedErr.ErrCode,
+				"status_msg":  message,
+				"user_id":     0,
+				"token":       "UnauthorizedToken",
 			})
 		},
 		HTTPStatusMessageFunc: func(e error, ctx context.Context, c *app.RequestContext) string {
