@@ -33,6 +33,7 @@ func Feed(ctx context.Context, c *app.RequestContext) {
 	if v, exist := c.Get(constants.IdentityKey); exist {
 		uid = v.(*api.User).ID
 	}
+	log.Println("[ypx debug] api feed userid", uid)
 	next_time, videos, err := rpc.Feed(context.Background(), &feed.FeedRequest{
 		LatestTime: req.LatestTime,
 		UserId:     uid,

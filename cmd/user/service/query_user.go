@@ -39,7 +39,7 @@ func (s *QueryUserService) QueryUser(req *user.UserInfoRequest) (*user.UserInfoR
 		Id:            u.Id,
 		FollowCount:   u.FollowCount,
 		FollowerCount: u.FollowerCount,
-		// IsFollow:      true,
+		IsFollow:      true,
 	}
 
 	return resp, nil

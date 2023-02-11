@@ -18,8 +18,12 @@ package db
 
 import (
 	"context"
+	"errors"
+	"log"
 
 	"Simple-Douyin/pkg/constants"
+
+	"gorm.io/gorm"
 )
 
 type User struct {
@@ -86,4 +90,23 @@ func QueryInfo(ctx context.Context, userid int64) ([]*User, error) {
 		return nil, err
 	}
 	return res, nil
+}
+
+type Relation struct {
+	gorm.Model
+	// Id       int64 `grom:"primaryKey;autoIncrement" json:"id"`                       // 关注唯一标识符
+	UserId   int64 `gorm:"index:idx_member, priority:1, not null" json:"user_id"`    // 发起关注者ID
+	ToUserId int64 `gorm:"index:idx_member, priority:2, not null" json:"to_user_id"` // 被关注者ID
+}
+
+func QueryIsFollow(ctx context.Context, userId int64, toUserId int64) (bool, error) {
+	err := DB.Table("relation").Where("user_id = ? and to_user_id = ?", userId, toUserId).First(&Relation{}).Error
+	if err != nil {
+		log.Println("[ypx debug] user query isFollow err ", err)
+		return false, err
+	}
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return false, nil
+	}
+	return true, nil
 }

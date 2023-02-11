@@ -31,22 +31,58 @@ type Relation struct {
 	ToUserId int64 `gorm:"index:idx_member, priority:2, not null" json:"to_user_id"` // 被关注者ID
 }
 
+type User struct {
+	//gorm.Model
+	//id       int64
+	//username string `json:"user_name"`
+	//password string `json:"password"`
+
+	Id            int64  `gorm:"primaryKey;autoIncrement" json:"id"`                //用户唯一标志符号
+	Username      string `gorm:"type:varchar(128);not null;index" json:"user_name"` //用户名
+	Password      string `gorm:"type:varchar(128);not null" json:"password"`        //用户密码
+	FollowCount   int64  `gorm:"not null;default:0" json:"follow_count"`            //关注数
+	FollowerCount int64  `gorm:"not null;default:0" json:"follower_count"`          //粉丝数
+	FavoriteCount int64  `gorm:"not null;default:0" json:"favorite_count"`          //喜欢数
+	TotalFavorite int64  `gorm:"not null;default:0" json:"total_favorite"`          //被赞数
+	Avatar        string //用户头像链接Url
+	Signature     string //用户个性签名
+	Encryption    string //使用的加密手段
+	Iter          int    //加密算法迭代次数
+}
+
 func (r *Relation) TableName() string {
 	return constants.RelationTableName
 }
 
 // CreateRelation create relation
-func CreateRelation(ctx context.Context, relations []*Relation) error {
-	for _, r := range relations {
-		if err := DB.WithContext(ctx).Where("user_id = ? and to_user_id = ?", r.UserId, r.ToUserId).Find(&Relation{}).Error; err != nil {
-			return err
-		}
+func CreateRelation(ctx context.Context, r *Relation) error {
+	if err := DB.WithContext(ctx).Where("user_id = ? and to_user_id = ?", r.UserId, r.ToUserId).First(&Relation{}).Error; err != nil {
+		return err
 	}
-	return DB.WithContext(ctx).Create(relations).Error
+
+	// if err := DB.Table("user").Where("user_id = ?", r.UserId).Model(&User{}).Update("follow_count", gorm.Expr("follow_count + ?", 1)).Error; err != nil {
+	// 	log.Println("[ypx debug] relation CreateRelation add user follow_count err", err)
+	// 	return err
+	// }
+	// if err := DB.Table("user").Where("user_id = ?", r.ToUserId).Model(&User{}).Update("follower_count", gorm.Expr("follower_count + ?", 1)).Error; err != nil {
+	// 	log.Println("[ypx debug] relation CreateRelation add user follower_count err", err)
+	// 	return err
+	// }
+
+	return DB.WithContext(ctx).Create(r).Error
 }
 
 // DeleteRelation delete relation
 func DeleteRelation(ctx context.Context, userId int64, toUserId int64) error {
+	// if err := DB.Table("user").Where("user_id = ?", userId).Model(&User{}).Update("follow_count", gorm.Expr("follow_count - ?", 1)).Error; err != nil {
+	// 	log.Println("[ypx debug] relation CreateRelation minus user follow_count err", err)
+	// 	return err
+	// }
+	// if err := DB.Table("user").Where("user_id = ?", toUserId).Model(&User{}).Update("follower_count", gorm.Expr("follower_count - ?", 1)).Error; err != nil {
+	// 	log.Println("[ypx debug] relation CreateRelation minus user follower_count err", err)
+	// 	return err
+	// }
+
 	return DB.WithContext(ctx).Where("user_id = ? and to_user_id = ?", userId, toUserId).Delete(&Relation{}).Error
 }
 

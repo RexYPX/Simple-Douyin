@@ -13,7 +13,6 @@ import (
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	etcd "github.com/kitex-contrib/registry-etcd"
-	"gorm.io/plugin/opentelemetry/provider"
 )
 
 var feedClient feedservice.Client
@@ -23,11 +22,11 @@ func initFeed() {
 	if err != nil {
 		panic(err)
 	}
-	provider.NewOpenTelemetryProvider(
-		provider.WithServiceName(constants.ApiServiceName),
-		provider.WithExportEndpoint(constants.ExportEndpoint),
-		provider.WithInsecure(),
-	)
+	// provider.NewOpenTelemetryProvider(
+	// 	provider.WithServiceName(constants.ApiServiceName),
+	// 	provider.WithExportEndpoint(constants.ExportEndpoint),
+	// 	provider.WithInsecure(),
+	// )
 	c, err := feedservice.NewClient(
 		constants.FeedServiceName,
 		client.WithResolver(r),

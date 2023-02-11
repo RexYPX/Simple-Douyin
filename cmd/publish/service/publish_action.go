@@ -11,6 +11,8 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"time"
 )
 
 type PublishActionService struct {
@@ -69,10 +71,11 @@ func (s *PublishActionService) PublishAction(req *publish.PublishActionRequest) 
 	coverURL := "http://" + constants.HertzServiceIP + constants.FileServerAddr + "/cover/" + cName + ".png"
 
 	videoModel := &db.Video{
-		UserId:   req.UserId,
-		PlayUrl:  playURL,
-		CoverUrl: coverURL,
-		Title:    title,
+		UserId:     req.UserId,
+		PlayUrl:    playURL,
+		CoverUrl:   coverURL,
+		CreateTime: time.Now().Unix(),
+		Title:      title,
 	}
 
 	err = db.CreateVideo(s.ctx, []*db.Video{videoModel})

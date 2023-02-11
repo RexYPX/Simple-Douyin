@@ -14,7 +14,6 @@ import (
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	etcd "github.com/kitex-contrib/registry-etcd"
-	"gorm.io/plugin/opentelemetry/provider"
 )
 
 var relationClient relationservice.Client
@@ -24,11 +23,11 @@ func initRelation() {
 	if err != nil {
 		panic(err)
 	}
-	provider.NewOpenTelemetryProvider(
-		provider.WithServiceName(constants.ApiServiceName),
-		provider.WithExportEndpoint(constants.ExportEndpoint),
-		provider.WithInsecure(),
-	)
+	// provider.NewOpenTelemetryProvider(
+	// 	provider.WithServiceName(constants.ApiServiceName),
+	// 	provider.WithExportEndpoint(constants.ExportEndpoint),
+	// 	provider.WithInsecure(),
+	// )
 	c, err := relationservice.NewClient(
 		constants.RelationServiceName,
 		client.WithResolver(r),

@@ -25,7 +25,7 @@ func (s *FeedService) Feed(req *feed.FeedRequest) (int64, []*feed.Video, error) 
 
 	// TODO: 根据 Token 进行个性化feed
 
-	dbVideos, err := db.QueryVideo(s.ctx, req.LatestTime)
+	dbVideos, err := db.QueryVideoFromTime(s.ctx, req.LatestTime)
 	if err != nil {
 		log.Println("[ypx debug] service feed dbVideos get error")
 		return 0, nil, err
@@ -35,7 +35,7 @@ func (s *FeedService) Feed(req *feed.FeedRequest) (int64, []*feed.Video, error) 
 	var videos []*feed.Video
 	for _, dbV := range dbVideos {
 		user, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{
-			UserId: req.UserId,
+			UserId: dbV.UserId,
 		})
 		if err != nil {
 			return 0, nil, err
@@ -101,7 +101,7 @@ func (s *FeedService) Feed(req *feed.FeedRequest) (int64, []*feed.Video, error) 
 		return next_time, videos, nil
 	}
 
-	next_time := dbVideos[0].CreatedAt.Unix()
+	next_time := dbVideos[0].CreateTime
 
 	return next_time, videos, nil
 }

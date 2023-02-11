@@ -37,14 +37,12 @@ func (s *RelationActionService) RelationAction(req *relation.RelationActionReque
 
 	actionType := req.ActionType
 
-	relationModel := &db.Relation{
-		UserId:   req.UserId,
-		ToUserId: toUserId,
-	}
-
 	// 关注
 	if actionType == 1 {
-		return db.CreateRelation(s.ctx, []*db.Relation{relationModel})
+		return db.CreateRelation(s.ctx, &db.Relation{
+			UserId:   req.UserId,
+			ToUserId: toUserId,
+		})
 	}
 	// 取消关注
 	return db.DeleteRelation(s.ctx, req.UserId, toUserId)

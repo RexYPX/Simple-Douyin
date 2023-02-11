@@ -86,6 +86,7 @@ func InitJWT() {
 					"user_id":     0,
 					"token":       "InvalidToken",
 				})
+				return
 			}
 			c.JSON(http.StatusOK, utils.H{
 				"status_code": errno.Success.ErrCode,
@@ -98,7 +99,7 @@ func InitJWT() {
 		Unauthorized: func(ctx context.Context, c *app.RequestContext, code int, message string) {
 			c.JSON(http.StatusOK, utils.H{
 				"status_code": errno.AuthorizationFailedErr.ErrCode,
-				"status_msg":  message,
+				"status_msg":  "",
 				"user_id":     0,
 				"token":       "UnauthorizedToken",
 			})
