@@ -64,6 +64,7 @@ const (
 
 	EtcdAddress    = "127.0.0.1:2379"
 	ExportEndpoint = ":4317"
+	RedisAddr      = ":6379"
 
 	DefaultLimit = 10
 

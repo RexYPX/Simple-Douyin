@@ -40,12 +40,12 @@ func main() {
 		//resp, err := client.UserRegister(context.Background(), req)
 
 		//userregister 测试（有mysql）
-		req := &user.UserLoginRequest{Username: "kirsury", Password: "123456"}
-		resp, err := client.UserLogin(context.Background(), req)
+		//req := &user.UserLoginRequest{Username: "kirsury", Password: "123456"}
+		//resp, err := client.UserLogin(context.Background(), req)
 
 		//userinfo 测试(无mysql)
-		//req := &user.UserInfoRequest{UserId: "1", Token: "2"}
-		//resp, err := client.UserInfo(context.Background(), req)
+		req := &user.UserInfoRequest{UserId: 1}
+		resp, err := client.UserInfo(context.Background(), req)
 
 		//
 		if err != nil {
