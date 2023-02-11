@@ -54,7 +54,7 @@ func PublishAction(ctx context.Context, req *publish.PublishActionRequest) error
 }
 
 // PublishList query list of publish info
-func PublishList(ctx context.Context, req *publish.PublishListRequest) (*publish.PublishListResponse, error) {
+func PublishList(ctx context.Context, req *publish.PublishListRequest) ([]*publish.Video, error) {
 	resp, err := publishClient.PublishList(ctx, req)
 	if err != nil {
 		return nil, err
@@ -63,5 +63,5 @@ func PublishList(ctx context.Context, req *publish.PublishListRequest) (*publish
 		return nil, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
 	}
 
-	return resp, nil
+	return resp.VideoList, nil
 }
