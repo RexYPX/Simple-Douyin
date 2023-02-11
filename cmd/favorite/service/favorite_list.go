@@ -22,8 +22,8 @@ import (
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/kitex_gen/userdemo"
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
 
-	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/cmd/favorite/pack"
+	"Simple-Douyin/cmd/favorite/rpc"
 	favorite "Simple-Douyin/kitex_gen/favorite"
 	"Simple-Douyin/kitex_gen/publish"
 )
