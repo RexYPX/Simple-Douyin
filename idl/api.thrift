@@ -271,5 +271,5 @@ struct MessageChatResponse {
 
 service MeassgeService {
 	MessageActionResponse MessageAction(1: MessageActionRequest req) (api.post="/douyin/message/action/")
-	MessageChatResponse MessageChat(1: MessageChatRequest req) (api.post="/douyin/message/chat/")
+	MessageChatResponse MessageChat(1: MessageChatRequest req) (api.get="/douyin/message/chat/")
 }

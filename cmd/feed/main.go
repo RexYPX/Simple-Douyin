@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Simple-Douyin/cmd/feed/dal"
 	"Simple-Douyin/cmd/feed/rpc"
 	feed "Simple-Douyin/kitex_gen/feed/feedservice"
 	"Simple-Douyin/pkg/constants"
@@ -15,6 +16,7 @@ import (
 )
 
 func Init() {
+	dal.Init()
 	rpc.Init()
 	// klog init
 	klog.SetLogger(kitexlogrus.NewLogger())

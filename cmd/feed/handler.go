@@ -19,16 +19,18 @@ func (s *FeedServiceImpl) Feed(ctx context.Context, req *feed.FeedRequest) (resp
 
 	feedServiceReq := new(feed.FeedRequest)
 
+	feedServiceReq.UserId = req.UserId
+
 	// 用户没有登录 且 第一次打开
-	if req.LatestTime < 0 {
-		log.Println("[ypx debug] kitex handler req.LatestTime < 0 ")
+	if req.LatestTime <= 0 {
 		feedServiceReq.LatestTime = time.Now().Unix()
+		log.Println("[ypx debug] kitex handler req.LatestTime <= 0 ", feedServiceReq.LatestTime)
 	}
 
 	log.Println("[ypx debug] kitex handler prepare to service.NewFeedService(ctx).Feed(feedServiceReq)")
 	next_time, videos, err := service.NewFeedService(ctx).Feed(feedServiceReq)
 	if err != nil {
-		log.Println("[ypx debug] kitex handler service.NewFeedService(ctx).Feed(feedServiceReq) err")
+		log.Println("[ypx debug] kitex handler service.NewFeedService(ctx).Feed(feedServiceReq) err", err)
 		resp.StatusCode = -1
 		resp.StatusMsg = "视频流推送失败"
 		return resp, nil

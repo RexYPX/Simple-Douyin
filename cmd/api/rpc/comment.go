@@ -12,7 +12,6 @@ import (
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/kitex-contrib/obs-opentelemetry/tracing"
 	etcd "github.com/kitex-contrib/registry-etcd"
-	"gorm.io/plugin/opentelemetry/provider"
 )
 
 var commentClient commentservice.Client
@@ -22,11 +21,11 @@ func initComment() {
 	if err != nil {
 		panic(err)
 	}
-	provider.NewOpenTelemetryProvider(
-		provider.WithServiceName(constants.ApiServiceName),
-		provider.WithExportEndpoint(constants.ExportEndpoint),
-		provider.WithInsecure(),
-	)
+	// provider.NewOpenTelemetryProvider(
+	// 	provider.WithServiceName(constants.ApiServiceName),
+	// 	provider.WithExportEndpoint(constants.ExportEndpoint),
+	// 	provider.WithInsecure(),
+	// )
 	c, err := commentservice.NewClient(
 		constants.CommentServiceName,
 		client.WithResolver(r),
