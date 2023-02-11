@@ -41,14 +41,10 @@ func initPublish() {
 }
 
 // userid to videolist
-func PublishList(ctx context.Context, req *publish.PublishListRequest) (*publish.PublishListResponse, error) {
-	resp, err := publishClient.PublishList(ctx, req)
+func PublishIds2List(ctx context.Context, req *publish.Ids2ListRequest) (*publish.Ids2ListResponse, error) {
+	resp, err := publishClient.PublishIds2List(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode != 0 {
-		return resp, err
-	}
-
 	return resp, nil
 }

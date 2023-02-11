@@ -105,6 +105,23 @@ func QueryVideoFromTime(ctx context.Context, latestTime int64) ([]*Video, error)
 	return res, nil
 }
 
+// videoids  []int64   to db.video  []*Video
+func PublishIds2List(ctx context.Context, video_ids []int64) []*Video {
+	var res []*Video
+
+	for _, vid := range video_ids {
+		temp := make([]*Video, 0)
+		DB.WithContext(ctx).Where("id = ?", vid).Find(&temp)
+		if len(temp) != 0 {
+			res = append(res, temp[0])
+		}
+	}
+	if len(res) == 0 {
+		log.Println("[]*Video res is blank!!!!")
+	}
+	return res
+}
+
 // // DeleteComment delete comment info
 // func DeleteVideo(ctx context.Context, videoID int64) error {
 // 	return DB.WithContext(ctx).Where("id = ?", videoID).Delete(&Video{}).Error

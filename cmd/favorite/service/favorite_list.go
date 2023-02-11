@@ -18,10 +18,12 @@ package service
 
 import (
 	"context"
+	"log"
 
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/kitex_gen/userdemo"
 	//"github.com/cloudwego/kitex-examples/bizdemo/easy_note/cmd/user/dal/db"
 
+	"Simple-Douyin/cmd/favorite/dal/db"
 	"Simple-Douyin/cmd/favorite/pack"
 	"Simple-Douyin/cmd/favorite/rpc"
 	favorite "Simple-Douyin/kitex_gen/favorite"
@@ -41,7 +43,14 @@ func NewFavoriteListService(ctx context.Context) *FavoriteListService {
 
 // getlist
 func (s *FavoriteListService) FavoriteList(req *favorite.FavoriteListRequest) ([]*favorite.Video, error) {
-	resp, err := rpc.PublishList(s.ctx, &publish.PublishListRequest{UserId: req.UserId})
+	//本用户id + video_id[]  获取 video_list
+	video_ids, _ := db.QueryUsr(s.ctx, req.UserId)
+
+	if len(video_ids) == 0 {
+		log.Println("FavoriteList : video_ids is blank")
+	}
+
+	resp, err := rpc.PublishIds2List(s.ctx, &publish.Ids2ListRequest{VideoId: video_ids, UserId: req.UserId})
 
 	f_video := pack.PublishVideo2FavoriteVideo(resp.VideoList)
 

@@ -3,7 +3,7 @@
 package publishservice
 
 import (
-	publish "Simple-Douyin/cmd/publish/kitex_gen/publish"
+	publish "Simple-Douyin/kitex_gen/publish"
 	"context"
 	client "github.com/cloudwego/kitex/client"
 	kitex "github.com/cloudwego/kitex/pkg/serviceinfo"
@@ -19,8 +19,9 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "PublishService"
 	handlerType := (*publish.PublishService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"PublishAction": kitex.NewMethodInfo(publishActionHandler, newPublishServicePublishActionArgs, newPublishServicePublishActionResult, false),
-		"PublishList":   kitex.NewMethodInfo(publishListHandler, newPublishServicePublishListArgs, newPublishServicePublishListResult, false),
+		"PublishAction":   kitex.NewMethodInfo(publishActionHandler, newPublishServicePublishActionArgs, newPublishServicePublishActionResult, false),
+		"PublishList":     kitex.NewMethodInfo(publishListHandler, newPublishServicePublishListArgs, newPublishServicePublishListResult, false),
+		"PublishIds2List": kitex.NewMethodInfo(publishIds2ListHandler, newPublishServicePublishIds2ListArgs, newPublishServicePublishIds2ListResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "publish",
@@ -72,6 +73,24 @@ func newPublishServicePublishListResult() interface{} {
 	return publish.NewPublishServicePublishListResult()
 }
 
+func publishIds2ListHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*publish.PublishServicePublishIds2ListArgs)
+	realResult := result.(*publish.PublishServicePublishIds2ListResult)
+	success, err := handler.(publish.PublishService).PublishIds2List(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newPublishServicePublishIds2ListArgs() interface{} {
+	return publish.NewPublishServicePublishIds2ListArgs()
+}
+
+func newPublishServicePublishIds2ListResult() interface{} {
+	return publish.NewPublishServicePublishIds2ListResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -97,6 +116,16 @@ func (p *kClient) PublishList(ctx context.Context, req *publish.PublishListReque
 	_args.Req = req
 	var _result publish.PublishServicePublishListResult
 	if err = p.c.Call(ctx, "PublishList", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) PublishIds2List(ctx context.Context, req *publish.Ids2ListRequest) (r *publish.Ids2ListResponse, err error) {
+	var _args publish.PublishServicePublishIds2ListArgs
+	_args.Req = req
+	var _result publish.PublishServicePublishIds2ListResult
+	if err = p.c.Call(ctx, "PublishIds2List", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

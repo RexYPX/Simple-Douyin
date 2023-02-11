@@ -3,7 +3,7 @@
 package publishservice
 
 import (
-	publish "Simple-Douyin/cmd/publish/kitex_gen/publish"
+	publish "Simple-Douyin/kitex_gen/publish"
 	"context"
 	client "github.com/cloudwego/kitex/client"
 	callopt "github.com/cloudwego/kitex/client/callopt"
@@ -13,6 +13,7 @@ import (
 type Client interface {
 	PublishAction(ctx context.Context, req *publish.PublishActionRequest, callOptions ...callopt.Option) (r *publish.PublishActionResponse, err error)
 	PublishList(ctx context.Context, req *publish.PublishListRequest, callOptions ...callopt.Option) (r *publish.PublishListResponse, err error)
+	PublishIds2List(ctx context.Context, req *publish.Ids2ListRequest, callOptions ...callopt.Option) (r *publish.Ids2ListResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -52,4 +53,9 @@ func (p *kPublishServiceClient) PublishAction(ctx context.Context, req *publish.
 func (p *kPublishServiceClient) PublishList(ctx context.Context, req *publish.PublishListRequest, callOptions ...callopt.Option) (r *publish.PublishListResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.PublishList(ctx, req)
+}
+
+func (p *kPublishServiceClient) PublishIds2List(ctx context.Context, req *publish.Ids2ListRequest, callOptions ...callopt.Option) (r *publish.Ids2ListResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.PublishIds2List(ctx, req)
 }

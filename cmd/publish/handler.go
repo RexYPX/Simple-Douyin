@@ -64,3 +64,10 @@ func (s *PublishServiceImpl) PublishList(ctx context.Context, req *publish.Publi
 	log.Println("[ypx debug] kitex PublishList success")
 	return resp, nil
 }
+
+// PublishIds2List implements the PublishServiceImpl interface.
+func (s *PublishServiceImpl) PublishIds2List(ctx context.Context, req *publish.Ids2ListRequest) (resp *publish.Ids2ListResponse, err error) {
+	// TODO: Your code here...
+	resp, err = service.NewPublishIds2ListService(ctx).PublishIds2List(req)
+	return resp, err
+}
