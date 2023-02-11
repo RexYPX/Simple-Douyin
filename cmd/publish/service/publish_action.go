@@ -31,7 +31,7 @@ func (s *PublishActionService) PublishAction(req *publish.PublishActionRequest) 
 
 	pwd, err := os.Getwd()
 	log.Println("[ypx bebug] ", pwd)
-	finalName := fmt.Sprintf("%s/public/%d_%s", pwd, req.UserId, req.Title)
+	finalName := fmt.Sprintf("%s/public/video/%d_%s", pwd, req.UserId, req.Title)
 
 	if err != nil {
 		log.Println("[ypx debug] kitex PublishAction pwd err ", err)
@@ -51,7 +51,7 @@ func (s *PublishActionService) PublishAction(req *publish.PublishActionRequest) 
 	log.Println("write data len: ", wlen)
 	defer f.Close()
 
-	coverName := fmt.Sprintf("%s/cover/%d_%s", pwd, req.UserId, title)
+	coverName := fmt.Sprintf("%s/public/cover/%d_%s", pwd, req.UserId, title)
 	// 获取视频封面
 	pack.GetSnapshot(finalName, coverName, 1)
 
@@ -62,8 +62,11 @@ func (s *PublishActionService) PublishAction(req *publish.PublishActionRequest) 
 	// 	return err
 	// }
 
-	playURL := "http://" + constants.HertzServiceIP + constants.HertzServiceAddr + finalName
-	coverURL := "http://" + constants.HertzServiceIP + constants.HertzServiceAddr + coverName + ".png"
+	vName := fmt.Sprintf("%d_%s", req.UserId, req.Title)
+	cName := fmt.Sprintf("%d_%s", req.UserId, title)
+
+	playURL := "http://" + constants.HertzServiceIP + constants.FileServerAddr + "/video/" + vName
+	coverURL := "http://" + constants.HertzServiceIP + constants.FileServerAddr + "/cover/" + cName + ".png"
 
 	videoModel := &db.Video{
 		UserId:   req.UserId,

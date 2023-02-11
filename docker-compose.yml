@@ -35,7 +35,8 @@ services:
     container_name: fileserver
     restart: always
     volumes:
-      - ./cmd/publish/public:/public
+      - ./cmd/publish/public/video:/public/video
+      - ./cmd/publish/public/cover:/public/cover
       - ./pkg/fileserver/main.go:/prog/main.go
     ports:
       - 8000:8000

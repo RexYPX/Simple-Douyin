@@ -28,7 +28,6 @@ import (
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
 	"github.com/cloudwego/hertz/pkg/app/server"
 	"github.com/cloudwego/hertz/pkg/common/hlog"
-	"github.com/hertz-contrib/gzip"
 	"github.com/hertz-contrib/logger/accesslog"
 	hertzlogrus "github.com/hertz-contrib/obs-opentelemetry/logging/logrus"
 	"github.com/hertz-contrib/obs-opentelemetry/tracing"
@@ -68,7 +67,7 @@ func main() {
 	// use recovery
 	h.Use(recovery.Recovery(recovery.WithRecoveryHandler(RecoveryHandler)))
 	// use gzip
-	h.Use(gzip.Gzip(gzip.DefaultCompression))
+	// h.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	register(h)
 	h.Spin()
