@@ -22,7 +22,8 @@ func NewQueryUserService(ctx context.Context) *QueryUserService {
 // query user info
 func (s *QueryUserService) QueryUser(req *user.UserInfoRequest) (*user.UserInfoResponse, error) {
 	id := req.UserId
-	users, err := db.QueryInfo(s.ctx, id)
+	//users, err := db.QueryInfo(s.ctx, id)
+	users, err := db.QueryInfoCache(s.ctx, id)
 	if err != nil {
 		return new(user.UserInfoResponse), err
 	}
@@ -32,12 +33,12 @@ func (s *QueryUserService) QueryUser(req *user.UserInfoRequest) (*user.UserInfoR
 	u := users[0]
 
 	resp := &user.UserInfoResponse{
-		StatusCode: 0,
-		Name:       u.Username,
-		StatusMsg:  "success",
-		Id:         u.Id,
-		// FollowCount:   u.FollowCount,
-		// FollowerCount: u.FollowerCount,
+		StatusCode:    0,
+		Name:          u.Username,
+		StatusMsg:     "success",
+		Id:            u.Id,
+		FollowCount:   u.FollowCount,
+		FollowerCount: u.FollowerCount,
 		// IsFollow:      true,
 	}
 

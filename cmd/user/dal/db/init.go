@@ -45,4 +45,9 @@ func Init() {
 	if err = DB.Use(gormopentracing.New()); err != nil {
 		panic(err)
 	}
+
+	err = initClient()
+	if err != nil {
+		panic(err)
+	}
 }
