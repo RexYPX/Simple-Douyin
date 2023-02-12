@@ -35,16 +35,17 @@ struct UserLoginResponse {
 // 用户信息
 struct UserInfoRequest {
     1: i64 user_id
+    2: i64 m_user_id
 }
 
 struct UserInfoResponse {
     1: i32 status_code
     2: string status_msg
-    3:i64 id
-	4:string name
-	5:i64 follow_count
-	6:i64 follower_count
-	7:bool is_follow
+    3: i64 id
+	4: string name
+	5: i64 follow_count
+	6: i64 follower_count
+	7: bool is_follow
 }
 
 service UserService {

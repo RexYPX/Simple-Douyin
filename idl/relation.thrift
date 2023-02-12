@@ -23,6 +23,7 @@ struct RelationActionResponse {
 // 关注列表
 struct RelationFollowListRequest {
 	1: i64 user_id
+    2: i64 m_user_id
 }
 
 struct RelationFollowListResponse {
@@ -34,6 +35,7 @@ struct RelationFollowListResponse {
 // 粉丝列表
 struct RelationFollowerListRequest {
 	1: i64 user_id
+    2: i64 m_user_id
 }
 
 struct RelationFollowerListResponse {
@@ -45,6 +47,7 @@ struct RelationFollowerListResponse {
 // 好友列表
 struct RelationFriendListRequest {
 	1: i64 user_id
+    2: i64 m_user_id
 }
 
 struct RelationFriendListResponse {

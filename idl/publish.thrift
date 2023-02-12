@@ -34,6 +34,7 @@ struct PublishActionResponse {
 // 发布列表
 struct PublishListRequest {
     1: i64 user_id
+    2: i64 m_user_id
 }
 
 struct PublishListResponse {
