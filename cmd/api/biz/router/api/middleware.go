@@ -20,10 +20,7 @@ func _douyinMw() []app.HandlerFunc {
 
 func _feedMw() []app.HandlerFunc {
 	// your code...
-	return []app.HandlerFunc{
-		// use jwt mw
-		mw.JwtMiddleware.MiddlewareFunc(),
-	}
+	return nil
 }
 
 func _commentMw() []app.HandlerFunc {
