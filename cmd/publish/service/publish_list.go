@@ -32,7 +32,8 @@ func (s *PublishListService) PublishList(req *publish.PublishListRequest) (vs []
 	var respVideos []*publish.Video
 	for _, v := range videos {
 		author, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{
-			UserId: v.UserId,
+			UserId:  v.UserId,
+			MUserId: req.MUserId,
 		})
 		if err != nil {
 			log.Println("[ypx debug] kitex rpc.GetUser err", err)
@@ -47,32 +48,18 @@ func (s *PublishListService) PublishList(req *publish.PublishListRequest) (vs []
 			IsFollow:      author.IsFollow,
 		}
 
-		// favoriteList, err := rpc.FavoriteList(s.ctx, &favorite.FavoriteListRequest{
-		// 	UserId: author.Id,
-		// })
-		// if err != nil {
-		// 	log.Println("[ypx debug] Gorm rpc.FavoriteList err", err)
-		// 	return nil, err
-		// }
 		favorite_count, _ := rpc.FavoriteCount(s.ctx, &favorite.FavoriteCountRequest{
 			VideoId: int64(v.ID),
 		})
 
-		// isFavorite := false
-		// for _, vid := range favoriteList.VideoList {
-		// 	if vid.Id == int64(v.ID) {
-		// 		isFavorite = true
-		// 		break
-		// 	}
-		// }
-
 		is_favorite, _ := rpc.IsFavorite(s.ctx, &favorite.IsFavoriteRequest{
-			UserId:  int64(req.UserId),
+			UserId:  int64(req.MUserId),
 			VideoId: int64(v.ID),
 		})
 
 		commentCount, err := rpc.CommentCount(s.ctx, &comment.CommentListRequest{
-			UserId: author.Id,
+			UserId:  author.Id,
+			VideoId: int64(v.ID),
 		})
 		if err != nil {
 			log.Println("[ypx debug] Gorm rpc.CommentCount err", err)

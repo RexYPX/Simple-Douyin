@@ -59,24 +59,3 @@ func GetUser(ctx context.Context, req *user.UserInfoRequest) (*user.User, error)
 		IsFollow:      resp.IsFollow,
 	}, nil
 }
-
-// func Token2Id(token string) (int64, error) {
-// 	userId, err := strconv.Atoi(token)
-// 	if err != nil {
-// 		return 0, err
-// 	}
-
-// 	return int64(userId), nil
-// }
-
-// func GetFavoriteCount(ctx context.Context, userId int64) (int64, error) {
-// 	return 1, nil
-// }
-
-// func GetCommentCount(ctx context.Context, userId int64) (int64, error) {
-// 	return 1, nil
-// }
-
-// func GetIsFavorite(ctx context.Context, userId int64) (bool, error) {
-// 	return true, nil
-// }

@@ -132,7 +132,8 @@ func PublishList(ctx context.Context, c *app.RequestContext) {
 	log.Println("[ypx debug] api prepare to rpc.PublishList")
 	v, _ := c.Get(constants.IdentityKey)
 	videos, err := rpc.PublishList(context.Background(), &publish.PublishListRequest{
-		UserId: v.(*api.User).ID,
+		UserId:  req.UserID,
+		MUserId: v.(*api.User).ID,
 	})
 	if err != nil {
 		log.Println("[ypx debug] api rpc.PublishList err", err)

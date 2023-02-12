@@ -5,7 +5,6 @@ import (
 	publish "Simple-Douyin/kitex_gen/publish"
 	"context"
 	"log"
-	// todo: modify based on our pack for PublishAction
 )
 
 // PublishServiceImpl implements the last service interface defined in the IDL.
@@ -43,7 +42,7 @@ func (s *PublishServiceImpl) PublishList(ctx context.Context, req *publish.Publi
 
 	resp = new(publish.PublishListResponse)
 
-	if req.UserId < 0 {
+	if req.UserId < 0 || req.MUserId < 0 {
 		resp.StatusCode = -1
 		resp.StatusMsg = "Publish List request inValid"
 		log.Println("[ypx debug] kitex PublishList Request inValid")
@@ -56,7 +55,7 @@ func (s *PublishServiceImpl) PublishList(ctx context.Context, req *publish.Publi
 		log.Println("[ypx debug] kitex service.NewPublishListService(ctx).PublishList(req) err")
 		resp.StatusCode = -2
 		resp.StatusMsg = "Publish List failed"
-		return resp, nil
+		return resp, err
 	}
 	resp.StatusCode = 0
 	resp.StatusMsg = "Publish List success"
@@ -67,7 +66,6 @@ func (s *PublishServiceImpl) PublishList(ctx context.Context, req *publish.Publi
 
 // PublishIds2List implements the PublishServiceImpl interface.
 func (s *PublishServiceImpl) PublishIds2List(ctx context.Context, req *publish.Ids2ListRequest) (resp *publish.Ids2ListResponse, err error) {
-	// TODO: Your code here...
 	resp, err = service.NewPublishIds2ListService(ctx).PublishIds2List(req)
 	return resp, err
 }

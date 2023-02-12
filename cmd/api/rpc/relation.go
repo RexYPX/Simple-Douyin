@@ -1,8 +1,8 @@
 package rpc
 
 import (
+	"Simple-Douyin/cmd/api/biz/handler/pack"
 	"Simple-Douyin/cmd/api/biz/model/api"
-	"Simple-Douyin/cmd/api/pack"
 	"Simple-Douyin/kitex_gen/relation"
 	"Simple-Douyin/kitex_gen/relation/relationservice"
 	"Simple-Douyin/pkg/constants"
