@@ -15,6 +15,8 @@ func Message(msg *message.Message) *api.Message {
 		ID:         msg.Id,
 		Content:    msg.Content,
 		CreateTime: msg.CreateTime,
+		FromUserID: msg.FromUserId,
+		ToUserID:   msg.ToUserId,
 	}
 }
 

@@ -42,7 +42,7 @@ func MessageAction(ctx context.Context, c *app.RequestContext) {
 	}
 
 	resp := new(api.MessageActionResponse)
-	resp.StatusCode = 200
+	resp.StatusCode = 0
 	resp.StatusMsg = "send message success"
 
 	c.JSON(consts.StatusOK, resp)
@@ -69,8 +69,10 @@ func MessageChat(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
+	hlog.Info(msgs)
+
 	resp := new(api.MessageChatResponse)
-	resp.StatusCode = 200
+	resp.StatusCode = 0
 	resp.StatusMsg = "get message history success"
 	resp.MessageList = pack.Messages(msgs)
 

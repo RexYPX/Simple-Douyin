@@ -3,7 +3,7 @@ module Simple-Douyin
 go 1.19
 
 require (
-	github.com/apache/thrift v0.17.0
+	github.com/apache/thrift v0.15.0
 	github.com/cloudwego/hertz v0.5.2
 	github.com/cloudwego/kitex v0.4.4
 	github.com/cloudwego/kitex-examples/bizdemo/easy_note v0.0.0-20230206055624-0041322143f7
