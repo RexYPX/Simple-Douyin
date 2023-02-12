@@ -50,7 +50,7 @@ func Register(r *server.Hertz) {
 			}
 			{
 				_chat := _message.Group("/chat", _chatMw()...)
-				_chat.POST("/", append(_messagechatMw(), api.MessageChat)...)
+				_chat.GET("/", append(_messagechatMw(), api.MessageChat)...)
 			}
 		}
 		{
