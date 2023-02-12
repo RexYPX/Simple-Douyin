@@ -1,19 +1,17 @@
 package rpc
 
 import (
-	"context"
-	"time"
-
 	"Simple-Douyin/kitex_gen/relation"
 	"Simple-Douyin/kitex_gen/relation/relationservice"
 	"Simple-Douyin/pkg/constants"
 	"Simple-Douyin/pkg/errno"
 	"Simple-Douyin/pkg/mw"
-
+	"context"
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/retry"
 	etcd "github.com/kitex-contrib/registry-etcd"
 	trace "github.com/kitex-contrib/tracer-opentracing"
+	"time"
 )
 
 var relationClient relationservice.Client
@@ -41,28 +39,36 @@ func initRelation() {
 	relationClient = c
 }
 
-// FollowCount 此接口用于通过 user_id 获取用户关注数
-func FollowCount(ctx context.Context, req *relation.RelationFollowCountRequest) (int64, error) {
-	resp, err := relationClient.RelationFollowCount(ctx, req)
+// IsFollow 此接口用于判断id1是否关注id2
+func IsFollow(ctx context.Context, req *relation.RelationIsFollowRequest) (bool, error) {
+	resp, err := relationClient.RelationIsFollow(ctx, req)
 	if err != nil {
-		return 0, err
+		return false, err
 	}
 	if resp.StatusCode != 0 {
-		return 0, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
+		return false, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
 	}
-
-	return resp.FollowCount, nil
+	return resp.IsFollow, nil
 }
 
-// FollowerCount 此接口用于通过 user_id 获取用户关注数
 func FollowerCount(ctx context.Context, req *relation.RelationFollowerCountRequest) (int64, error) {
 	resp, err := relationClient.RelationFollowerCount(ctx, req)
 	if err != nil {
-		return 0, err
+		return -1, err
 	}
 	if resp.StatusCode != 0 {
-		return 0, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
+		return -1, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
 	}
-
 	return resp.FollowerCount, nil
+}
+
+func FollowCount(ctx context.Context, req *relation.RelationFollowCountRequest) (int64, error) {
+	resp, err := relationClient.RelationFollowCount(ctx, req)
+	if err != nil {
+		return -1, err
+	}
+	if resp.StatusCode != 0 {
+		return -1, errno.NewErrNo(int64(resp.StatusCode), resp.StatusMsg)
+	}
+	return resp.FollowCount, nil
 }
