@@ -3,7 +3,6 @@ package pack
 import (
 	"Simple-Douyin/cmd/message/dal/db"
 	"Simple-Douyin/kitex_gen/message"
-	"time"
 )
 
 // db.Message -> message.Message
@@ -15,7 +14,9 @@ func Message(msg *db.Message) *message.Message {
 	return &message.Message{
 		Id:         int64(msg.ID),
 		Content:    msg.Content,
-		CreateTime: time.Unix(msg.CreateTime, 0).Format("2006-01-02 15:04:05"),
+		CreateTime: msg.CreateTime,
+		FromUserId: msg.UserId,
+		ToUserId:   msg.ToUserId,
 	}
 }
 

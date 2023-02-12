@@ -17,7 +17,9 @@ struct MessageActionResponse {
 struct Message {
 	1: i64 id
     2: string content
-	3: string create_time
+	3: i64 create_time
+    4: i64 from_user_id
+    5: i64 to_user_id
 }
 
 struct MessageChatRequest {
