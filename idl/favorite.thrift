@@ -34,6 +34,7 @@ struct FavoriteActionResponse {
 // 喜欢列表
 struct FavoriteListRequest {
 	1: i64 user_id
+    2: i64 m_user_id
 }
 
 struct FavoriteListResponse {

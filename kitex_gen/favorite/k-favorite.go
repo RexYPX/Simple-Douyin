@@ -1248,6 +1248,20 @@ func (p *FavoriteListRequest) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
+		case 2:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField2(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
 			offset += l
@@ -1297,6 +1311,20 @@ func (p *FavoriteListRequest) FastReadField1(buf []byte) (int, error) {
 	return offset, nil
 }
 
+func (p *FavoriteListRequest) FastReadField2(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
+		p.MUserId = v
+
+	}
+	return offset, nil
+}
+
 // for compatibility
 func (p *FavoriteListRequest) FastWrite(buf []byte) int {
 	return 0
@@ -1307,6 +1335,7 @@ func (p *FavoriteListRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.B
 	offset += bthrift.Binary.WriteStructBegin(buf[offset:], "FavoriteListRequest")
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
+		offset += p.fastWriteField2(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -1318,6 +1347,7 @@ func (p *FavoriteListRequest) BLength() int {
 	l += bthrift.Binary.StructBeginLength("FavoriteListRequest")
 	if p != nil {
 		l += p.field1Length()
+		l += p.field2Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -1333,10 +1363,28 @@ func (p *FavoriteListRequest) fastWriteField1(buf []byte, binaryWriter bthrift.B
 	return offset
 }
 
+func (p *FavoriteListRequest) fastWriteField2(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "m_user_id", thrift.I64, 2)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.MUserId)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
 func (p *FavoriteListRequest) field1Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("user_id", thrift.I64, 1)
 	l += bthrift.Binary.I64Length(p.UserId)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *FavoriteListRequest) field2Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("m_user_id", thrift.I64, 2)
+	l += bthrift.Binary.I64Length(p.MUserId)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
