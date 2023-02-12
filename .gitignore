@@ -1,3 +1,6 @@
 output/
 cmd/api/api
 *.DS_Store
+
+cmd/publish/public/video/*.mp4
+cmd/publish/public/cover/*.png
