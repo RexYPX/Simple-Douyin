@@ -6,6 +6,8 @@ import (
 	"Simple-Douyin/pkg/errno"
 
 	"Simple-Douyin/cmd/user/dal/db"
+	"Simple-Douyin/cmd/user/rpc"
+	"Simple-Douyin/kitex_gen/relation"
 	user "Simple-Douyin/kitex_gen/user"
 )
 
@@ -32,13 +34,36 @@ func (s *QueryUserService) QueryUser(req *user.UserInfoRequest) (*user.UserInfoR
 	}
 	u := users[0]
 
+	followCount, err := rpc.FollowCount(s.ctx, &relation.RelationFollowCountRequest{
+		UserId: u.Id,
+	})
+	if err != nil {
+		return new(user.UserInfoResponse), err
+	}
+
+	followerCount, err := rpc.FollowerCount(s.ctx, &relation.RelationFollowerCountRequest{
+		UserId: u.Id,
+	})
+	if err != nil {
+		return new(user.UserInfoResponse), err
+	}
+
+	// TODO: finish RPC
+	// isFollow, err := rpc.IsFollow(s.ctx, &relation.RelationIsFollowRequest{
+	// 	UserId: u.Id,
+	// 	ToUserId: ,
+	// })
+	// if err != nil {
+	// 	return new(user.UserInfoResponse), err
+	// }
+
 	resp := &user.UserInfoResponse{
 		StatusCode:    0,
 		Name:          u.Username,
 		StatusMsg:     "success",
 		Id:            u.Id,
-		FollowCount:   u.FollowCount,
-		FollowerCount: u.FollowerCount,
+		FollowCount:   followCount,
+		FollowerCount: followerCount,
 		IsFollow:      true,
 	}
 
