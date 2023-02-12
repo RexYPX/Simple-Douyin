@@ -34,6 +34,8 @@ func (s *QueryUserService) QueryUser(req *user.UserInfoRequest) (*user.UserInfoR
 	}
 	u := users[0]
 
+	rpc.Init()
+
 	followCount, err := rpc.FollowCount(s.ctx, &relation.RelationFollowCountRequest{
 		UserId: u.Id,
 	})
