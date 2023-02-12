@@ -48,6 +48,14 @@ func (s *QueryUserService) QueryUser(req *user.UserInfoRequest) (*user.UserInfoR
 		return new(user.UserInfoResponse), err
 	}
 
+	isFollow, err := rpc.IsFollow(s.ctx, &relation.RelationIsFollowRequest{
+		UserId:   u.Id,
+		ToUserId: req.MUserId,
+	})
+	if err != nil {
+		return new(user.UserInfoResponse), err
+	}
+
 	// TODO: finish RPC
 	// isFollow, err := rpc.IsFollow(s.ctx, &relation.RelationIsFollowRequest{
 	// 	UserId: u.Id,
@@ -64,7 +72,7 @@ func (s *QueryUserService) QueryUser(req *user.UserInfoRequest) (*user.UserInfoR
 		Id:            u.Id,
 		FollowCount:   followCount,
 		FollowerCount: followerCount,
-		IsFollow:      true,
+		IsFollow:      isFollow,
 	}
 
 	return resp, nil
