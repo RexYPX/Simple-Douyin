@@ -141,3 +141,48 @@ func QueryFriendList(ctx context.Context, userId int64) ([]int64, error) {
 
 	return resp, nil
 }
+
+// QueryFollowCount return number of users who are followed by userId
+func QueryFollowCount(ctx context.Context, userId int64) (int64, error) {
+	var relationFound []*Relation
+
+	var resp int64
+
+	if err := DB.WithContext(ctx).Where("user_id = ?", userId).Find(&relationFound).Error; err != nil {
+		return resp, err
+	}
+
+	resp = int64(len(relationFound))
+
+	return resp, nil
+}
+
+// QueryFollowerCount return number of users who followed userId
+func QueryFollowerCount(ctx context.Context, userId int64) (int64, error) {
+	var relationFound []*Relation
+
+	var resp int64
+
+	if err := DB.WithContext(ctx).Where("to_user_id = ?", userId).Find(&relationFound).Error; err != nil {
+		return resp, err
+	}
+
+	resp = int64(len(relationFound))
+
+	return resp, nil
+}
+
+// QueryIsFollow return whether userId followed toUserId
+func QueryIsFollow(ctx context.Context, userId int64, toUserId int64) (bool, error) {
+	var relationFound *Relation
+
+	var resp bool
+
+	if err := DB.WithContext(ctx).Where("user_id = ? and to_user_id = ?", userId, toUserId).First(&relationFound).Error; err != nil {
+		return resp, err
+	}
+
+	resp = true
+
+	return resp, nil
+}

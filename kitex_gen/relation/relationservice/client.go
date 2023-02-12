@@ -15,6 +15,9 @@ type Client interface {
 	RelationFollowList(ctx context.Context, req *relation.RelationFollowListRequest, callOptions ...callopt.Option) (r *relation.RelationFollowListResponse, err error)
 	RelationFollowerList(ctx context.Context, req *relation.RelationFollowerListRequest, callOptions ...callopt.Option) (r *relation.RelationFollowerListResponse, err error)
 	RelationFriendList(ctx context.Context, req *relation.RelationFriendListRequest, callOptions ...callopt.Option) (r *relation.RelationFriendListResponse, err error)
+	RelationFollowCount(ctx context.Context, req *relation.RelationFollowCountRequest, callOptions ...callopt.Option) (r *relation.RelationFollowCountResponse, err error)
+	RelationFollowerCount(ctx context.Context, req *relation.RelationFollowerCountRequest, callOptions ...callopt.Option) (r *relation.RelationFollowerCountResponse, err error)
+	RelationIsFollow(ctx context.Context, req *relation.RelationIsFollowRequest, callOptions ...callopt.Option) (r *relation.RelationIsFollowResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -64,4 +67,19 @@ func (p *kRelationServiceClient) RelationFollowerList(ctx context.Context, req *
 func (p *kRelationServiceClient) RelationFriendList(ctx context.Context, req *relation.RelationFriendListRequest, callOptions ...callopt.Option) (r *relation.RelationFriendListResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.RelationFriendList(ctx, req)
+}
+
+func (p *kRelationServiceClient) RelationFollowCount(ctx context.Context, req *relation.RelationFollowCountRequest, callOptions ...callopt.Option) (r *relation.RelationFollowCountResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.RelationFollowCount(ctx, req)
+}
+
+func (p *kRelationServiceClient) RelationFollowerCount(ctx context.Context, req *relation.RelationFollowerCountRequest, callOptions ...callopt.Option) (r *relation.RelationFollowerCountResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.RelationFollowerCount(ctx, req)
+}
+
+func (p *kRelationServiceClient) RelationIsFollow(ctx context.Context, req *relation.RelationIsFollowRequest, callOptions ...callopt.Option) (r *relation.RelationIsFollowResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.RelationIsFollow(ctx, req)
 }

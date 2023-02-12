@@ -19,10 +19,13 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "RelationService"
 	handlerType := (*relation.RelationService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"RelationAction":       kitex.NewMethodInfo(relationActionHandler, newRelationServiceRelationActionArgs, newRelationServiceRelationActionResult, false),
-		"RelationFollowList":   kitex.NewMethodInfo(relationFollowListHandler, newRelationServiceRelationFollowListArgs, newRelationServiceRelationFollowListResult, false),
-		"RelationFollowerList": kitex.NewMethodInfo(relationFollowerListHandler, newRelationServiceRelationFollowerListArgs, newRelationServiceRelationFollowerListResult, false),
-		"RelationFriendList":   kitex.NewMethodInfo(relationFriendListHandler, newRelationServiceRelationFriendListArgs, newRelationServiceRelationFriendListResult, false),
+		"RelationAction":        kitex.NewMethodInfo(relationActionHandler, newRelationServiceRelationActionArgs, newRelationServiceRelationActionResult, false),
+		"RelationFollowList":    kitex.NewMethodInfo(relationFollowListHandler, newRelationServiceRelationFollowListArgs, newRelationServiceRelationFollowListResult, false),
+		"RelationFollowerList":  kitex.NewMethodInfo(relationFollowerListHandler, newRelationServiceRelationFollowerListArgs, newRelationServiceRelationFollowerListResult, false),
+		"RelationFriendList":    kitex.NewMethodInfo(relationFriendListHandler, newRelationServiceRelationFriendListArgs, newRelationServiceRelationFriendListResult, false),
+		"RelationFollowCount":   kitex.NewMethodInfo(relationFollowCountHandler, newRelationServiceRelationFollowCountArgs, newRelationServiceRelationFollowCountResult, false),
+		"RelationFollowerCount": kitex.NewMethodInfo(relationFollowerCountHandler, newRelationServiceRelationFollowerCountArgs, newRelationServiceRelationFollowerCountResult, false),
+		"RelationIsFollow":      kitex.NewMethodInfo(relationIsFollowHandler, newRelationServiceRelationIsFollowArgs, newRelationServiceRelationIsFollowResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "relation",
@@ -110,6 +113,60 @@ func newRelationServiceRelationFriendListResult() interface{} {
 	return relation.NewRelationServiceRelationFriendListResult()
 }
 
+func relationFollowCountHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*relation.RelationServiceRelationFollowCountArgs)
+	realResult := result.(*relation.RelationServiceRelationFollowCountResult)
+	success, err := handler.(relation.RelationService).RelationFollowCount(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newRelationServiceRelationFollowCountArgs() interface{} {
+	return relation.NewRelationServiceRelationFollowCountArgs()
+}
+
+func newRelationServiceRelationFollowCountResult() interface{} {
+	return relation.NewRelationServiceRelationFollowCountResult()
+}
+
+func relationFollowerCountHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*relation.RelationServiceRelationFollowerCountArgs)
+	realResult := result.(*relation.RelationServiceRelationFollowerCountResult)
+	success, err := handler.(relation.RelationService).RelationFollowerCount(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newRelationServiceRelationFollowerCountArgs() interface{} {
+	return relation.NewRelationServiceRelationFollowerCountArgs()
+}
+
+func newRelationServiceRelationFollowerCountResult() interface{} {
+	return relation.NewRelationServiceRelationFollowerCountResult()
+}
+
+func relationIsFollowHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*relation.RelationServiceRelationIsFollowArgs)
+	realResult := result.(*relation.RelationServiceRelationIsFollowResult)
+	success, err := handler.(relation.RelationService).RelationIsFollow(ctx, realArg.Req)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newRelationServiceRelationIsFollowArgs() interface{} {
+	return relation.NewRelationServiceRelationIsFollowArgs()
+}
+
+func newRelationServiceRelationIsFollowResult() interface{} {
+	return relation.NewRelationServiceRelationIsFollowResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -155,6 +212,36 @@ func (p *kClient) RelationFriendList(ctx context.Context, req *relation.Relation
 	_args.Req = req
 	var _result relation.RelationServiceRelationFriendListResult
 	if err = p.c.Call(ctx, "RelationFriendList", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) RelationFollowCount(ctx context.Context, req *relation.RelationFollowCountRequest) (r *relation.RelationFollowCountResponse, err error) {
+	var _args relation.RelationServiceRelationFollowCountArgs
+	_args.Req = req
+	var _result relation.RelationServiceRelationFollowCountResult
+	if err = p.c.Call(ctx, "RelationFollowCount", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) RelationFollowerCount(ctx context.Context, req *relation.RelationFollowerCountRequest) (r *relation.RelationFollowerCountResponse, err error) {
+	var _args relation.RelationServiceRelationFollowerCountArgs
+	_args.Req = req
+	var _result relation.RelationServiceRelationFollowerCountResult
+	if err = p.c.Call(ctx, "RelationFollowerCount", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) RelationIsFollow(ctx context.Context, req *relation.RelationIsFollowRequest) (r *relation.RelationIsFollowResponse, err error) {
+	var _args relation.RelationServiceRelationIsFollowArgs
+	_args.Req = req
+	var _result relation.RelationServiceRelationIsFollowResult
+	if err = p.c.Call(ctx, "RelationIsFollow", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
