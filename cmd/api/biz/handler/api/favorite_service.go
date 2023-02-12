@@ -5,7 +5,7 @@ package api
 import (
 	"context"
 
-	api "Simple-Douyin/cmd/api/biz/model/api"
+	"Simple-Douyin/cmd/api/biz/model/api"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/favorite"
 	"Simple-Douyin/pkg/constants"
@@ -51,8 +51,10 @@ func FavoriteList(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
+	v, _ := c.Get(constants.IdentityKey)
 	resp, err := rpc.FavoriteList(context.Background(), &favorite.FavoriteListRequest{
-		UserId: req.UserID,
+		UserId:  req.UserID,
+		MUserId: v.(*api.User).ID,
 	})
 	if err != nil {
 		c.String(consts.StatusInternalServerError, err.Error())

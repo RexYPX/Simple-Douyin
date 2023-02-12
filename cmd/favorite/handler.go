@@ -11,7 +11,6 @@ type FavoriteServiceImpl struct{}
 
 // FavoriteAction implements the FavoriteServiceImpl interface.
 func (s *FavoriteServiceImpl) FavoriteAction(ctx context.Context, req *favorite.FavoriteActionRequest) (resp *favorite.FavoriteActionResponse, err error) {
-	// TODO: Your code here...
 	resp = new(favorite.FavoriteActionResponse)
 
 	if req.ActionType <= 0 || req.ActionType >= 3 {
@@ -34,12 +33,11 @@ func (s *FavoriteServiceImpl) FavoriteAction(ctx context.Context, req *favorite.
 
 // FavoriteList implements the FavoriteServiceImpl interface.
 func (s *FavoriteServiceImpl) FavoriteList(ctx context.Context, req *favorite.FavoriteListRequest) (resp *favorite.FavoriteListResponse, err error) {
-	// TODO: Your code here...
 	resp = new(favorite.FavoriteListResponse)
-	if req.UserId < 0 {
+	if req.UserId < 0 || req.MUserId < 0 {
 		resp.StatusCode = 1
 		resp.StatusMsg = "UserId非法"
-		return resp, nil
+		return resp, err
 	}
 
 	video_list, err := service.NewFavoriteListService(ctx).FavoriteList(req)
@@ -59,7 +57,6 @@ func (s *FavoriteServiceImpl) FavoriteList(ctx context.Context, req *favorite.Fa
 // FavoriteCount implements the FavoriteServiceImpl interface.
 // videoid  how many people like
 func (s *FavoriteServiceImpl) FavoriteCount(ctx context.Context, req *favorite.FavoriteCountRequest) (resp *favorite.FavoriteCountResponse, err error) {
-	// TODO: Your code here...
 	var favorite_count int64
 	favorite_count = 0
 	favorite_count, err = service.NewFavoriteCountService(ctx).FavoriteCount(req)
@@ -73,7 +70,6 @@ func (s *FavoriteServiceImpl) FavoriteCount(ctx context.Context, req *favorite.F
 //
 //	ueser_id like video_id
 func (s *FavoriteServiceImpl) IsFavorite(ctx context.Context, req *favorite.IsFavoriteRequest) (resp *favorite.IsFavoriteResponse, err error) {
-	// TODO: Your code here...
 	resp = new(favorite.IsFavoriteResponse)
 	resp.IsFavorite, err = service.NewIsFavoriteService(ctx).IsFavorite(req)
 	return resp, err
