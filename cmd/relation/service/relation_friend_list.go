@@ -45,7 +45,10 @@ func (s *RelationFriendListService) RelationFriendList(req *relation.RelationFri
 	}
 
 	for _, id := range friendIDs {
-		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: id})
+		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{
+			UserId:  id,
+			MUserId: req.MUserId,
+		})
 		if err != nil {
 			return resp, err
 		}

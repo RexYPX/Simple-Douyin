@@ -13,7 +13,7 @@ type RelationServiceImpl struct{}
 func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.RelationActionRequest) (resp *relation.RelationActionResponse, err error) {
 	resp = new(relation.RelationActionResponse)
 
-	if req.ToUserId < 0 || req.ActionType <= 0 || req.ActionType > 2 {
+	if req.UserId < 0 || req.ToUserId < 0 || req.ActionType <= 0 || req.ActionType > 2 {
 		resp.StatusCode = -1
 		resp.StatusMsg = "Relation Action request inValid"
 		return resp, nil
@@ -36,7 +36,7 @@ func (s *RelationServiceImpl) RelationAction(ctx context.Context, req *relation.
 func (s *RelationServiceImpl) RelationFollowList(ctx context.Context, req *relation.RelationFollowListRequest) (resp *relation.RelationFollowListResponse, err error) {
 	resp = new(relation.RelationFollowListResponse)
 
-	if req.UserId < 0 {
+	if req.UserId < 0 || req.MUserId < 0 {
 		resp.StatusCode = -1
 		resp.StatusMsg = "Relation Followlist request inValid"
 		return resp, nil
@@ -61,7 +61,7 @@ func (s *RelationServiceImpl) RelationFollowList(ctx context.Context, req *relat
 func (s *RelationServiceImpl) RelationFollowerList(ctx context.Context, req *relation.RelationFollowerListRequest) (resp *relation.RelationFollowerListResponse, err error) {
 	resp = new(relation.RelationFollowerListResponse)
 
-	if req.UserId < 0 {
+	if req.UserId < 0 || req.MUserId < 0 {
 		resp.StatusCode = -1
 		resp.StatusMsg = "Relation Followerlist request inValid"
 		return resp, nil
@@ -86,7 +86,7 @@ func (s *RelationServiceImpl) RelationFollowerList(ctx context.Context, req *rel
 func (s *RelationServiceImpl) RelationFriendList(ctx context.Context, req *relation.RelationFriendListRequest) (resp *relation.RelationFriendListResponse, err error) {
 	resp = new(relation.RelationFriendListResponse)
 
-	if req.UserId < 0 {
+	if req.UserId < 0 || req.MUserId < 0 {
 		resp.StatusCode = -1
 		resp.StatusMsg = "Relation Friendlist request inValid"
 		return resp, nil

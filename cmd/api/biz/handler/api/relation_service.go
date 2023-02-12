@@ -59,12 +59,12 @@ func RelationFollowList(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	// TODO: check token、check ToUserId
 	resp := new(api.RelationFollowListResponse)
 
 	v, _ := c.Get(constants.IdentityKey)
 	err = rpc.RelationFollowList(context.Background(), &relation.RelationFollowListRequest{
-		UserId: v.(*api.User).ID,
+		UserId:  req.UserID,
+		MUserId: v.(*api.User).ID,
 	}, resp)
 	if err != nil {
 		log.Println("[debug] rpc RelationFollowList error")
@@ -88,12 +88,12 @@ func RelationFollowerList(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	// TODO: check token、check ToUserId
 	resp := new(api.RelationFollowerListResponse)
 
 	v, _ := c.Get(constants.IdentityKey)
 	err = rpc.RelationFollowerList(context.Background(), &relation.RelationFollowerListRequest{
-		UserId: v.(*api.User).ID,
+		UserId:  req.UserID,
+		MUserId: v.(*api.User).ID,
 	}, resp)
 
 	if err != nil {
@@ -122,7 +122,8 @@ func RelationFriendList(ctx context.Context, c *app.RequestContext) {
 
 	v, _ := c.Get(constants.IdentityKey)
 	err = rpc.RelationFriendList(context.Background(), &relation.RelationFriendListRequest{
-		UserId: v.(*api.User).ID,
+		UserId:  req.UserID,
+		MUserId: v.(*api.User).ID,
 	}, resp)
 
 	if err != nil {
