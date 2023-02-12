@@ -27,7 +27,8 @@ func (s *PublishIds2ListService) PublishIds2List(req *publish.Ids2ListRequest) (
 	var respVideos []*publish.Video
 	for _, v := range video_ids {
 		author, _ := rpc.GetUser(s.ctx, &user.UserInfoRequest{
-			UserId: v.UserId,
+			UserId:  v.UserId,
+			MUserId: req.UserId,
 		})
 
 		pAuthor := &publish.User{
@@ -48,7 +49,8 @@ func (s *PublishIds2ListService) PublishIds2List(req *publish.Ids2ListRequest) (
 		})
 
 		commentCount, _ := rpc.CommentCount(s.ctx, &comment.CommentListRequest{
-			UserId: author.Id,
+			UserId:  author.Id,
+			VideoId: int64(v.ID),
 		})
 
 		pv := publish.Video{
