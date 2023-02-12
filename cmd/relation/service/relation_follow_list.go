@@ -45,7 +45,10 @@ func (s *RelationFollowListService) RelationFollowList(req *relation.RelationFol
 	}
 
 	for _, id := range followIDs {
-		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: id})
+		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{
+			UserId:  id,
+			MUserId: req.MUserId,
+		})
 		if err != nil {
 			return resp, err
 		}
