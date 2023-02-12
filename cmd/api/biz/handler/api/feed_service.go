@@ -4,16 +4,19 @@ package api
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	"Simple-Douyin/cmd/api/biz/handler/pack"
 	api "Simple-Douyin/cmd/api/biz/model/api"
+	"Simple-Douyin/cmd/api/biz/mw"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/feed"
 	"Simple-Douyin/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/hertz-contrib/jwt"
 )
 
 // Feed .
@@ -30,8 +33,10 @@ func Feed(ctx context.Context, c *app.RequestContext) {
 
 	log.Println("[ypx debug] api BindAndValidate success and prepare to rpc.Feed")
 	uid := int64(0)
-	if v, exist := c.Get(constants.IdentityKey); exist {
-		uid = v.(*api.User).ID
+	if token, err := mw.JwtMiddleware.ParseTokenString(req.Token); err == nil {
+		claims := jwt.ExtractClaimsFromToken(token)
+		userid, _ := claims[constants.IdentityKey].(json.Number).Int64()
+		uid = userid
 	}
 	log.Println("[ypx debug] api feed userid", uid)
 	next_time, videos, err := rpc.Feed(context.Background(), &feed.FeedRequest{
