@@ -50,7 +50,7 @@ func (s *FavoriteListService) FavoriteList(req *favorite.FavoriteListRequest) ([
 		log.Println("FavoriteList : video_ids is blank")
 	}
 
-	resp, err := rpc.PublishIds2List(s.ctx, &publish.Ids2ListRequest{VideoId: video_ids, UserId: req.UserId})
+	resp, err := rpc.PublishIds2List(s.ctx, &publish.Ids2ListRequest{VideoId: video_ids, UserId: req.UserId, MUserId: req.MUserId})
 
 	f_video := pack.PublishVideo2FavoriteVideo(resp.VideoList)
 
