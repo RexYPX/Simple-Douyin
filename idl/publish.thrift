@@ -47,6 +47,7 @@ struct PublishListResponse {
 struct Ids2ListRequest{
     1:list<i64> video_id
     2:i64 user_id
+    3: i64 m_user_id
 }
 struct Ids2ListResponse{
     1:list<Video> video_list
