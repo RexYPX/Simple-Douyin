@@ -36,8 +36,6 @@ func QueryVideoFromTime(ctx context.Context, latestTime int64) ([]*Video, error)
 		newTime = time.Now().Unix()
 	}
 
-	log.Println("[ypx debug] DB ", DB)
-
 	// fix: descending order
 	if err := DB.WithContext(ctx).Where("create_time <= ?", newTime).Order("id desc").Limit(constants.MaxFeed).Find(&res).Error; err != nil {
 		log.Println("[ypx debug] Gorm QueryVideoFromTime err", err)

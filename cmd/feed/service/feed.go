@@ -48,24 +48,9 @@ func (s *FeedService) Feed(req *feed.FeedRequest) (int64, []*feed.Video, error) 
 			IsFollow:      user.IsFollow,
 		}
 
-		// favoriteList, err := rpc.FavoriteList(s.ctx, &favorite.FavoriteListRequest{
-		// 	UserId: author.Id,
-		// })
-		// if err != nil {
-		// 	log.Println("[ypx debug] Gorm rpc.FavoriteList err", err)
-		// 	return nil, err
-		// }
 		favorite_count, _ := rpc.FavoriteCount(s.ctx, &favorite.FavoriteCountRequest{
 			VideoId: int64(dbV.ID),
 		})
-
-		// isFavorite := false
-		// for _, vid := range favoriteList.VideoList {
-		// 	if vid.Id == int64(v.ID) {
-		// 		isFavorite = true
-		// 		break
-		// 	}
-		// }
 
 		is_favorite, _ := rpc.IsFavorite(s.ctx, &favorite.IsFavoriteRequest{
 			UserId:  int64(req.UserId),
@@ -73,23 +58,22 @@ func (s *FeedService) Feed(req *feed.FeedRequest) (int64, []*feed.Video, error) 
 		})
 
 		commentCount, err := rpc.CommentCount(s.ctx, &comment.CommentListRequest{
-			UserId: user.Id,
+			UserId:  user.Id,
+			VideoId: int64(dbV.ID),
 		})
 		if err != nil {
 			return 0, nil, err
 		}
 
 		v := feed.Video{
-			Id:       int64(dbV.ID),
-			Author:   &author,
-			PlayUrl:  dbV.PlayUrl,
-			CoverUrl: dbV.CoverUrl,
-			// FavoriteCount: int64(len(favoriteList.VideoList)),
+			Id:            int64(dbV.ID),
+			Author:        &author,
+			PlayUrl:       dbV.PlayUrl,
+			CoverUrl:      dbV.CoverUrl,
 			FavoriteCount: favorite_count.FavoriteCount,
 			CommentCount:  commentCount,
-			// IsFavorite:    isFavorite,
-			IsFavorite: is_favorite.IsFavorite,
-			Title:      dbV.Title,
+			IsFavorite:    is_favorite.IsFavorite,
+			Title:         dbV.Title,
 		}
 		videos = append(videos, &v)
 

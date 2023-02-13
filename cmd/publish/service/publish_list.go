@@ -67,16 +67,14 @@ func (s *PublishListService) PublishList(req *publish.PublishListRequest) (vs []
 		}
 
 		pv := publish.Video{
-			Id:       int64(v.ID),
-			Author:   pAuthor,
-			PlayUrl:  v.PlayUrl,
-			CoverUrl: v.CoverUrl,
-			// FavoriteCount: int64(len(favoriteList.VideoList)),
+			Id:            int64(v.ID),
+			Author:        pAuthor,
+			PlayUrl:       v.PlayUrl,
+			CoverUrl:      v.CoverUrl,
 			FavoriteCount: favorite_count.FavoriteCount,
 			CommentCount:  commentCount,
-			// IsFavorite:    isFavorite,
-			IsFavorite: is_favorite.IsFavorite,
-			Title:      v.Title,
+			IsFavorite:    is_favorite.IsFavorite,
+			Title:         v.Title,
 		}
 		respVideos = append(respVideos, &pv)
 

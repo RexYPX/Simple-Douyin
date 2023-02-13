@@ -4,18 +4,21 @@ package api
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"mime/multipart"
 	"path/filepath"
 	"strings"
 
 	api "Simple-Douyin/cmd/api/biz/model/api"
+	"Simple-Douyin/cmd/api/biz/mw"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/publish"
 	"Simple-Douyin/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/hertz-contrib/jwt"
 )
 
 type Response struct {
@@ -65,33 +68,10 @@ func PublishAction(ctx context.Context, c *app.RequestContext) {
 
 	resultContainer := byteContainer[:totalLen]
 
-	// var resultContainer []byte
-	// for {
-	// 	tmpContainer := make([]byte, 100)
-	// 	tmplen, err := fileContent.Read(tmpContainer)
-	// 	log.Println("[ypx debug] tmplen ", tmplen)
-	// 	if err != nil {
-	// 		log.Println("[ypx debug] api resultContainer err", err)
-	// 		c.JSON(consts.StatusOK, Response{
-	// 			StatusCode: 1,
-	// 			StatusMsg:  err.Error(),
-	// 		})
-	// 		return
-	// 	}
-	// 	log.Println("[ypx debug] tmplen ", tmplen)
-
-	// 	resultContainer = append(resultContainer, byteContainer...)
-	// 	if tmplen == 0 {
-	// 		break
-	// 	}
-	// }
-
 	log.Println("[ypx debug] api fileName ", fileName)
 	log.Println("[ypx debug] api fileForm ", fileForm)
 	log.Println("[ypx debug] api title ", title)
 	log.Println("[ypx debug] api len(fileContent) ", len(resultContainer))
-	// fmt.Println("[ypx debug] api fileName %s, fileForm %s, title %s, len(fileContent) %s ", fileName, fileForm, title, len(byteContainer))
-
 	log.Println("[ypx debug] api prepare to rpc.PublishAction")
 	v, exist := c.Get(constants.IdentityKey)
 	if !exist {
@@ -130,10 +110,18 @@ func PublishList(ctx context.Context, c *app.RequestContext) {
 	resp := new(api.PublishListResponse)
 
 	log.Println("[ypx debug] api prepare to rpc.PublishList")
-	v, _ := c.Get(constants.IdentityKey)
+
+	uid := int64(0)
+	if token, err := mw.JwtMiddleware.ParseTokenString(req.Token); err == nil {
+		claims := jwt.ExtractClaimsFromToken(token)
+		userid, _ := claims[constants.IdentityKey].(json.Number).Int64()
+		uid = userid
+	}
+	// v, _ := c.Get(constants.IdentityKey)
 	videos, err := rpc.PublishList(context.Background(), &publish.PublishListRequest{
-		UserId:  req.UserID,
-		MUserId: v.(*api.User).ID,
+		UserId: req.UserID,
+		// MUserId: v.(*api.User).ID,
+		MUserId: uid,
 	})
 	if err != nil {
 		log.Println("[ypx debug] api rpc.PublishList err", err)

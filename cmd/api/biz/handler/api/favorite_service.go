@@ -4,14 +4,18 @@ package api
 
 import (
 	"context"
+	"encoding/json"
+	"log"
 
 	"Simple-Douyin/cmd/api/biz/model/api"
+	"Simple-Douyin/cmd/api/biz/mw"
 	"Simple-Douyin/cmd/api/rpc"
 	"Simple-Douyin/kitex_gen/favorite"
 	"Simple-Douyin/pkg/constants"
 
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
+	"github.com/hertz-contrib/jwt"
 )
 
 // FavoriteAction .
@@ -51,10 +55,18 @@ func FavoriteList(ctx context.Context, c *app.RequestContext) {
 		return
 	}
 
-	v, _ := c.Get(constants.IdentityKey)
+	uid := int64(0)
+	if token, err := mw.JwtMiddleware.ParseTokenString(req.Token); err == nil {
+		claims := jwt.ExtractClaimsFromToken(token)
+		userid, _ := claims[constants.IdentityKey].(json.Number).Int64()
+		uid = userid
+	}
+	log.Println("[ypx debug] api favorite userid", uid)
+	// v, _ := c.Get(constants.IdentityKey)
 	resp, err := rpc.FavoriteList(context.Background(), &favorite.FavoriteListRequest{
-		UserId:  req.UserID,
-		MUserId: v.(*api.User).ID,
+		UserId: req.UserID,
+		// MUserId: v.(*api.User).ID,
+		MUserId: uid,
 	})
 	if err != nil {
 		c.String(consts.StatusInternalServerError, err.Error())
