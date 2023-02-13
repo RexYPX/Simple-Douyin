@@ -27,7 +27,7 @@ func (s *CommentActionService) CommentAction(req *comment.CommentActionRequest) 
 	if req.ActionType == 1 {
 		res := new(comment.Comment)
 		// 使用 Token 获取用户信息
-		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: req.UserId})
+		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: req.UserId, MUserId: req.UserId})
 		if err != nil {
 			return nil, err
 		}
