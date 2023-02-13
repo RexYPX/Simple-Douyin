@@ -29,7 +29,7 @@ func (s *CommentListService) CommentList(req *comment.CommentListRequest) ([]*co
 	comments := pack.Comments(commentModels)
 	for i := 0; i < len(comments); i++ {
 		uId := commentModels[i].UserId
-		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: uId})
+		u, err := rpc.GetUser(s.ctx, &user.UserInfoRequest{UserId: uId, MUserId: req.UserId})
 		if err != nil {
 			return nil, err
 		}
