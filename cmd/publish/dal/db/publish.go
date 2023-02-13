@@ -36,7 +36,7 @@ func CreateVideo(ctx context.Context, videos []*Video) error {
 func QueryVideo(ctx context.Context, videoID int64) ([]*Video, error) {
 	var res []*Video
 	if videoID <= 0 {
-		log.Println("[ypx debug] Gorm QueryVideo err")
+		log.Println("[ypx debug] Gorm QueryVideo err videoID <= 0")
 		return res, nil
 	}
 

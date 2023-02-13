@@ -34,16 +34,17 @@ func (s *PublishActionService) PublishAction(req *publish.PublishActionRequest) 
 	pwd, err := os.Getwd()
 	log.Println("[ypx bebug] ", pwd)
 	finalName := fmt.Sprintf("%s/public/video/%d_%s", pwd, req.UserId, req.Title)
-
 	if err != nil {
 		log.Println("[ypx debug] kitex PublishAction pwd err ", err)
 		return err
 	}
+
 	f, err := os.Create(finalName)
 	if err != nil {
 		log.Println("[ypx debug] kitex PublishAction os.Create err ", err)
 		return err
 	}
+
 	w := bufio.NewWriter(f)
 	wlen, err := w.Write(req.Data)
 	if err != nil {

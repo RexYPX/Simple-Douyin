@@ -8,7 +8,6 @@ import (
 	"Simple-Douyin/pkg/constants"
 	"Simple-Douyin/pkg/mw"
 	"context"
-	"log"
 
 	"github.com/cloudwego/kitex/client"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
@@ -42,7 +41,6 @@ func initRelation() {
 	}
 	relationClient = c
 
-	log.Println("[ypx debug] initRelation success")
 }
 
 // RelationAction create/delete relation info

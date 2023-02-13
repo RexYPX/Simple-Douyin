@@ -18,6 +18,7 @@ package db
 
 import (
 	"context"
+	"errors"
 
 	"Simple-Douyin/pkg/constants"
 
@@ -57,32 +58,16 @@ func (r *Relation) TableName() string {
 // CreateRelation create relation
 func CreateRelation(ctx context.Context, r *Relation) error {
 	if err := DB.WithContext(ctx).Where("user_id = ? and to_user_id = ?", r.UserId, r.ToUserId).First(&Relation{}).Error; err != nil {
-		return err
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return err
+		}
 	}
-
-	// if err := DB.Table("user").Where("user_id = ?", r.UserId).Model(&User{}).Update("follow_count", gorm.Expr("follow_count + ?", 1)).Error; err != nil {
-	// 	log.Println("[ypx debug] relation CreateRelation add user follow_count err", err)
-	// 	return err
-	// }
-	// if err := DB.Table("user").Where("user_id = ?", r.ToUserId).Model(&User{}).Update("follower_count", gorm.Expr("follower_count + ?", 1)).Error; err != nil {
-	// 	log.Println("[ypx debug] relation CreateRelation add user follower_count err", err)
-	// 	return err
-	// }
 
 	return DB.WithContext(ctx).Create(r).Error
 }
 
 // DeleteRelation delete relation
 func DeleteRelation(ctx context.Context, userId int64, toUserId int64) error {
-	// if err := DB.Table("user").Where("user_id = ?", userId).Model(&User{}).Update("follow_count", gorm.Expr("follow_count - ?", 1)).Error; err != nil {
-	// 	log.Println("[ypx debug] relation CreateRelation minus user follow_count err", err)
-	// 	return err
-	// }
-	// if err := DB.Table("user").Where("user_id = ?", toUserId).Model(&User{}).Update("follower_count", gorm.Expr("follower_count - ?", 1)).Error; err != nil {
-	// 	log.Println("[ypx debug] relation CreateRelation minus user follower_count err", err)
-	// 	return err
-	// }
-
 	return DB.WithContext(ctx).Where("user_id = ? and to_user_id = ?", userId, toUserId).Delete(&Relation{}).Error
 }
 
@@ -179,7 +164,8 @@ func QueryIsFollow(ctx context.Context, userId int64, toUserId int64) (bool, err
 	var resp bool
 
 	if err := DB.WithContext(ctx).Where("user_id = ? and to_user_id = ?", userId, toUserId).First(&relationFound).Error; err != nil {
-		return resp, err
+		resp = false
+		return resp, nil
 	}
 
 	resp = true

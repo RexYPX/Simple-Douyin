@@ -25,10 +25,7 @@ func _feedMw() []app.HandlerFunc {
 
 func _commentMw() []app.HandlerFunc {
 	// your code...
-	return []app.HandlerFunc{
-		// use jwt mw
-		mw.JwtMiddleware.MiddlewareFunc(),
-	}
+	return nil
 }
 
 func _actionMw() []app.HandlerFunc {
@@ -38,7 +35,11 @@ func _actionMw() []app.HandlerFunc {
 
 func _comment_ctionMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
+	// return nil
 }
 
 func _listMw() []app.HandlerFunc {
@@ -53,10 +54,7 @@ func _commentlistMw() []app.HandlerFunc {
 
 func _favoriteMw() []app.HandlerFunc {
 	// your code...
-	return []app.HandlerFunc{
-		// use jwt mw
-		mw.JwtMiddleware.MiddlewareFunc(),
-	}
+	return nil
 }
 
 func _action0Mw() []app.HandlerFunc {
@@ -66,7 +64,11 @@ func _action0Mw() []app.HandlerFunc {
 
 func _favorite_ctionMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
+	// return nil
 }
 
 func _list0Mw() []app.HandlerFunc {
@@ -109,10 +111,7 @@ func _messagechatMw() []app.HandlerFunc {
 
 func _publishMw() []app.HandlerFunc {
 	// your code...
-	return []app.HandlerFunc{
-		// use jwt mw
-		mw.JwtMiddleware.MiddlewareFunc(),
-	}
+	return nil
 }
 
 func _action2Mw() []app.HandlerFunc {
@@ -122,7 +121,11 @@ func _action2Mw() []app.HandlerFunc {
 
 func _publish_ctionMw() []app.HandlerFunc {
 	// your code...
-	return nil
+	return []app.HandlerFunc{
+		// use jwt mw
+		mw.JwtMiddleware.MiddlewareFunc(),
+	}
+	// return nil
 }
 
 func _list1Mw() []app.HandlerFunc {
