@@ -97,4 +97,4 @@ favoriteAction点赞流程图：
 
 
 favoriteList获取点赞列表流程图：
-![favoriteAction](./pic/点赞列表.jpg)
+![favoriteList](./pic/点赞列表.jpg)
