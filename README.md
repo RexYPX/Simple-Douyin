@@ -89,12 +89,15 @@ go build
 ./api
 ```
 publishList获取视频列表流程图：
+
 ![publishList](./pic/publishList.jpg)
 
 
 favoriteAction点赞流程图：
+
 ![favoriteAction](./pic/点赞.jpg)
 
 
 favoriteList获取点赞列表流程图：
+
 ![favoriteList](./pic/点赞列表.jpg)
