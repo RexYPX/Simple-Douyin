@@ -131,3 +131,10 @@ Feed 服务流程图：
 <center>
 <img src="./pic/feed.png">
 </center>
+
+6. Message 服务
+
+Message服务流程图：包含消息发送和消息历史查询
+<center>
+<img src="./pic/message.jpg">
+</center>
