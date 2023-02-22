@@ -88,3 +88,5 @@ cd cmd/api
 go build
 ./api
 ```
+publishList获取视频列表流程图：
+![publishList](./pic/publishList.jpg)

@@ -35,7 +35,6 @@ func (s *PublishActionService) PublishAction(req *publish.PublishActionRequest) 
 	log.Println("[ypx bebug] ", pwd)
 	finalName := fmt.Sprintf("%s/public/video/%d_%s", pwd, req.UserId, req.Title)
 	if err != nil {
-		log.Println("[ypx debug] kitex PublishAction pwd err ", err)
 		return err
 	}
 
