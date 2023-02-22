@@ -101,3 +101,8 @@ favoriteAction点赞流程图：
 favoriteList获取点赞列表流程图：
 
 ![favoriteList](./pic/点赞列表.jpg)
+
+Comment服务流程图：包含三种服务：获取评论列表、发表评论、删除评论
+<center>
+<img src="./pic/comment.jpg">
+</center>
