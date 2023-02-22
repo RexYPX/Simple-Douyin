@@ -92,6 +92,7 @@ go build
 # 各服务流程图
 
 1. Publish 服务
+
 publishList获取视频列表流程图：
 <center>
 <img src="./pic/publishList.jpg">
@@ -111,13 +112,22 @@ favoriteList获取点赞列表流程图：
 </center>
 
 3. Comment 服务
+
 Comment服务流程图：包含三种服务：获取评论列表、发表评论、删除评论
 <center>
 <img src="./pic/comment.jpg">
 </center>
 
 4. Relation 服务
+
 Relation 服务流程图：包含五种服务：获取关注/粉丝/好友列表、关注用户、取关用户
 <center>
 <img src="./pic/relation.png">
+</center>
+
+5. Feed 服务
+
+Feed 服务流程图：
+<center>
+<img src="./pic/feed.png">
 </center>
