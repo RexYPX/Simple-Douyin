@@ -1,7 +1,7 @@
 # Simple-Douyin
 Simple Douyin is a project imitated from ByteDance's Douyin（Tiktok）
 
-# Feature
+# 项目特征
 1. 采用开源 HTTP 框架 Hertz、开源 RPC 框架（Kitex）及开源 ORM 框架 GORM 开发，基于 RPC 微服务 + Hertz 提供 HTTP 服务 + GORM 实现 ORM
 
 2. 基于《接口文档在线分享- Apifox》提供的接口进行开发，使用《极简抖音App使用说明 - 青训营版 》提供的APK进行Demo测试， 功能完整实现 ，前端接口匹配良好。
@@ -20,12 +20,12 @@ Simple Douyin is a project imitated from ByteDance's Douyin（Tiktok）
 
 9. 使用 Redis 中间件作为数据库缓存
 
-# Environment
+# 环境搭建
 - go1.19.5 linux/amd64
 - hertz v0.5.2
 - kitex v0.4.4
 
-# Quick Start
+# 快速开始
 1. Edit pkg/constant.go to config your project
 
 2. Setup basic dependency(please install docker & docker-compose previously)
@@ -88,21 +88,36 @@ cd cmd/api
 go build
 ./api
 ```
+
+# 各服务流程图
+
+1. Publish 服务
 publishList获取视频列表流程图：
+<center>
+<img src="./pic/publishList.jpg">
+</center>
 
-![publishList](./pic/publishList.jpg)
-
+2. Favorite 服务
 
 favoriteAction点赞流程图：
-
-![favoriteAction](./pic/点赞.jpg)
+<center>
+<img src="./pic/点赞.jpg">
+</center>
 
 
 favoriteList获取点赞列表流程图：
+<center>
+<img src="./pic/点赞列表.jpg">
+</center>
 
-![favoriteList](./pic/点赞列表.jpg)
-
+3. Comment 服务
 Comment服务流程图：包含三种服务：获取评论列表、发表评论、删除评论
 <center>
 <img src="./pic/comment.jpg">
+</center>
+
+4. Relation 服务
+Relation 服务流程图：包含五种服务：获取关注/粉丝/好友列表、关注用户、取关用户
+<center>
+<img src="./pic/relation.png">
 </center>
