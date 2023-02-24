@@ -140,3 +140,14 @@ Message服务流程图：包含消息发送和消息历史查询
 <center>
 <img src="./pic/message.jpg">
 </center>
+
+# 参考文档
+
+《抖音项目方案说明》：[抖音项目方案说明](https://bytedance.feishu.cn/docs/doccnKrCsU5Iac6eftnFBdsXTof#6QCRJV)
+
+《接口文档在线分享- Apifox》：[接口文档在线分享- Apifox](https://www.apifox.cn/apidoc/shared-09d88f32-0b6c-4157-9d07-a36d32d7a75c)
+
+《极简抖音App使用说明 - 青训营版 》：[极简抖音App使用说明 - 青训营版](https://bytedance.feishu.cn/docs/doccnM9KkBAdyDhg8qaeGlIz7S7)
+
+# 特别鸣谢
+[字节跳动青训营](https://youthcamp.bytedance.com/)
