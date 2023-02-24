@@ -28,7 +28,7 @@ func CreateMessage(ctx context.Context, msg *Message) error {
 func QueryMessageHistory(ctx context.Context, uid, tuid int64) ([]*Message, error) {
 	var resp []*Message
 
-	if err := DB.WithContext(ctx).Model(&Message{}).Where("user_id = ? and to_user_id = ?", uid, tuid).Find(&resp).Error; err != nil {
+	if err := DB.WithContext(ctx).Model(&Message{}).Where("user_id = ? and to_user_id = ? or user_id = ? and to_user_id = ?", uid, tuid, tuid, uid).Find(&resp).Error; err != nil {
 		return resp, err
 	}
 
