@@ -3,7 +3,19 @@ Simple Douyin is a project imitated from ByteDance's Douyin（Tiktok）
 
 [演示视频](https://www.bilibili.com/video/BV1fT411U7pp/?vd_source=f4f2c590094c8dc71490eeb6ebf221d4#reply482279173)
 
-# 项目特征
+## 目录
+- [Simple-Douyin](#simple-douyin)
+  - [目录](#目录)
+  - [项目特征](#项目特征)
+  - [环境搭建](#环境搭建)
+  - [快速开始](#快速开始)
+  - [各服务流程图](#各服务流程图)
+  - [参考文档](#参考文档)
+  - [特别鸣谢](#特别鸣谢)
+
+
+
+## 项目特征
 1. 采用开源 HTTP 框架 Hertz、开源 RPC 框架（Kitex）及开源 ORM 框架 GORM 开发，基于 RPC 微服务 + Hertz 提供 HTTP 服务 + GORM 实现 ORM
 
 2. 基于《接口文档在线分享- Apifox》提供的接口进行开发，使用《极简抖音App使用说明 - 青训营版 》提供的APK进行Demo测试， 功能完整实现 ，前端接口匹配良好。
@@ -22,12 +34,12 @@ Simple Douyin is a project imitated from ByteDance's Douyin（Tiktok）
 
 9. 使用 Redis 中间件作为数据库缓存
 
-# 环境搭建
+## 环境搭建
 - go1.19.5 linux/amd64
 - hertz v0.5.2
 - kitex v0.4.4
 
-# 快速开始
+## 快速开始
 1. Edit pkg/constant.go to config your project
 
 2. Setup basic dependency(please install docker & docker-compose previously)
@@ -91,7 +103,7 @@ go build
 ./api
 ```
 
-# 各服务流程图
+## 各服务流程图
 
 1. Publish 服务
 
@@ -141,7 +153,7 @@ Message服务流程图：包含消息发送和消息历史查询
 <img src="./pic/message.jpg">
 </center>
 
-# 参考文档
+## 参考文档
 
 《抖音项目方案说明》：[抖音项目方案说明](https://bytedance.feishu.cn/docs/doccnKrCsU5Iac6eftnFBdsXTof#6QCRJV)
 
@@ -149,5 +161,5 @@ Message服务流程图：包含消息发送和消息历史查询
 
 《极简抖音App使用说明 - 青训营版 》：[极简抖音App使用说明 - 青训营版](https://bytedance.feishu.cn/docs/doccnM9KkBAdyDhg8qaeGlIz7S7)
 
-# 特别鸣谢
+## 特别鸣谢
 [字节跳动青训营](https://youthcamp.bytedance.com/)
