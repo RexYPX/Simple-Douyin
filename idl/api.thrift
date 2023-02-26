@@ -263,6 +263,7 @@ struct Message {
 struct MessageChatRequest {
 	1: string token (api.query="token")
 	2: i64 to_user_id (api.query="to_user_id")
+    3: i64 pre_msg_time (api.query="pre_msg_time")
 }
 
 struct MessageChatResponse {

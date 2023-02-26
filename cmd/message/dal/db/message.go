@@ -25,10 +25,10 @@ func CreateMessage(ctx context.Context, msg *Message) error {
 }
 
 // use to_user_id to queary message history.
-func QueryMessageHistory(ctx context.Context, uid, tuid int64) ([]*Message, error) {
+func QueryMessageHistory(ctx context.Context, uid, tuid, pst int64) ([]*Message, error) {
 	var resp []*Message
 
-	if err := DB.WithContext(ctx).Model(&Message{}).Where("user_id = ? and to_user_id = ? or user_id = ? and to_user_id = ?", uid, tuid, tuid, uid).Find(&resp).Error; err != nil {
+	if err := DB.WithContext(ctx).Model(&Message{}).Where("(user_id = ? and to_user_id = ? or user_id = ? and to_user_id = ?) and create_time > ?", uid, tuid, tuid, uid, pst).Find(&resp).Error; err != nil {
 		return resp, err
 	}
 
