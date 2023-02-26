@@ -8,6 +8,7 @@ Simple Douyin is a project imitated from ByteDance's Douyin（Tiktok）
 ## 目录
 - [Simple-Douyin](#simple-douyin)
   - [目录](#目录)
+  - [模块框图](#模块框图)
   - [项目特征](#项目特征)
   - [环境搭建](#环境搭建)
   - [快速开始](#快速开始)
@@ -15,7 +16,10 @@ Simple Douyin is a project imitated from ByteDance's Douyin（Tiktok）
   - [参考文档](#参考文档)
   - [特别鸣谢](#特别鸣谢)
 
-
+## 模块框图
+<center>
+<img src="./pic/module.png">
+</center>
 
 ## 项目特征
 1. 采用开源 HTTP 框架 Hertz、开源 RPC 框架（Kitex）及开源 ORM 框架 GORM 开发，基于 RPC 微服务 + Hertz 提供 HTTP 服务 + GORM 实现 ORM
