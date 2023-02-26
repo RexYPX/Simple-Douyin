@@ -63,6 +63,7 @@ func MessageChat(ctx context.Context, c *app.RequestContext) {
 	msgs, err := rpc.GetMessageHistory(context.Background(), &message.MessageChatRequest{
 		UserId:   v.(*api.User).ID,
 		ToUserId: req.ToUserID,
+        PreMsgTime: req.PreMsgTime,
 	})
 	if err != nil {
 		c.String(consts.StatusInternalServerError, err.Error())

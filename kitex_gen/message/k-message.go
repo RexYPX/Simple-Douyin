@@ -847,6 +847,20 @@ func (p *MessageChatRequest) FastRead(buf []byte) (int, error) {
 					goto SkipFieldError
 				}
 			}
+		case 3:
+			if fieldTypeId == thrift.I64 {
+				l, err = p.FastReadField3(buf[offset:])
+				offset += l
+				if err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
+				offset += l
+				if err != nil {
+					goto SkipFieldError
+				}
+			}
 		default:
 			l, err = bthrift.Binary.Skip(buf[offset:], fieldTypeId)
 			offset += l
@@ -910,6 +924,20 @@ func (p *MessageChatRequest) FastReadField2(buf []byte) (int, error) {
 	return offset, nil
 }
 
+func (p *MessageChatRequest) FastReadField3(buf []byte) (int, error) {
+	offset := 0
+
+	if v, l, err := bthrift.Binary.ReadI64(buf[offset:]); err != nil {
+		return offset, err
+	} else {
+		offset += l
+
+		p.PreMsgTime = v
+
+	}
+	return offset, nil
+}
+
 // for compatibility
 func (p *MessageChatRequest) FastWrite(buf []byte) int {
 	return 0
@@ -921,6 +949,7 @@ func (p *MessageChatRequest) FastWriteNocopy(buf []byte, binaryWriter bthrift.Bi
 	if p != nil {
 		offset += p.fastWriteField1(buf[offset:], binaryWriter)
 		offset += p.fastWriteField2(buf[offset:], binaryWriter)
+		offset += p.fastWriteField3(buf[offset:], binaryWriter)
 	}
 	offset += bthrift.Binary.WriteFieldStop(buf[offset:])
 	offset += bthrift.Binary.WriteStructEnd(buf[offset:])
@@ -933,6 +962,7 @@ func (p *MessageChatRequest) BLength() int {
 	if p != nil {
 		l += p.field1Length()
 		l += p.field2Length()
+		l += p.field3Length()
 	}
 	l += bthrift.Binary.FieldStopLength()
 	l += bthrift.Binary.StructEndLength()
@@ -957,6 +987,15 @@ func (p *MessageChatRequest) fastWriteField2(buf []byte, binaryWriter bthrift.Bi
 	return offset
 }
 
+func (p *MessageChatRequest) fastWriteField3(buf []byte, binaryWriter bthrift.BinaryWriter) int {
+	offset := 0
+	offset += bthrift.Binary.WriteFieldBegin(buf[offset:], "pre_msg_time", thrift.I64, 3)
+	offset += bthrift.Binary.WriteI64(buf[offset:], p.PreMsgTime)
+
+	offset += bthrift.Binary.WriteFieldEnd(buf[offset:])
+	return offset
+}
+
 func (p *MessageChatRequest) field1Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("user_id", thrift.I64, 1)
@@ -970,6 +1009,15 @@ func (p *MessageChatRequest) field2Length() int {
 	l := 0
 	l += bthrift.Binary.FieldBeginLength("to_user_id", thrift.I64, 2)
 	l += bthrift.Binary.I64Length(p.ToUserId)
+
+	l += bthrift.Binary.FieldEndLength()
+	return l
+}
+
+func (p *MessageChatRequest) field3Length() int {
+	l := 0
+	l += bthrift.Binary.FieldBeginLength("pre_msg_time", thrift.I64, 3)
+	l += bthrift.Binary.I64Length(p.PreMsgTime)
 
 	l += bthrift.Binary.FieldEndLength()
 	return l
