@@ -16,10 +16,11 @@ func NewGetMessageHistoryService(ctx context.Context) *GetMessageHistoryService 
 }
 
 func (s *GetMessageHistoryService) GetMessageHistory(req *message.MessageChatRequest) ([]*message.Message, error) {
-	uid := req.UserId
+	uid  := req.UserId
 	tuid := req.ToUserId
+    pst  := req.PreMsgTime
 
-	dbmsgs, err := db.QueryMessageHistory(s.ctx, uid, tuid)
+	dbmsgs, err := db.QueryMessageHistory(s.ctx, uid, tuid, pst)
 	if err != nil {
 		panic(err)
 	}

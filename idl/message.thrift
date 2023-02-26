@@ -25,6 +25,7 @@ struct Message {
 struct MessageChatRequest {
 	1: i64 user_id
 	2: i64 to_user_id
+    3: i64 pre_msg_time
 }
 
 struct MessageChatResponse {
