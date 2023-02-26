@@ -1,7 +1,9 @@
 # Simple-Douyin
 Simple Douyin is a project imitated from ByteDance's Douyin（Tiktok）
 
-[演示视频](https://www.bilibili.com/video/BV1fT411U7pp/?vd_source=f4f2c590094c8dc71490eeb6ebf221d4#reply482279173)
+演示视频：[演示视频](https://www.bilibili.com/video/BV1fT411U7pp/?vd_source=f4f2c590094c8dc71490eeb6ebf221d4#reply482279173)
+
+项目设计文档：[项目设计文档](https://umwtv4mkyx.feishu.cn/docx/PPBVdfWihozSfnx9qbzcYovEnYd)
 
 ## 目录
 - [Simple-Douyin](#simple-douyin)
